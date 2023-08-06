@@ -4,6 +4,7 @@ import 'package:google_fonts/google_fonts.dart';
 import 'package:mes_kart/Ui/login_screen.dart';
 
 import 'Common/common.dart';
+import 'bottom_navigation.dart';
 
 class SignupScreen extends StatelessWidget {
   const SignupScreen({super.key});
@@ -130,27 +131,30 @@ class SignupScreen extends StatelessWidget {
                   ),
                 ),
               ),form(hintText: 'Confirm Password', action: TextInputAction.done),
-              Container(
-                margin: EdgeInsets.only(top: 32.h, left: 24.w, right: 24.w),
-                width: 327.w,
-                height: 48.h,
-                decoration: ShapeDecoration(
-                  color: Color(0xFFFF4400),
-                  shape: RoundedRectangleBorder(
-                    borderRadius: BorderRadius.circular(16.r),
+              GestureDetector(onTap: ()=>Navigator.of(context).push(MaterialPageRoute(
+                  builder: (_) => BottomNavigation())),
+                child: Container(
+                  margin: EdgeInsets.only(top: 32.h, left: 24.w, right: 24.w),
+                  width: 327.w,
+                  height: 48.h,
+                  decoration: ShapeDecoration(
+                    color: Color(0xFFFF4400),
+                    shape: RoundedRectangleBorder(
+                      borderRadius: BorderRadius.circular(16.r),
+                    ),
                   ),
-                ),
-                child: Center(
-                  child: Text('Sign up',
-                      textAlign: TextAlign.center,
-                      style: GoogleFonts.lato(
-                        textStyle: TextStyle(
-                          color: Colors.white,
-                          fontSize: 16.sp,
-                          fontWeight: FontWeight.w700,
-                          height: 1.h,
-                        ),
-                      )),
+                  child: Center(
+                    child: Text('Sign up',
+                        textAlign: TextAlign.center,
+                        style: GoogleFonts.lato(
+                          textStyle: TextStyle(
+                            color: Colors.white,
+                            fontSize: 16.sp,
+                            fontWeight: FontWeight.w700,
+                            height: 1.h,
+                          ),
+                        )),
+                  ),
                 ),
               ), Padding(
                 padding: EdgeInsets.only(
