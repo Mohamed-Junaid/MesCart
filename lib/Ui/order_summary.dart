@@ -2,6 +2,8 @@ import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:google_fonts/google_fonts.dart';
 
+import 'Widget/order_success_animation.dart';
+
 class OrderSummary extends StatefulWidget {
   const OrderSummary({super.key});
 
@@ -379,37 +381,39 @@ class _OrderSummaryState extends State<OrderSummary> {
                   ],
                 ),
               ),
-              Container(
-                  margin: EdgeInsets.only(
-                      left: 20.w, right: 20.w, top: 25.h, bottom: 35.h),
-                  width: 335.w,
-                  height: 60.h,
-                  decoration: ShapeDecoration(
-                    color: Colors.red,
-                    shape: RoundedRectangleBorder(
-                        borderRadius: BorderRadius.circular(8.r)),
-                    shadows: [
-                      BoxShadow(
-                        color: Color(0x3F303030),
-                        blurRadius: 20.r,
-                        offset: Offset(0, 10),
-                        spreadRadius: 0,
-                      )
-                    ],
-                  ),
-                  child: Center(
-                    child: Text(
-                      'SUBMIT ORDER',
-                      textAlign: TextAlign.center,
-                      style: GoogleFonts.lato(
-                        textStyle: TextStyle(
-                          color: Colors.white,
-                          fontSize: 18.5.sp,
-                          fontWeight: FontWeight.w600,
+              GestureDetector(onTap: ()=>Navigator.of(context).push(MaterialPageRoute(builder: (_)=>const OrderSuccessAnimation())),
+                child: Container(
+                    margin: EdgeInsets.only(
+                        left: 20.w, right: 20.w, top: 25.h, bottom: 35.h),
+                    width: 335.w,
+                    height: 60.h,
+                    decoration: ShapeDecoration(
+                      color: Colors.red,
+                      shape: RoundedRectangleBorder(
+                          borderRadius: BorderRadius.circular(8.r)),
+                      shadows: [
+                        BoxShadow(
+                          color: Color(0x3F303030),
+                          blurRadius: 20.r,
+                          offset: Offset(0, 10),
+                          spreadRadius: 0,
+                        )
+                      ],
+                    ),
+                    child: Center(
+                      child: Text(
+                        'SUBMIT ORDER',
+                        textAlign: TextAlign.center,
+                        style: GoogleFonts.lato(
+                          textStyle: TextStyle(
+                            color: Colors.white,
+                            fontSize: 18.5.sp,
+                            fontWeight: FontWeight.w600,
+                          ),
                         ),
                       ),
-                    ),
-                  )),
+                    )),
+              ),
             ],
           ),
         ),
