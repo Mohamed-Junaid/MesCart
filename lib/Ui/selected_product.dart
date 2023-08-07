@@ -3,6 +3,7 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:google_fonts/google_fonts.dart';
 
 import 'Widget/selected_product_slider.dart';
+import 'order_summary.dart';
 
 class SelectedProduct extends StatefulWidget {
   const SelectedProduct({Key? key}) : super(key: key);
@@ -182,7 +183,8 @@ class _SelectedProductState extends State<SelectedProduct> {
               ),
               Center(
                 child: SizedBox(
-                  width: 324.w,height: 170.h,
+                  width: 324.w,
+                  height: 170.h,
                   child: Text(
                       'There are many variations of passages of Lorem Ipsum available, but the majority have suffered alteration in some form, by injected humour, or randomised words which don fgdf fd d df  dsf sdf dsf sf sfsf sdfsfs fsdfdsf d',
                       style: GoogleFonts.lato(
@@ -195,25 +197,36 @@ class _SelectedProductState extends State<SelectedProduct> {
                       )),
                 ),
               ),
-              SizedBox(
-                height: 20.h,
-              ),
               Center(
-                child: Container(
-                  width: mwidth * 0.94,
-                  height: mheight * 0.08,
-                  decoration: BoxDecoration(
+                child: GestureDetector(
+                  onTap: () => Navigator.of(context)
+                      .push(MaterialPageRoute(builder: (_) => OrderSummary())),
+                  child: Container(
+                    margin: EdgeInsets.only(left: 20.w,right: 20.w,top: 20.h,bottom: 35.h),
+                    width: 335.w,
+                    height: 60.h,
+                    decoration: ShapeDecoration(
                       color: Colors.red,
-                      borderRadius: BorderRadius.circular(19.r)),
-                  child: Center(
-                    child: Text(
-                      'Buy Now',
-                      style: GoogleFonts.lato(
-                        textStyle:TextStyle(
-                          color: Colors.white,
-                          fontWeight: FontWeight.w600,
-                          fontSize: 17.sp),
-                    )),
+                      shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(8.r)),
+                      shadows: [
+                        BoxShadow(
+                          color: Color(0x3F303030),
+                          blurRadius: 20.r,
+                          offset: Offset(0, 10),
+                          spreadRadius: 0,
+                        )
+                      ],
+                    ),child: Center(child: Text(
+                    'BUY NOW',
+                    textAlign: TextAlign.center,
+                    style:GoogleFonts.lato(
+                      textStyle: TextStyle(
+                        color: Colors.white,
+                        fontSize: 18.5.sp,
+                        fontWeight: FontWeight.w600,
+                      ),
+                    ),),
+                  )
                   ),
                 ),
               ),
