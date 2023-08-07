@@ -176,27 +176,44 @@ class _SelectedProductState extends State<SelectedProduct> {
                     ],
                   ),
                 ),
-              ), SizedBox(
-                        height: mheight * 0.03,
-                      ),
+              ),
               SizedBox(
-                height: mheight * 0.008,
+                height: mheight * 0.03,
+              ),
+              Center(
+                child: SizedBox(
+                  width: 324.w,height: 170.h,
+                  child: Text(
+                      'There are many variations of passages of Lorem Ipsum available, but the majority have suffered alteration in some form, by injected humour, or randomised words which don fgdf fd d df  dsf sdf dsf sf sfsf sdfsfs fsdfdsf d',
+                      style: GoogleFonts.lato(
+                        textStyle: TextStyle(
+                          color: Color(0xFF333333),
+                          fontSize: 16.sp,
+                          fontWeight: FontWeight.w500,
+                          height: 1.50.h,
+                        ),
+                      )),
+                ),
+              ),
+              SizedBox(
+                height: 20.h,
               ),
               Center(
                 child: Container(
                   width: mwidth * 0.94,
                   height: mheight * 0.08,
                   decoration: BoxDecoration(
-                      color: const Color(0xffFFC113),
+                      color: Colors.red,
                       borderRadius: BorderRadius.circular(19.r)),
                   child: Center(
                     child: Text(
                       'Buy Now',
-                      style: TextStyle(
+                      style: GoogleFonts.lato(
+                        textStyle:TextStyle(
                           color: Colors.white,
-                          fontWeight: FontWeight.w500,
+                          fontWeight: FontWeight.w600,
                           fontSize: 17.sp),
-                    ),
+                    )),
                   ),
                 ),
               ),
