@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:google_fonts/google_fonts.dart';
 
+import 'address.dart';
 import 'manage_account.dart';
 
 class Profile extends StatelessWidget {
@@ -59,8 +60,8 @@ class Profile extends StatelessWidget {
                   color: Colors.white,
                   shape: RoundedRectangleBorder(
                     borderRadius: BorderRadius.only(
-                      topLeft: Radius.circular(40),
-                      topRight: Radius.circular(40),
+                      topLeft: Radius.circular(40.r),
+                      topRight: Radius.circular(40.r),
                     ),
                   ),
                 ),
@@ -118,6 +119,56 @@ class Profile extends StatelessWidget {
                             fontWeight: FontWeight.w500,
                             height: 1.h,
                           )),
+                        ),
+                      ),
+                      Padding(
+                        padding: EdgeInsets.only(left: 24.w, top: 30.h),
+                        child: Text(
+                          'Address',
+                          style: GoogleFonts.lato(
+                              textStyle: TextStyle(
+                            color: Color(0xFF797C7B),
+                            fontSize: 14.sp,
+                            fontWeight: FontWeight.w400,
+                            height: 1.h,
+                          )),
+                        ),
+                      ),
+                      Padding(
+                        padding: EdgeInsets.only(left: 24.w, top: 10.h),
+                        child: Row(
+                          children: [
+                            SizedBox(
+                              width: 270.w,
+                              child: Text(
+                                '25 rue Robert Latouche, Nice, 06200, Côte D’azur, France',
+                                style: GoogleFonts.lato(
+                                    textStyle: TextStyle(
+                                  color: Color(0xFF000D07),
+                                  fontSize: 18.sp,
+                                  fontWeight: FontWeight.w500,
+                                  height: 1.h,
+                                ),),
+                              ),
+                            ),
+                            SizedBox(
+                              width: 10.w,
+                            ),
+                            TextButton(
+                              onPressed: () => Navigator.of(context).push(
+                                  MaterialPageRoute(
+                                      builder: (_) => const Address())),
+                              child: Container(
+                                margin: EdgeInsets.only(top: 10.h),
+                                width: 20.w,
+                                height: 20.h,
+                                child: Image.asset(
+                                  "assets/edit.png",
+                                  fit: BoxFit.cover,
+                                ),
+                              ),
+                            )
+                          ],
                         ),
                       ),
                       Padding(
@@ -289,7 +340,8 @@ class Profile extends StatelessWidget {
                           decoration: BoxDecoration(
                               borderRadius: BorderRadius.circular(4.r),
                               border: Border.all(
-                                  color: Color(0xFFFF4400), width: mwidth * 0.004)),
+                                  color: Color(0xFFFF4400),
+                                  width: mwidth * 0.004)),
                           child: Center(
                             child: Text(
                               'LOG OUT',
