@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:mes_kart/Ui/Sell/seller_home.dart';
 
 class RegisterScreen extends StatefulWidget {
   const RegisterScreen({super.key});
@@ -31,8 +32,8 @@ class _RegisterScreenState extends State<RegisterScreen> {
               Navigator.of(context).pop();
             },
             icon: Icon(
-              Icons.arrow_back,
-              color: Colors.black,
+              Icons.arrow_back_ios_new_outlined,
+              color: Colors.black,size: 22.sp,
             )),
         title: Text(
           'Personal Details ',
@@ -69,9 +70,7 @@ class _RegisterScreenState extends State<RegisterScreen> {
                   width: mwidth * 0.9,
                   height: mheight * 0.07,
                   decoration: BoxDecoration(color: Color(0xFFF4F4F4),
-                      border: Border.all(
-                          color: Colors.black,
-                          width: 0.5.sp),
+
                       borderRadius: BorderRadius.circular(10.r)),
                   child: Padding(
                     padding: EdgeInsets.only(
@@ -121,9 +120,6 @@ class _RegisterScreenState extends State<RegisterScreen> {
                   width: mwidth * 0.9,
                   height: mheight * 0.07,
                   decoration: BoxDecoration(color: Color(0xFFF4F4F4),
-                      border: Border.all(
-                          color: Colors.black,
-                          width: 0.5.sp),
                       borderRadius: BorderRadius.circular(10.r)),
                   child: Padding(
                     padding: EdgeInsets.only(
@@ -172,9 +168,6 @@ class _RegisterScreenState extends State<RegisterScreen> {
                   width: mwidth * 0.9,
                   height: mheight * 0.07,
                   decoration: BoxDecoration(color: Color(0xFFF4F4F4),
-                      border: Border.all(
-                          color: Colors.black,
-                          width: 0.5.sp),
                       borderRadius: BorderRadius.circular(10.r)),
                   child: Padding(
                     padding: EdgeInsets.only(
@@ -223,9 +216,6 @@ class _RegisterScreenState extends State<RegisterScreen> {
                   width: mwidth * 0.9,
                   height: mheight * 0.07,
                   decoration: BoxDecoration(color: Color(0xFFF4F4F4),
-                      border: Border.all(
-                          color: Colors.black,
-                          width: 0.5.sp),
                       borderRadius: BorderRadius.circular(10.r)),
                   child: Padding(
                     padding: EdgeInsets.only(
@@ -275,9 +265,6 @@ class _RegisterScreenState extends State<RegisterScreen> {
                   width: mwidth * 0.9,
                   height: mheight * 0.07,
                   decoration: BoxDecoration(color: Color(0xFFF4F4F4),
-                      border: Border.all(
-                          color: Colors.black,
-                          width: 0.5.sp),
                       borderRadius: BorderRadius.circular(10.r)),
                   child: Padding(
                     padding: EdgeInsets.only(
@@ -326,9 +313,6 @@ class _RegisterScreenState extends State<RegisterScreen> {
                   width: mwidth * 0.9,
                   height: mheight * 0.07,
                   decoration: BoxDecoration(color: Color(0xFFF4F4F4),
-                      border: Border.all(
-                          color: Colors.black,
-                          width: 0.5.sp),
                       borderRadius: BorderRadius.circular(10.r)),
                   child: Padding(
                     padding: EdgeInsets.only(
@@ -377,9 +361,6 @@ class _RegisterScreenState extends State<RegisterScreen> {
                   width: mwidth * 0.9,
                   height: mheight * 0.07,
                   decoration: BoxDecoration(color: Color(0xFFF4F4F4),
-                      border: Border.all(
-                          color: Colors.black,
-                          width: 0.5.sp),
                       borderRadius: BorderRadius.circular(10.r)),
                   child: Padding(
                     padding: EdgeInsets.only(
@@ -429,9 +410,6 @@ class _RegisterScreenState extends State<RegisterScreen> {
                   width: mwidth * 0.9,
                   height: mheight * 0.07,
                   decoration: BoxDecoration(color: Color(0xFFF4F4F4),
-                      border: Border.all(
-                          color: Colors.black,
-                          width: 0.5.sp),
                       borderRadius: BorderRadius.circular(10.r)),
                   child: Padding(
                     padding: EdgeInsets.only(
@@ -480,9 +458,6 @@ class _RegisterScreenState extends State<RegisterScreen> {
                   width: mwidth * 0.9,
                   height: mheight * 0.07,
                   decoration: BoxDecoration(color: Color(0xFFF4F4F4),
-                      border: Border.all(
-                          color: Colors.black,
-                          width: 0.5.sp),
                       borderRadius: BorderRadius.circular(10.r)),
                   child: Padding(
                     padding: EdgeInsets.only(
@@ -515,7 +490,7 @@ class _RegisterScreenState extends State<RegisterScreen> {
 
             TextButton(
               onPressed: () => Navigator.of(context)
-                  .push(MaterialPageRoute(builder: (_) => const RegisterScreen())),
+                  .push(MaterialPageRoute(builder: (_) => const SellerHome())),
               child: Container(
                 width: 350.w,
                 height: 60.h,
