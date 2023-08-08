@@ -334,7 +334,7 @@ class Profile extends StatelessWidget {
                       Center(
                           child: GestureDetector(
                         onTap: () {},
-                        child: Container(
+                        child: Container(margin: EdgeInsets.only(bottom: 9.h),
                           width: mwidth * 0.84,
                           height: mheight * 0.065,
                           decoration: BoxDecoration(
