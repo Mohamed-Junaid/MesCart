@@ -12,7 +12,7 @@ class Profile extends StatelessWidget {
     var mwidth = MediaQuery.of(context).size.width;
     var mheight = MediaQuery.of(context).size.height;
     return Scaffold(
-      backgroundColor: Colors.red,
+      backgroundColor: Color(0xFFFF4400),
       body: SafeArea(
         child: SingleChildScrollView(
           child: Column(
@@ -289,13 +289,13 @@ class Profile extends StatelessWidget {
                           decoration: BoxDecoration(
                               borderRadius: BorderRadius.circular(4.r),
                               border: Border.all(
-                                  color: Colors.red, width: mwidth * 0.004)),
+                                  color: Color(0xFFFF4400), width: mwidth * 0.004)),
                           child: Center(
                             child: Text(
                               'LOG OUT',
                               style: GoogleFonts.lato(
                                   textStyle: TextStyle(
-                                      color: Colors.red,
+                                      color: Color(0xFFFF4400),
                                       fontSize: 16.sp,
                                       fontWeight: FontWeight.w700)),
                             ),

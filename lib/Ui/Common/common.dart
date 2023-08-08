@@ -45,7 +45,7 @@ Widget image({required String path}){
         height: 256.h,
         child: ColorFiltered(
             colorFilter: ColorFilter.mode(
-               Colors.red,
+              Color(0xFFFF4400),
               BlendMode.darken,
             ),
             child: Image.asset(

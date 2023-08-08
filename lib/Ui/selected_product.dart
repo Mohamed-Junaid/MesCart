@@ -206,7 +206,7 @@ class _SelectedProductState extends State<SelectedProduct> {
                     width: 335.w,
                     height: 60.h,
                     decoration: ShapeDecoration(
-                      color: Colors.red,
+                      color:Color(0xFFFF4400),
                       shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(8.r)),
                       shadows: [
                         BoxShadow(
