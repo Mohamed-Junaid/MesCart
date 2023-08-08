@@ -2,8 +2,8 @@ import 'package:flutter/material.dart';
 import 'package:mes_kart/Ui/home.dart';
 import 'package:mes_kart/Ui/my_orders.dart';
 import 'package:mes_kart/Ui/profile.dart';
-import 'package:mes_kart/Ui/sell.dart';
 
+import 'Sell/sell_intro.dart';
 class BottomNavigation extends StatefulWidget {
   const BottomNavigation({Key? key}) : super(key: key);
 
@@ -11,7 +11,7 @@ class BottomNavigation extends StatefulWidget {
   State<BottomNavigation> createState() => _BottomNavigationState();
 }
 int currentIndex=0;
-final screens=[const Home(),const MyOrders(),const SellScreen(),const Profile()];
+final screens=[const Home(),const MyOrders(), const SellIntro(),const Profile()];
 class _BottomNavigationState extends State<BottomNavigation> {
   @override
   Widget build(BuildContext context) {
