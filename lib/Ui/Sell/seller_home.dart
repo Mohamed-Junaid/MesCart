@@ -2,6 +2,8 @@ import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:google_fonts/google_fonts.dart';
 
+import 'changepin.dart';
+
 class SellerHome extends StatefulWidget {
   const SellerHome({super.key});
 
@@ -39,7 +41,7 @@ class _SellerHomeState extends State<SellerHome> {
       ),
       body: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
-        children: [
+        children: [SizedBox(height: 14.h,),
           SizedBox(
             height: 98.h,
             child: Row(
@@ -159,28 +161,146 @@ class _SellerHomeState extends State<SellerHome> {
             ),
             child: Row(
               children: [
-                Padding(
-                  padding: EdgeInsets.only(left: 20.w, right: 197.w, top: 10.h),
-                  child: Text(
-                    'Sell',
-                    style: GoogleFonts.lato(
-                        textStyle: TextStyle(
-                          color: Color(0xFF232323),
-                          fontSize: 18.sp,
-                          fontWeight: FontWeight.w700,
-                        )),
-                  ),
+                Column(crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    Padding(
+                      padding: EdgeInsets.only(left: 20.w, right: 250.w, top: 19.h,bottom: 5.h),
+                      child: Text(
+                        'Sell',
+                        style: GoogleFonts.lato(
+                            textStyle: TextStyle(
+                              color: Color(0xFF232323),
+                              fontSize: 18.sp,
+                              fontWeight: FontWeight.w700,
+                            )),
+                      ),
+                    ),Padding(
+                      padding:EdgeInsets.only(left: 20.w,bottom: 17.h),
+                      child: Text(
+                        'Sell your products',
+                        textAlign: TextAlign.justify,
+                        style: TextStyle(
+                          color: Color(0xFF808080),
+                          fontSize: 12.sp,
+                          fontWeight: FontWeight.w400,
+                          height: 1.25.h,
+                        ),
+                      ),
+                    )
+                  ],
                 ),
-                Padding(
-                  padding: EdgeInsets.only(right: 10.w, top: 10.h),
-                  child: Icon(
-                    Icons.arrow_forward_ios_sharp,
-                    color: Colors.black,size: 20,
-                  ),
+                Icon(
+                  Icons.arrow_forward_ios_sharp,
+                  color: Colors.black,size: 20.sp,
                 )
               ],
             ),
-          )
+          ),
+          Container(
+            margin: EdgeInsets.only(left: 20.w, right: 20.w,bottom: 15.h),
+            width: 335.w,
+            height: 80.h,
+            decoration: BoxDecoration(
+              color: Colors.white,
+              boxShadow: [
+                BoxShadow(
+                  color: Color(0x338A959E),
+                  blurRadius: 40.r,
+                  offset: Offset(0, 7),
+                  spreadRadius: 0,
+                )
+              ],
+            ),
+            child: Row(
+              children: [
+                Column(crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    Padding(
+                      padding: EdgeInsets.only(left: 20.w, right: 211.w, top: 19.h,bottom: 5.h),
+                      child: Text(
+                        'My Store',
+                        style: GoogleFonts.lato(
+                            textStyle: TextStyle(
+                              color: Color(0xFF232323),
+                              fontSize: 18.sp,
+                              fontWeight: FontWeight.w700,
+                            )),
+                      ),
+                    ),Padding(
+                      padding:EdgeInsets.only(left: 20.w,bottom: 17.h),
+                      child: Text(
+                        'Check your products availability',
+                        textAlign: TextAlign.justify,
+                        style: TextStyle(
+                          color: Color(0xFF808080),
+                          fontSize: 12.sp,
+                          fontWeight: FontWeight.w400,
+                          height: 1.25.h,
+                        ),
+                      ),
+                    )
+                  ],
+                ),
+                Icon(
+                  Icons.arrow_forward_ios_sharp,
+                  color: Colors.black,size: 20.sp,
+                )
+              ],
+            ),
+          ), GestureDetector(onTap: ()=>Navigator.of(context).push(MaterialPageRoute(builder: (_)=>ChangePin())),
+            child: Container(
+              margin: EdgeInsets.only(left: 20.w, right: 20.w,bottom: 15.h),
+              width: 335.w,
+              height: 80.h,
+              decoration: BoxDecoration(
+                color: Colors.white,
+                boxShadow: [
+                  BoxShadow(
+                    color: Color(0x338A959E),
+                    blurRadius: 40.r,
+                    offset: Offset(0, 7),
+                    spreadRadius: 0,
+                  )
+                ],
+              ),
+              child: Row(
+                children: [
+                  Column(crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      Padding(
+                        padding: EdgeInsets.only(left: 20.w, right: 194.5.w, top: 19.h,bottom: 5.h),
+                        child: Text(
+                          'Change Pin',
+                          style: GoogleFonts.lato(
+                              textStyle: TextStyle(
+                                color: Color(0xFF232323),
+                                fontSize: 18.sp,
+                                fontWeight: FontWeight.w700,
+                              )),
+                        ),
+                      ),Padding(
+                        padding:EdgeInsets.only(left: 20.w,bottom: 17.h),
+                        child: Text(
+                          'Change your store pin',
+                          textAlign: TextAlign.justify,
+                          style: TextStyle(
+                            color: Color(0xFF808080),
+                            fontSize: 12.sp,
+                            fontWeight: FontWeight.w400,
+                            height: 1.25.h,
+                          ),
+                        ),
+                      )
+                    ],
+                  ),
+                  Icon(
+                    Icons.arrow_forward_ios_sharp,
+                    color: Colors.black,size: 20.sp,
+                  )
+                ],
+              ),
+            ),
+          ),
         ],
       ),
     );
