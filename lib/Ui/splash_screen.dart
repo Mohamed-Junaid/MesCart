@@ -1,6 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:mes_kart/Ui/login_screen.dart';
+import 'package:shared_preferences/shared_preferences.dart';
+
+import 'bottom_navigation.dart';
 
 class SplashScreen extends StatefulWidget {
   const SplashScreen({super.key});
@@ -12,17 +15,23 @@ class SplashScreen extends StatefulWidget {
 class _SplashScreenState extends State<SplashScreen> {
   @override
   void initState() {
-    Future.delayed(
-        const Duration(seconds: 4),
-        () => Navigator.of(context)
-            .push(MaterialPageRoute(builder: (_) => const LoginScreen())));
+    Future.delayed(const Duration(seconds: 4), ()async {
+      final SharedPreferences prefs = await SharedPreferences.getInstance();
+      if(prefs.containsKey("Token")){
+        Navigator.of(context)
+            .push(MaterialPageRoute(builder: (_) => const BottomNavigation()));
+      }
+      else{
+      Navigator.of(context)
+          .push(MaterialPageRoute(builder: (_) => const LoginScreen()));}
+    });
     super.initState();
   }
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor:Color(0xFFFF4400),
+      backgroundColor: Color(0xFFFF4400),
       body: Center(
         child: SizedBox(
           width: 167.09.w,

@@ -1,12 +1,17 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:mes_kart/Bloc/Signin/mes_signin_bloc.dart';
 import 'package:mes_kart/Ui/signup_screen.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 import 'Common/common.dart';
 import 'bottom_navigation.dart';
-TextEditingController email=TextEditingController();
-TextEditingController password=TextEditingController();
+
+TextEditingController email = TextEditingController();
+TextEditingController password = TextEditingController();
+
 class LoginScreen extends StatelessWidget {
   const LoginScreen({super.key});
 
@@ -76,7 +81,10 @@ class LoginScreen extends StatelessWidget {
                   ),
                 ),
               ),
-              form(hintText: 'Email', action: TextInputAction.next, controller: email),
+              form(
+                  hintText: 'Email',
+                  action: TextInputAction.next,
+                  controller: email),
               Padding(
                 padding: EdgeInsets.only(
                   left: 26.w,
@@ -97,30 +105,59 @@ class LoginScreen extends StatelessWidget {
                   ),
                 ),
               ),
-              form(hintText: 'Password', action: TextInputAction.done, controller: password),
-              GestureDetector(onTap: ()=>Navigator.of(context).push(MaterialPageRoute(
-                  builder: (_) => BottomNavigation())),
-                child: Container(
-                  margin: EdgeInsets.only(top: 32.h, left: 24.w, right: 24.w),
-                  width: 327.w,
-                  height: 48.h,
-                  decoration: ShapeDecoration(
-                    color:Color(0xFFFF4400),
-                    shape: RoundedRectangleBorder(
-                      borderRadius: BorderRadius.circular(16.r),
+              form(
+                  hintText: 'Password',
+                  action: TextInputAction.done,
+                  controller: password),
+              BlocListener<MesSigninBloc, MesSigninState>(
+                listener: (context, state) {
+                  if (state is MesSigninBlocLoading) {
+                    print("loading");
+                    showDialog(
+                        context: context,
+                        builder: (BuildContext a) =>
+                            const Center(child: CircularProgressIndicator()));
+                  }
+                  if (state is MesSigninBlocLoaded) {
+                    Navigator.of(context).pop();
+                    token(BlocProvider.of<MesSigninBloc>(context).messigninModelclass.tokens!.accessToken.toString());
+                    Navigator.of(context).push(
+                        MaterialPageRoute(builder: (_) => BottomNavigation()));
+                    print("loaded");
+                  }
+                  if (state is MesSigninBlocError) {
+                    Navigator.of(context).pop();
+                    print("error");
+                  }
+                },
+                child: GestureDetector(
+                  onTap: () =>
+                  { BlocProvider.of<MesSigninBloc>(context).add(FetchmesSignin(
+                  email: email.text,
+                  password: password.text,
+                  ))},
+                  child: Container(
+                    margin: EdgeInsets.only(top: 32.h, left: 24.w, right: 24.w),
+                    width: 327.w,
+                    height: 48.h,
+                    decoration: ShapeDecoration(
+                      color: Color(0xFFFF4400),
+                      shape: RoundedRectangleBorder(
+                        borderRadius: BorderRadius.circular(16.r),
+                      ),
                     ),
-                  ),
-                  child: Center(
-                    child: Text('Sign in',
-                        textAlign: TextAlign.center,
-                        style: GoogleFonts.lato(
-                          textStyle: TextStyle(
-                            color: Colors.white,
-                            fontSize: 16.sp,
-                            fontWeight: FontWeight.w700,
-                            height: 1.h,
-                          ),
-                        )),
+                    child: Center(
+                      child: Text('Sign in',
+                          textAlign: TextAlign.center,
+                          style: GoogleFonts.lato(
+                            textStyle: TextStyle(
+                              color: Colors.white,
+                              fontSize: 16.sp,
+                              fontWeight: FontWeight.w700,
+                              height: 1.h,
+                            ),
+                          )),
+                    ),
                   ),
                 ),
               ),
@@ -184,5 +221,11 @@ class LoginScreen extends StatelessWidget {
         ),
       ),
     );
+  }
+
+  token(String token)async{
+    final SharedPreferences prefs = await SharedPreferences.getInstance();
+    prefs.setString("Token", token);
+
   }
 }
