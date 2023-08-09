@@ -4,7 +4,7 @@ import 'package:google_fonts/google_fonts.dart';
 
 //login screen and register screen textformfields
 
-Widget form({required String hintText,required TextInputAction action}) {
+Widget form({required String hintText,required TextInputAction action,required TextEditingController controller}) {
   return Container(
     margin: EdgeInsets.only(left: 24.w, top: 8.h, right: 24.w),
     padding: EdgeInsets.only(left: 24.w),
@@ -16,7 +16,7 @@ Widget form({required String hintText,required TextInputAction action}) {
         borderRadius: BorderRadius.circular(10.r),
       ),
     ),
-    child: TextFormField(
+    child: TextFormField(controller: controller,
       textInputAction: action,
       decoration: InputDecoration(
           hintText: hintText,

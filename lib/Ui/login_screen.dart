@@ -5,7 +5,8 @@ import 'package:mes_kart/Ui/signup_screen.dart';
 
 import 'Common/common.dart';
 import 'bottom_navigation.dart';
-
+TextEditingController email=TextEditingController();
+TextEditingController password=TextEditingController();
 class LoginScreen extends StatelessWidget {
   const LoginScreen({super.key});
 
@@ -75,7 +76,7 @@ class LoginScreen extends StatelessWidget {
                   ),
                 ),
               ),
-              form(hintText: 'Email', action: TextInputAction.next),
+              form(hintText: 'Email', action: TextInputAction.next, controller: email),
               Padding(
                 padding: EdgeInsets.only(
                   left: 26.w,
@@ -85,7 +86,7 @@ class LoginScreen extends StatelessWidget {
                   width: 78.w,
                   height: 14,
                   child: Text(
-                    'Passoword',
+                    'Password',
                     style: GoogleFonts.lato(
                         textStyle: TextStyle(
                       color: Color(0xFF333333),
@@ -96,7 +97,7 @@ class LoginScreen extends StatelessWidget {
                   ),
                 ),
               ),
-              form(hintText: 'Password', action: TextInputAction.done),
+              form(hintText: 'Password', action: TextInputAction.done, controller: password),
               GestureDetector(onTap: ()=>Navigator.of(context).push(MaterialPageRoute(
                   builder: (_) => BottomNavigation())),
                 child: Container(

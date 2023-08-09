@@ -5,7 +5,11 @@ import 'package:mes_kart/Ui/login_screen.dart';
 
 import 'Common/common.dart';
 import 'bottom_navigation.dart';
-
+TextEditingController userName=TextEditingController();
+TextEditingController email=TextEditingController();
+TextEditingController phone=TextEditingController();
+TextEditingController password=TextEditingController();
+TextEditingController confirmPassword=TextEditingController();
 class SignupScreen extends StatelessWidget {
   const SignupScreen({super.key});
 
@@ -71,7 +75,7 @@ class SignupScreen extends StatelessWidget {
                         )),
                   ),
                 ),
-              ),  form(hintText: 'User Name', action: TextInputAction.next),
+              ),  form(hintText: 'User Name', action: TextInputAction.next, controller: userName),
               Padding(
                 padding: EdgeInsets.only(
                   left: 26.w,
@@ -91,7 +95,26 @@ class SignupScreen extends StatelessWidget {
                         )),
                   ),
                 ),
-              ),form(hintText: 'Email', action: TextInputAction.next),
+              ),form(hintText: 'Email', action: TextInputAction.next, controller: email),Padding(
+                padding: EdgeInsets.only(
+                  left: 26.w,
+                  top: 16.h,
+                ),
+                child: SizedBox(
+                  width: 78.w,
+                  height: 14,
+                  child: Text(
+                    'Phone',
+                    style: GoogleFonts.lato(
+                        textStyle: TextStyle(
+                          color: Color(0xFF333333),
+                          fontSize: 12.sp,
+                          fontWeight: FontWeight.w700,
+                          height: 1.17.h,
+                        )),
+                  ),
+                ),
+              ),form(hintText: 'Phone Number', action: TextInputAction.next, controller: phone),
               Padding(
                 padding: EdgeInsets.only(
                   left: 26.w,
@@ -111,7 +134,7 @@ class SignupScreen extends StatelessWidget {
                         )),
                   ),
                 ),
-              ),form(hintText: 'Password', action: TextInputAction.next), Padding(
+              ),form(hintText: 'Password', action: TextInputAction.next, controller: password), Padding(
                 padding: EdgeInsets.only(
                   left: 26.w,
                   top: 16.h,
@@ -130,7 +153,7 @@ class SignupScreen extends StatelessWidget {
                         )),
                   ),
                 ),
-              ),form(hintText: 'Confirm Password', action: TextInputAction.done),
+              ),form(hintText: 'Confirm Password', action: TextInputAction.done, controller: confirmPassword),
               GestureDetector(onTap: ()=>Navigator.of(context).push(MaterialPageRoute(
                   builder: (_) => BottomNavigation())),
                 child: Container(
