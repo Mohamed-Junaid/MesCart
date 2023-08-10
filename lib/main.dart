@@ -2,12 +2,12 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:mes_kart/Bloc/Resetprfl/resetprfl_bloc.dart';
+import 'package:mes_kart/Bloc/Resetpswd/resetpswd_bloc.dart';
 import 'package:mes_kart/Bloc/Signin/mes_signin_bloc.dart';
 import 'package:mes_kart/Bloc/Signup/meskartSignup_bloc.dart';
-
-import 'Ui/login_screen.dart';
 import 'Ui/splash_screen.dart';
-const String basePath='http://192.168.1.58:9999/api';
+const String basePath='http://62.72.12.251:9999/api';
 void main()async {
   WidgetsFlutterBinding.ensureInitialized();
   await SystemChrome.setPreferredOrientations([
@@ -32,6 +32,8 @@ class MyApp extends StatelessWidget {
     BlocProvider(
       create: (context) => MesSigninBloc(),
     ),
+    BlocProvider(create: (context) => ResetpswdBloc()),
+    BlocProvider(create: (context)=> ResetprflBloc()),
   ],
   child: MaterialApp(debugShowCheckedModeBanner: false,
         title: 'Mes-Cart',

@@ -3,6 +3,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:mes_kart/Bloc/Signin/mes_signin_bloc.dart';
+import 'package:mes_kart/Repository/modelclass/mesSigninModelclass.dart';
 import 'package:mes_kart/Ui/signup_screen.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
@@ -120,7 +121,8 @@ class LoginScreen extends StatelessWidget {
                   }
                   if (state is MesSigninBlocLoaded) {
                     Navigator.of(context).pop();
-                    token(BlocProvider.of<MesSigninBloc>(context).messigninModelclass.tokens!.accessToken.toString());
+                    MesSigninModelclass user =BlocProvider.of<MesSigninBloc>(context).messigninModelclass;
+                    token(user.tokens!.accessToken.toString(),user.user!.username.toString(),user.user!.phone.toString(),user.user!.email.toString());
                     Navigator.of(context).push(
                         MaterialPageRoute(builder: (_) => BottomNavigation()));
                     print("loaded");
@@ -223,9 +225,12 @@ class LoginScreen extends StatelessWidget {
     );
   }
 
-  token(String token)async{
+  token(String token,String username,String phone,String email)async{
     final SharedPreferences prefs = await SharedPreferences.getInstance();
     prefs.setString("Token", token);
+    prefs.setString("UserName",username);
+    prefs.setString("Phone", phone);
+    prefs.setString("Email", email);
 
   }
 }

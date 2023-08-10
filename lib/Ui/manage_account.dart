@@ -1,6 +1,13 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:mes_kart/Bloc/Resetprfl/resetprfl_bloc.dart';
+import 'package:mes_kart/Bloc/Resetpswd/resetpswd_bloc.dart';
+import 'package:mes_kart/Ui/profile.dart';
+import 'package:shared_preferences/shared_preferences.dart';
+
+import 'bottom_navigation.dart';
 
 class ManageAccount extends StatefulWidget {
   const ManageAccount({super.key});
@@ -8,7 +15,9 @@ class ManageAccount extends StatefulWidget {
   @override
   State<ManageAccount> createState() => _ManageAccountState();
 }
-
+String name='';
+String phoneno='';
+String emailadd='';
 class _ManageAccountState extends State<ManageAccount> {
   bool changepassword = false;
 
@@ -30,7 +39,11 @@ class _ManageAccountState extends State<ManageAccount> {
       r"^[a-zA-Z0-9.!#$%&'*+/=?^_`{|}~-]+@[a-zA-Z0-9](?:[a-zA-Z0-9-]"
       r"{0,253}[a-zA-Z0-9])?(?:\.[a-zA-Z0-9](?:[a-zA-Z0-9-]"
       r"{0,253}[a-zA-Z0-9])?)*$";
-
+@override
+  void initState() {
+  getProfile();
+    super.initState();
+  }
   @override
   Widget build(BuildContext context) {
     var mwidth = MediaQuery.of(context).size.width;
@@ -109,7 +122,7 @@ class _ManageAccountState extends State<ManageAccount> {
                                       )),
                                 ],
                               )),
-                          hintText: '+92 6238834407',
+                          hintText: phoneno,
                           hintStyle: TextStyle(
                               color: Color(0xff101010),
                               fontWeight: FontWeight.w400),
@@ -145,7 +158,7 @@ class _ManageAccountState extends State<ManageAccount> {
                               ),
                             ),
                           ),
-                          hintText: 'Hunais',
+                          hintText: name,
                           hintStyle: TextStyle(
                               color: Color(0xff101010),
                               fontWeight: FontWeight.w400),
@@ -171,14 +184,38 @@ class _ManageAccountState extends State<ManageAccount> {
                       autofocus: true,
                       controller: email,
                       decoration: InputDecoration(
-                          hintText: 'hunaispc@gmail.com',
+                          hintText: emailadd,
                           suffix: Padding(
                             padding: EdgeInsets.only(top: 20.h, right: 9.w),
-                            child: TextButton(
-                              onPressed: () {},
-                              child: Text(
-                                'Update',
-                                style: TextStyle(fontSize: 14.sp),
+                            child: BlocListener<ResetprflBloc, ResetprflState>(
+                              listener: (context, state) {
+                                if (state is ResetprflBlocLoading) {
+                                print("loading");
+                                showDialog(
+                                    context: context,
+                                    builder: (BuildContext a) => const Center(
+                                        child: CircularProgressIndicator()));
+                              }
+                              if (state is ResetprflBlocLoaded) {
+                                Navigator.of(context).pop();
+                                changepassword = false;
+                                print("loaded");
+                              }
+                              if (state is ResetprflBlocError) {
+                                print("error");
+                              }
+                              }, child: TextButton(
+                                onPressed: () {
+                                  // BlocProvider.of<ResetprflBloc>(context)
+                                  //     .add(Fetchresetprfl(
+                                  //   email: email.text,
+                                  // ));
+
+                                },
+                                child: Text(
+                                  'Update',
+                                  style: TextStyle(fontSize: 14.sp),
+                                ),
                               ),
                             ),
                           ),
@@ -206,7 +243,7 @@ class _ManageAccountState extends State<ManageAccount> {
                     height: mheight * 0.068,
                     decoration: BoxDecoration(
                         border: Border.all(
-                            color:  Colors.black, width: mwidth * 0.004),
+                            color: Colors.black, width: mwidth * 0.004),
                         borderRadius: BorderRadius.circular(4.r)),
                     child: Center(
                       child: Text('Change Password',
@@ -247,11 +284,11 @@ class _ManageAccountState extends State<ManageAccount> {
                               },
                               decoration: InputDecoration(
                                   hintText: 'Current Password',
-                                  hintStyle:  GoogleFonts.lato(
-                                      textStyle:TextStyle(
-                                      color: Color(0xffCACACA),
-                                      fontSize: 16.sp,
-                                      fontWeight: FontWeight.w500)),
+                                  hintStyle: GoogleFonts.lato(
+                                      textStyle: TextStyle(
+                                          color: Color(0xffCACACA),
+                                          fontSize: 16.sp,
+                                          fontWeight: FontWeight.w500)),
                                   focusedBorder: InputBorder.none,
                                   enabledBorder: InputBorder.none,
                                   focusedErrorBorder: InputBorder.none,
@@ -286,8 +323,8 @@ class _ManageAccountState extends State<ManageAccount> {
                               },
                               decoration: InputDecoration(
                                   hintText: 'New Password',
-                                  hintStyle:GoogleFonts.lato(
-                                      textStyle:TextStyle(
+                                  hintStyle: GoogleFonts.lato(
+                                      textStyle: TextStyle(
                                           color: Color(0xffCACACA),
                                           fontSize: 16.sp,
                                           fontWeight: FontWeight.w500)),
@@ -326,8 +363,8 @@ class _ManageAccountState extends State<ManageAccount> {
                               },
                               decoration: InputDecoration(
                                   hintText: 'Confirm Password',
-                                  hintStyle:GoogleFonts.lato(
-                                      textStyle:TextStyle(
+                                  hintStyle: GoogleFonts.lato(
+                                      textStyle: TextStyle(
                                           color: Color(0xffCACACA),
                                           fontSize: 16.sp,
                                           fontWeight: FontWeight.w500)),
@@ -341,39 +378,63 @@ class _ManageAccountState extends State<ManageAccount> {
                       SizedBox(
                         height: mheight * 0.02,
                       ),
-                      GestureDetector(
-                        onTap: () {
-                          final isvalid = form_key.currentState?.validate();
-                          if (isvalid == true) {
-                            form_key.currentState?.save();
-                            if (newpassword.text == confirmnewpassword.text) {
-                            } else {
-                              ScaffoldMessenger.of(context).showSnackBar(
-                                  SnackBar(
-                                      content:
-                                          Text('Password does not match')));
-                            }
+                      BlocListener<ResetpswdBloc, ResetpswdState>(
+                        listener: (context, state) {
+                          if (state is ResetpswdBlocLoading) {
+                            print("loading");
+                            showDialog(
+                                context: context,
+                                builder: (BuildContext a) => const Center(
+                                    child: CircularProgressIndicator()));
+                          }
+                          if (state is ResetpswdBlocLoaded) {
+                            Navigator.of(context).pop();
+                            changepassword = false;
+                            print("loaded");
+                          }
+                          if (state is ResetpswdBlocError) {
+                            print("error");
                           }
                         },
-                        child: Container(
-                            width: mwidth * 0.9,
-                            height: mheight * 0.068,
-                            decoration: BoxDecoration(
-                                color: Color(0xFFFF4400),
-                                borderRadius: BorderRadius.circular(4.r)),
-                            child: Padding(
-                                padding: EdgeInsets.only(
-                                    left: mwidth * 0.04, top: mheight * 0.006),
-                                child: Center(
-                                  child: Text(
-                                    'SAVE DETAILS',
-                                    style:  GoogleFonts.lato(
-                                      textStyle:TextStyle(
-                                        color: Colors.white,
-                                        fontWeight: FontWeight.w800,
-                                        fontSize: 18.sp),
-                                  )),
-                                ))),
+                        child: GestureDetector(
+                          onTap: () {
+                            final isvalid = form_key.currentState?.validate();
+                            if (isvalid == true) {
+                              form_key.currentState?.save();
+                              if (newpassword.text == confirmnewpassword.text) {
+                              } else {
+                                ScaffoldMessenger.of(context).showSnackBar(
+                                    SnackBar(
+                                        content:
+                                            Text('Password does not match')));
+                              }
+                            }
+                            BlocProvider.of<ResetpswdBloc>(context)
+                                .add(Fetchresetpswd(
+                              newpassword: newpassword.text,
+                              oldpassword: oldpassword.text,
+                            ));
+                          },
+                          child: Container(
+                              width: mwidth * 0.9,
+                              height: mheight * 0.068,
+                              decoration: BoxDecoration(
+                                  color: Color(0xFFFF4400),
+                                  borderRadius: BorderRadius.circular(4.r)),
+                              child: Padding(
+                                  padding: EdgeInsets.only(
+                                      left: mwidth * 0.04,
+                                      top: mheight * 0.006),
+                                  child: Center(
+                                    child: Text('SAVE DETAILS',
+                                        style: GoogleFonts.lato(
+                                          textStyle: TextStyle(
+                                              color: Colors.white,
+                                              fontWeight: FontWeight.w800,
+                                              fontSize: 18.sp),
+                                        )),
+                                  ))),
+                        ),
                       ),
                     ])
                   : Container(),
@@ -385,5 +446,13 @@ class _ManageAccountState extends State<ManageAccount> {
         ),
       ))),
     );
+  }
+  getProfile()async{
+    final SharedPreferences prefs = await SharedPreferences.getInstance();
+    name=prefs.getString("UserName").toString();
+    phoneno=prefs.getString("Phone").toString();
+    emailadd=prefs.getString("Email").toString();
+
+
   }
 }

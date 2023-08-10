@@ -39,6 +39,26 @@ class meskartApi{
 
     return MesSigninModelclass.fromJson(jsonDecode(response.body));
   }
+   getresetpswd({required String newpassword,required String oldpassword,}) async {
+    String trendingpath = '/user/reset-password';
+    var body = {
+      "newPassword": newpassword,
+      "oldPassword": oldpassword
 
+    };
+    Response response = await apiClient.invokeAPI(trendingpath, 'PUT', jsonEncode(body));
+
+
+  }
+  getresetprfl(String username,String email,String phone, ) async {
+    String trendingpath = '/user/update';
+    var body = {
+      "username":username,
+      "email":email,
+      "phone":phone,
+    };
+    Response response = await apiClient.invokeAPI(
+        trendingpath, 'PATCH', jsonEncode(body));
+  }
 
 }

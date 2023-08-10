@@ -2,12 +2,15 @@ import 'dart:convert';
 import 'dart:developer';
 import 'package:http/http.dart';
 import 'package:mes_kart/main.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 import 'api_exception.dart';
 
 class ApiClient {
   Future<Response> invokeAPI(String path, String method, Object? body) async {
     Map<String, String> headerParams = {};
     Response response;
+    final SharedPreferences prefs = await SharedPreferences.getInstance();
+    final String token=prefs.getString('Token').toString();
 
     String url =basePath+path;
     print(url);
@@ -27,6 +30,7 @@ class ApiClient {
         response = await put(Uri.parse(url),
             headers: {
               'content-Type': 'application/json',
+              'Authorization' : 'Bearer $token'
             },
             body: body);
         break;
