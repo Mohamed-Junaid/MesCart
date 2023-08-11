@@ -17,6 +17,7 @@ class ResetprflBloc extends Bloc<ResetprflEvent, ResetprflState> {
       try{
         await meskart.getresetprfl(event.username,event.email,event.phone)  ;
         emit(ResetprflBlocLoaded());
+        ToastMessage().toastmessage(message:"Updated Successfully");
 
 
       }

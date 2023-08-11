@@ -1,60 +1,63 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:google_fonts/google_fonts.dart';
-
+import 'package:shared_preferences/shared_preferences.dart';
 import 'address.dart';
+import 'login_screen.dart';
 import 'manage_account.dart';
-
-class Profile extends StatelessWidget {
+String name ='';
+String email ='';
+String phone ='';
+class Profile extends StatefulWidget {
   const Profile({super.key});
 
+  @override
+  State<Profile> createState() => _ProfileState();
+}
+
+class _ProfileState extends State<Profile> {
+  @override
+  void initState() {
+
+    getProfileDetails();
+    super.initState();
+  }
   @override
   Widget build(BuildContext context) {
     var mwidth = MediaQuery.of(context).size.width;
     var mheight = MediaQuery.of(context).size.height;
     return Scaffold(
-      backgroundColor: Color(0xFFFF4400),
+      backgroundColor: const Color(0xFFFF4400),
       body: SafeArea(
-        child: SingleChildScrollView(
-          child: Column(
-            children: [
-              Container(
-                margin: EdgeInsets.only(left: 147.w, right: 146.w, top: 70.h),
-                width: 82.w,
-                height: 82.h,
-                decoration: ShapeDecoration(
-                  image: DecorationImage(
-                    image: AssetImage("assets/profile.png"),
-                    fit: BoxFit.cover,
-                  ),
-                  shape: RoundedRectangleBorder(
-                    borderRadius: BorderRadius.circular(100.r),
-                  ),
-                ),
+        child: Column(
+          children: [
+            Padding(
+              padding: EdgeInsets.only(left: 147.w, right: 146.w, top: 70.h),
+              child: CircleAvatar(radius: 41.r,backgroundImage: const AssetImage("assets/profile.png"),),
+            ),
+            SizedBox(
+              height: 12.h,
+            ),
+            Container(
+              margin: EdgeInsets.only(left: 125.w, right: 115.w),
+              width: 145.w,
+              height: 20.h,
+              child: Text(
+                name,
+                style: GoogleFonts.lato(
+                    textStyle: TextStyle(
+                      color: Colors.white,
+                      fontSize: 20.sp,
+                      fontWeight: FontWeight.w600,
+                      height: 1.h,
+                    )),
               ),
-              SizedBox(
-                height: 12.h,
-              ),
-              Container(
-                margin: EdgeInsets.only(left: 115.w, right: 115.w),
-                width: 145.w,
-                height: 20.h,
-                child: Text(
-                  'Jhon Abraham',
-                  style: GoogleFonts.lato(
-                      textStyle: TextStyle(
-                    color: Colors.white,
-                    fontSize: 20.sp,
-                    fontWeight: FontWeight.w600,
-                    height: 1.h,
-                  )),
-                ),
-              ),
-              SizedBox(
-                height: 30.h,
-              ),
-              Container(
-                height: 523.h,
+            ),
+            SizedBox(
+              height: 30.h,
+            ),
+            Expanded(
+              child: Container(
                 width: MediaQuery.of(context).size.width,
                 decoration: ShapeDecoration(
                   color: Colors.white,
@@ -75,24 +78,24 @@ class Profile extends StatelessWidget {
                           'Display Name',
                           style: GoogleFonts.lato(
                               textStyle: TextStyle(
-                            color: Color(0xFF797C7B),
-                            fontSize: 14.sp,
-                            fontWeight: FontWeight.w400,
-                            height: 1.h,
-                          )),
+                                color: const Color(0xFF797C7B),
+                                fontSize: 14.sp,
+                                fontWeight: FontWeight.w400,
+                                height: 1.h,
+                              )),
                         ),
                       ),
                       Padding(
                         padding: EdgeInsets.only(left: 28.w, top: 10.h),
                         child: Text(
-                          'Jhon Abraham',
+                          name,
                           style: GoogleFonts.lato(
                               textStyle: TextStyle(
-                            color: Color(0xFF000D07),
-                            fontSize: 18.sp,
-                            fontWeight: FontWeight.w500,
-                            height: 1.h,
-                          )),
+                                color: const Color(0xFF000D07),
+                                fontSize: 18.sp,
+                                fontWeight: FontWeight.w500,
+                                height: 1.h,
+                              )),
                         ),
                       ),
                       Padding(
@@ -101,24 +104,24 @@ class Profile extends StatelessWidget {
                           'Email Address',
                           style: GoogleFonts.lato(
                               textStyle: TextStyle(
-                            color: Color(0xFF797C7B),
-                            fontSize: 14.sp,
-                            fontWeight: FontWeight.w400,
-                            height: 1.h,
-                          )),
+                                color: const Color(0xFF797C7B),
+                                fontSize: 14.sp,
+                                fontWeight: FontWeight.w400,
+                                height: 1.h,
+                              )),
                         ),
                       ),
                       Padding(
                         padding: EdgeInsets.only(left: 28.w, top: 10.h),
                         child: Text(
-                          'jhonabraham20@gmail.com',
+                          email,
                           style: GoogleFonts.lato(
                               textStyle: TextStyle(
-                            color: Color(0xFF000D07),
-                            fontSize: 18.sp,
-                            fontWeight: FontWeight.w500,
-                            height: 1.h,
-                          )),
+                                color: Color(0xFF000D07),
+                                fontSize: 18.sp,
+                                fontWeight: FontWeight.w500,
+                                height: 1.h,
+                              )),
                         ),
                       ),
                       Padding(
@@ -127,11 +130,11 @@ class Profile extends StatelessWidget {
                           'Address',
                           style: GoogleFonts.lato(
                               textStyle: TextStyle(
-                            color: Color(0xFF797C7B),
-                            fontSize: 14.sp,
-                            fontWeight: FontWeight.w400,
-                            height: 1.h,
-                          )),
+                                color: const Color(0xFF797C7B),
+                                fontSize: 14.sp,
+                                fontWeight: FontWeight.w400,
+                                height: 1.h,
+                              )),
                         ),
                       ),
                       Padding(
@@ -143,12 +146,12 @@ class Profile extends StatelessWidget {
                               child: Text(
                                 '25 rue Robert Latouche, Nice, 06200, Côte D’azur, France',
                                 style: GoogleFonts.lato(
-                                    textStyle: TextStyle(
-                                  color: Color(0xFF000D07),
-                                  fontSize: 18.sp,
-                                  fontWeight: FontWeight.w500,
-                                  height: 1.h,
-                                ),),
+                                  textStyle: TextStyle(
+                                    color: const Color(0xFF000D07),
+                                    fontSize: 18.sp,
+                                    fontWeight: FontWeight.w500,
+                                    height: 1.h,
+                                  ),),
                               ),
                             ),
                             SizedBox(
@@ -177,24 +180,24 @@ class Profile extends StatelessWidget {
                           'Phone  Number',
                           style: GoogleFonts.lato(
                               textStyle: TextStyle(
-                            color: Color(0xFF797C7B),
-                            fontSize: 14.sp,
-                            fontWeight: FontWeight.w400,
-                            height: 1.h,
-                          )),
+                                color: const Color(0xFF797C7B),
+                                fontSize: 14.sp,
+                                fontWeight: FontWeight.w400,
+                                height: 1.h,
+                              )),
                         ),
                       ),
                       Padding(
                         padding: EdgeInsets.only(left: 28.w, top: 10.h),
                         child: Text(
-                          '+916238814407',
+                          phone,
                           style: GoogleFonts.lato(
                               textStyle: TextStyle(
-                            color: Color(0xFF000D07),
-                            fontSize: 18.sp,
-                            fontWeight: FontWeight.w500,
-                            height: 1.h,
-                          )),
+                                color: const Color(0xFF000D07),
+                                fontSize: 18.sp,
+                                fontWeight: FontWeight.w500,
+                                height: 1.h,
+                              )),
                         ),
                       ),
                       SizedBox(
@@ -219,7 +222,7 @@ class Profile extends StatelessWidget {
                                   width: mwidth * 0.12,
                                   height: mheight * 0.0265,
                                   child:
-                                      Image.asset('assets/manageaccounts.png'),
+                                  Image.asset('assets/manageaccounts.png'),
                                 ),
                                 SizedBox(
                                   width: mwidth * 0.03,
@@ -333,35 +336,48 @@ class Profile extends StatelessWidget {
                       ),
                       Center(
                           child: GestureDetector(
-                        onTap: () {},
-                        child: Container(margin: EdgeInsets.only(bottom: 9.h),
-                          width: mwidth * 0.84,
-                          height: mheight * 0.065,
-                          decoration: BoxDecoration(
-                              borderRadius: BorderRadius.circular(4.r),
-                              border: Border.all(
-                                  color: Color(0xFFFF4400),
-                                  width: mwidth * 0.004)),
-                          child: Center(
-                            child: Text(
-                              'LOG OUT',
-                              style: GoogleFonts.lato(
-                                  textStyle: TextStyle(
+                            onTap: () async{
+                              final SharedPreferences prefs = await SharedPreferences.getInstance();
+                              prefs.clear();
+                              Navigator.of(context).push(
+                                  MaterialPageRoute(builder: (_) => LoginScreen()));
+                            },
+                            child: Container(margin: EdgeInsets.only(bottom: 9.h),
+                              width: mwidth * 0.84,
+                              height: mheight * 0.065,
+                              decoration: BoxDecoration(
+                                  borderRadius: BorderRadius.circular(4.r),
+                                  border: Border.all(
                                       color: Color(0xFFFF4400),
-                                      fontSize: 16.sp,
-                                      fontWeight: FontWeight.w700)),
+                                      width: mwidth * 0.004)),
+                              child: Center(
+                                child: Text(
+                                  'LOG OUT',
+                                  style: GoogleFonts.lato(
+                                      textStyle: TextStyle(
+                                          color: Color(0xFFFF4400),
+                                          fontSize: 16.sp,
+                                          fontWeight: FontWeight.w700)),
+                                ),
+                              ),
                             ),
-                          ),
-                        ),
-                      ))
+                          ))
                     ],
                   ),
                 ),
-              )
-            ],
-          ),
+              ),
+            )
+          ],
         ),
       ),
     );
+  }
+
+  getProfileDetails() async{
+    final SharedPreferences prefs = await SharedPreferences.getInstance();
+    name = prefs.getString("UserName").toString();
+    email = prefs.getString("Email").toString();
+    phone = prefs.getString("Phone").toString();
+
   }
 }

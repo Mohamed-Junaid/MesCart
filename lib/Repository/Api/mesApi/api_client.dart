@@ -64,7 +64,10 @@ class ApiClient {
       case "PATCH":
         response = await patch(
           Uri.parse(url),
-          headers: {'Content-Type': 'application/json'},
+          headers: {
+        'content-Type': 'application/json',
+            'Authorization' : 'Bearer $token'
+          },
           body: body,
         );
         break;
