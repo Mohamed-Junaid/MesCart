@@ -533,9 +533,12 @@ class _ManageAccountState extends State<ManageAccount> {
 
   getProfile() async {
     final SharedPreferences prefs = await SharedPreferences.getInstance();
-    name = prefs.getString("UserName").toString();
-    phoneno = prefs.getString("Phone").toString();
-    emailadd = prefs.getString("Email").toString();
+    setState(() {
+      name = prefs.getString("UserName").toString();
+      phoneno = prefs.getString("Phone").toString();
+      emailadd = prefs.getString("Email").toString();
+    });
+
   }
 
   updateUsername(String newName) async {

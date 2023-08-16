@@ -8,6 +8,7 @@ import 'package:http/http.dart';
 
 import '../../modelclass/mesSigninModelclass.dart';
 import '../../modelclass/mesSignupModelclass.dart';
+import '../../modelclass/profileAddressModelclass.dart';
 import 'api_client.dart';
 
 
@@ -60,5 +61,50 @@ class meskartApi{
     Response response = await apiClient.invokeAPI(
         trendingpath, 'PATCH', jsonEncode(body));
   }
+  getCreateSellerAc(String name,String contactNumber,String aadhar,String email,
+      String collegeName,String collegePlace,String course,String academicYear,
+      String admissionNumber,String storePin ) async {
+    String trendingpath = '/seller/account/create';
+    var body = {
+      "shopname":name,
+      "phone":contactNumber,
+      "aadhaarNumber":aadhar,
+      "email":email,
+      "collegename":collegeName,
+      "collegeplace":collegePlace,
+      "course":course,
+      "academicyear":academicYear,
+      "admissionnumber":admissionNumber,
+      "pin":storePin,
+    };
+    Response response = await apiClient.invokeAPI(
+        trendingpath, 'POST', jsonEncode(body));
+  }
+  getaddAddress(String fullname,String phonenumber,String pincode,String state,String city,String houseNoOrBuildingName,
+      String roadname,String landmark,String addressType ) async {
+    String trendingpath = '/user/add-delivery-address';
+    var body = {
+      "fullName": fullname,
+      "phone_numbers": [phonenumber],
+      "pincode": pincode,
+      "state": state,
+      "city":city,
+      "houseOrBuildingNumber": houseNoOrBuildingName,
+      "roadNameOrArea": roadname,
+      "landmark": landmark,
+      "type": addressType
+    };
+    Response response = await apiClient.invokeAPI(
+        trendingpath, 'POST', jsonEncode(body));
+  }
+  Future<ProfileAddressModelclass> getProfileAddress() async {
+    String trendingpath = '/user/profile';
+    var body = {
+    };
+    Response response = await apiClient.invokeAPI(trendingpath, 'GET', jsonEncode(body));
+
+    return ProfileAddressModelclass.fromJson(jsonDecode(response.body));
+  }
+
 
 }

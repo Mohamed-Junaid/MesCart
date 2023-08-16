@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:mes_kart/Bloc/addAddress/add_address_bloc.dart';
 
 import 'Widget/address_type.dart';
 import 'Widget/toast_message.dart';
@@ -19,6 +21,7 @@ class _AddDeliveryAdressState extends State<AddDeliveryAdress> {
   TextEditingController state = TextEditingController();
   TextEditingController city = TextEditingController();
   TextEditingController houseNoOrBuildingName = TextEditingController();
+  TextEditingController roadname = TextEditingController();
   TextEditingController landmark = TextEditingController();
   final form_key = GlobalKey<FormState>();
 
@@ -31,23 +34,23 @@ class _AddDeliveryAdressState extends State<AddDeliveryAdress> {
         backgroundColor: Colors.white,
         appBar: AppBar(
           toolbarHeight: mheight * 0.085,
-          titleSpacing: 0,centerTitle: true,
+          titleSpacing: 0,
+          centerTitle: true,
           automaticallyImplyLeading: false,
           backgroundColor: Colors.white,
-          elevation: 1,leading:   IconButton(
-            onPressed: () {
-              Navigator.of(context).pop();
-
-            },
-            icon: Icon(
-              Icons.arrow_back,
-              color: Colors.black,
-            )),
+          elevation: 1,
+          leading: IconButton(
+              onPressed: () {
+                Navigator.of(context).pop();
+              },
+              icon: Icon(
+                Icons.arrow_back,
+                color: Colors.black,
+              )),
           title: Text(
             'Add delivery address',
             style: GoogleFonts.lato(
-                textStyle:TextStyle(
-                    color: Colors.black),
+                textStyle: TextStyle(color: Colors.black),
                 fontSize: 18.sp,
                 fontWeight: FontWeight.w400),
           ),
@@ -67,13 +70,13 @@ class _AddDeliveryAdressState extends State<AddDeliveryAdress> {
                       height: mheight * 0.077,
                       decoration: BoxDecoration(
                           border: Border.all(
-                              color: Color(0xffEEEEEE),
-                              width: mwidth * 0.004),
+                              color: Color(0xffEEEEEE), width: mwidth * 0.004),
                           borderRadius: BorderRadius.circular(3)),
                       child: Padding(
                         padding: EdgeInsets.only(
                             left: mwidth * 0.04, top: mheight * 0.006),
-                        child: TextFormField(textInputAction: TextInputAction.next,
+                        child: TextFormField(
+                          textInputAction: TextInputAction.next,
                           controller: fullname,
                           validator: (value) {
                             if (value!.isEmpty) {
@@ -86,8 +89,8 @@ class _AddDeliveryAdressState extends State<AddDeliveryAdress> {
                           decoration: InputDecoration(
                               hintText: 'Full Name  (Required) *',
                               hintStyle: GoogleFonts.lato(
-                                  textStyle:TextStyle(
-                                      color: Color(0xffB8B8B8)),
+                                  textStyle:
+                                      TextStyle(color: Color(0xffB8B8B8)),
                                   fontSize: 16.sp,
                                   fontWeight: FontWeight.w400),
                               focusedBorder: InputBorder.none,
@@ -107,13 +110,13 @@ class _AddDeliveryAdressState extends State<AddDeliveryAdress> {
                       height: mheight * 0.077,
                       decoration: BoxDecoration(
                           border: Border.all(
-                              color: Color(0xffEEEEEE),
-                              width: mwidth * 0.004),
+                              color: Color(0xffEEEEEE), width: mwidth * 0.004),
                           borderRadius: BorderRadius.circular(3)),
                       child: Padding(
                         padding: EdgeInsets.only(
                             left: mwidth * 0.04, top: mheight * 0.006),
-                        child: TextFormField(textInputAction: TextInputAction.next,
+                        child: TextFormField(
+                          textInputAction: TextInputAction.next,
                           controller: phonenumber,
                           keyboardType: TextInputType.number,
                           validator: (value) {
@@ -127,8 +130,8 @@ class _AddDeliveryAdressState extends State<AddDeliveryAdress> {
                           decoration: InputDecoration(
                               hintText: 'Phone Number  (Required) *',
                               hintStyle: GoogleFonts.lato(
-                                  textStyle:TextStyle(
-                                      color: Color(0xffB8B8B8)),
+                                  textStyle:
+                                      TextStyle(color: Color(0xffB8B8B8)),
                                   fontSize: 16.sp,
                                   fontWeight: FontWeight.w400),
                               focusedBorder: InputBorder.none,
@@ -142,7 +145,6 @@ class _AddDeliveryAdressState extends State<AddDeliveryAdress> {
                 SizedBox(
                   height: mheight * 0.015,
                 ),
-
                 Center(
                   child: Container(
                     width: mwidth * 0.9,
@@ -160,7 +162,8 @@ class _AddDeliveryAdressState extends State<AddDeliveryAdress> {
                             child: Padding(
                               padding: EdgeInsets.only(
                                   left: mwidth * 0.04, top: mheight * 0.006),
-                              child: TextFormField(textInputAction: TextInputAction.next,
+                              child: TextFormField(
+                                textInputAction: TextInputAction.next,
                                 controller: pincode,
                                 validator: (value) {
                                   if (value!.isEmpty) {
@@ -174,8 +177,8 @@ class _AddDeliveryAdressState extends State<AddDeliveryAdress> {
                                 decoration: InputDecoration(
                                     hintText: 'Pincode  (Required) *',
                                     hintStyle: GoogleFonts.lato(
-                                        textStyle:TextStyle(
-                                            color: Color(0xffB8B8B8)),
+                                        textStyle:
+                                            TextStyle(color: Color(0xffB8B8B8)),
                                         fontSize: 16.sp,
                                         fontWeight: FontWeight.w400),
                                     focusedBorder: InputBorder.none,
@@ -199,20 +202,22 @@ class _AddDeliveryAdressState extends State<AddDeliveryAdress> {
                             child: Padding(
                               padding: EdgeInsets.only(
                                   left: mwidth * 0.04, top: mheight * 0.006),
-                              child: TextFormField(validator: (value) {
-                                if (value!.isEmpty) {
-                                  return 'State should not be empty';
-                                }
-                              },
+                              child: TextFormField(
+                                validator: (value) {
+                                  if (value!.isEmpty) {
+                                    return 'State should not be empty';
+                                  }
+                                },
                                 onSaved: (value) {
                                   state.text = value!;
                                 },
-                                controller: state,textInputAction: TextInputAction.next,
+                                controller: state,
+                                textInputAction: TextInputAction.next,
                                 decoration: InputDecoration(
                                     hintText: 'State  (Required) *',
                                     hintStyle: GoogleFonts.lato(
-                                        textStyle:TextStyle(
-                                            color: Color(0xffB8B8B8)),
+                                        textStyle:
+                                            TextStyle(color: Color(0xffB8B8B8)),
                                         fontSize: 16.sp,
                                         fontWeight: FontWeight.w400),
                                     focusedBorder: InputBorder.none,
@@ -235,13 +240,13 @@ class _AddDeliveryAdressState extends State<AddDeliveryAdress> {
                       height: mheight * 0.077,
                       decoration: BoxDecoration(
                           border: Border.all(
-                              color: Color(0xffEEEEEE),
-                              width: mwidth * 0.004),
+                              color: Color(0xffEEEEEE), width: mwidth * 0.004),
                           borderRadius: BorderRadius.circular(3)),
                       child: Padding(
                         padding: EdgeInsets.only(
                             left: mwidth * 0.04, top: mheight * 0.006),
-                        child: TextFormField(textInputAction: TextInputAction.next,
+                        child: TextFormField(
+                          textInputAction: TextInputAction.next,
                           controller: city,
                           validator: (value) {
                             if (value!.isEmpty) {
@@ -254,8 +259,8 @@ class _AddDeliveryAdressState extends State<AddDeliveryAdress> {
                           decoration: InputDecoration(
                               hintText: 'City (Required) *',
                               hintStyle: GoogleFonts.lato(
-                                  textStyle:TextStyle(
-                                      color: Color(0xffB8B8B8)),
+                                  textStyle:
+                                      TextStyle(color: Color(0xffB8B8B8)),
                                   fontSize: 16.sp,
                                   fontWeight: FontWeight.w400),
                               focusedBorder: InputBorder.none,
@@ -275,13 +280,13 @@ class _AddDeliveryAdressState extends State<AddDeliveryAdress> {
                       height: mheight * 0.077,
                       decoration: BoxDecoration(
                           border: Border.all(
-                              color: Color(0xffEEEEEE),
-                              width: mwidth * 0.004),
+                              color: Color(0xffEEEEEE), width: mwidth * 0.004),
                           borderRadius: BorderRadius.circular(3)),
                       child: Padding(
                         padding: EdgeInsets.only(
                             left: mwidth * 0.04, top: mheight * 0.006),
-                        child: TextFormField(textInputAction: TextInputAction.next,
+                        child: TextFormField(
+                          textInputAction: TextInputAction.next,
                           controller: houseNoOrBuildingName,
                           validator: (value) {
                             if (value!.isEmpty) {
@@ -292,11 +297,10 @@ class _AddDeliveryAdressState extends State<AddDeliveryAdress> {
                             houseNoOrBuildingName.text = value!;
                           },
                           decoration: InputDecoration(
-                              hintText:
-                              'House No., Building Name (Required) *',
+                              hintText: 'House No., Building Name (Required) *',
                               hintStyle: GoogleFonts.lato(
-                                  textStyle:TextStyle(
-                                      color: Color(0xffB8B8B8)),
+                                  textStyle:
+                                      TextStyle(color: Color(0xffB8B8B8)),
                                   fontSize: 16.sp,
                                   fontWeight: FontWeight.w400),
                               focusedBorder: InputBorder.none,
@@ -316,28 +320,27 @@ class _AddDeliveryAdressState extends State<AddDeliveryAdress> {
                       height: mheight * 0.077,
                       decoration: BoxDecoration(
                           border: Border.all(
-                              color: Color(0xffEEEEEE),
-                              width: mwidth * 0.004),
+                              color: Color(0xffEEEEEE), width: mwidth * 0.004),
                           borderRadius: BorderRadius.circular(3)),
                       child: Padding(
                         padding: EdgeInsets.only(
                             left: mwidth * 0.04, top: mheight * 0.006),
-                        child: TextFormField(textInputAction: TextInputAction.done,
-                          controller: landmark,
+                        child: TextFormField(
+                          textInputAction: TextInputAction.done,
+                          controller: roadname,
                           validator: (value) {
                             if (value!.isEmpty) {
                               return 'Field should not be empty';
                             }
                           },
                           onSaved: (value) {
-                            landmark.text = value!;
+                            roadname.text = value!;
                           },
                           decoration: InputDecoration(
-                              hintText:
-                              'Road name, Area, Colony (Required) *',
+                              hintText: 'Road name, Area, Colony (Required) *',
                               hintStyle: GoogleFonts.lato(
-                                  textStyle:TextStyle(
-                                  color: Color(0xffB8B8B8)),
+                                  textStyle:
+                                      TextStyle(color: Color(0xffB8B8B8)),
                                   fontSize: 16.sp,
                                   fontWeight: FontWeight.w400),
                               focusedBorder: InputBorder.none,
@@ -348,69 +351,135 @@ class _AddDeliveryAdressState extends State<AddDeliveryAdress> {
                         ),
                       )),
                 ),
-
+                SizedBox(
+                  height: mheight * 0.015,
+                ),
+                Center(
+                  child: Container(
+                      width: mwidth * 0.9,
+                      height: mheight * 0.077,
+                      decoration: BoxDecoration(
+                          border: Border.all(
+                              color: Color(0xffEEEEEE), width: mwidth * 0.004),
+                          borderRadius: BorderRadius.circular(3)),
+                      child: Padding(
+                        padding: EdgeInsets.only(
+                            left: mwidth * 0.04, top: mheight * 0.006),
+                        child: TextFormField(
+                          textInputAction: TextInputAction.done,
+                          controller: landmark,
+                          validator: (value) {
+                            if (value!.isEmpty) {
+                              return 'Field should not be empty';
+                            }
+                          },
+                          onSaved: (value) {
+                            landmark.text = value!;
+                          },
+                          decoration: InputDecoration(
+                              hintText: 'Landmark (Required) *',
+                              hintStyle: GoogleFonts.lato(
+                                  textStyle:
+                                      TextStyle(color: Color(0xffB8B8B8)),
+                                  fontSize: 16.sp,
+                                  fontWeight: FontWeight.w400),
+                              focusedBorder: InputBorder.none,
+                              errorBorder: InputBorder.none,
+                              focusedErrorBorder: InputBorder.none,
+                              enabledBorder: InputBorder.none,
+                              disabledBorder: InputBorder.none),
+                        ),
+                      )),
+                ),
                 SizedBox(
                   height: mheight * 0.035,
                 ),
                 Padding(
                   padding: EdgeInsets.only(left: mwidth * 0.05),
-                  child: Text(
-                    'Type of address',
-                    style: GoogleFonts.lato(
-                      textStyle:TextStyle(
-                        color: Color(0xffB8B8B8),
-                        fontSize: 15.sp,
-                        fontWeight: FontWeight.w400),
-                  )),
+                  child: Text('Type of address',
+                      style: GoogleFonts.lato(
+                        textStyle: TextStyle(
+                            color: Color(0xffB8B8B8),
+                            fontSize: 15.sp,
+                            fontWeight: FontWeight.w400),
+                      )),
                 ),
                 SizedBox(
                   height: mheight * 0.025,
                 ),
                 Padding(
-                    padding: EdgeInsets.only(left: mwidth * 0.045),child:AddressType()
-
-                ),
+                    padding: EdgeInsets.only(left: mwidth * 0.045),
+                    child: AddressType()),
                 SizedBox(
                   height: mheight * 0.064,
                 ),
                 Center(
+                  child: BlocListener<AddAddressBloc, AddAddressState>(
+                    listener: (context, state){
+                      if (state is AddAddressBlocLoading) {
+                        print("loading");
+                        showDialog(
+                            context: context,
+                            builder: (BuildContext a) => const Center(child: CircularProgressIndicator()));
+                        Navigator.of(context).pop();
+
+                      }
+                      if (state is AddAddressBlocLoaded) {
+                        Navigator.of(context).pop();
+                       print("loaded");
+                      }
+                      if (state is AddAddressBlocError) {
+                        print("error");
+
+                      }
+                    },
                     child: GestureDetector(
                       onTap: () {
                         final isvalid = form_key.currentState?.validate();
                         if (isvalid == true) {
                           form_key.currentState?.save();
-                        }
-                        else{
-                          ToastMessage().toastmessage(message: 'Please Select Your Address Type');
+                          BlocProvider.of<AddAddressBloc>(context).add(
+                              FetchaddAddress(fullname: fullname.text, phonenumber: phonenumber.text, pincode: pincode.text,
+                                  state: state.text, city: city.text, houseNoOrBuildingName: houseNoOrBuildingName.text,
+                                  roadname: roadname.text, landmark: landmark.text, addressType: addressType));
+                        } else {
+                          ToastMessage().toastmessage(
+                              message: 'Please Select Your Address Type');
                         }
                       },
                       child: Container(
                           width: mwidth * 0.9,
                           height: mheight * 0.068,
                           decoration: BoxDecoration(
-                              color:Color(0xFFFF4400),
+                              color: Color(0xFFFF4400),
                               borderRadius: BorderRadius.circular(4)),
                           child: Padding(
                               padding: EdgeInsets.only(
                                   left: mwidth * 0.04, top: mheight * 0.006),
                               child: Center(
-                                child: Text(
-                                  'SAVE ADDRESS',
-                                  style: GoogleFonts.lato(
-                                    textStyle:TextStyle(
-                                      color: Colors.white,
-                                      fontWeight: FontWeight.w700,
-                                      fontSize: 18.sp),
-                                )),
+                                child: Text('SAVE ADDRESS',
+                                    style: GoogleFonts.lato(
+                                      textStyle: TextStyle(
+                                          color: Colors.white,
+                                          fontWeight: FontWeight.w700,
+                                          fontSize: 18.sp),
+                                    )),
                               ))),
                     ),
                   ),
-          Padding(padding: EdgeInsets.only(bottom: MediaQuery.of(context).viewInsets.bottom))
+                ),
+                Padding(
+                    padding: EdgeInsets.only(
+                        bottom: MediaQuery.of(context).viewInsets.bottom)),
+                SizedBox(
+                  height: 20.h,
+                )
               ],
             ),
           ),
         ));
   }
+
   @override
   void dispose() {
     fullname.clear();

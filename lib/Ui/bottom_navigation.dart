@@ -1,8 +1,11 @@
 import 'package:flutter/material.dart';
+import 'package:mes_kart/Ui/Sell/seller_home.dart';
 import 'package:mes_kart/Ui/home.dart';
 import 'package:mes_kart/Ui/my_orders.dart';
 import 'package:mes_kart/Ui/profile.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
+import '../main.dart';
 import 'Sell/sell_intro.dart';
 class BottomNavigation extends StatefulWidget {
   const BottomNavigation({Key? key}) : super(key: key);
@@ -11,10 +14,19 @@ class BottomNavigation extends StatefulWidget {
   State<BottomNavigation> createState() => _BottomNavigationState();
 }
 int currentIndex=0;
-final screens=[const Home(),const MyOrders(), const SellIntro(),const Profile()];
+bool value=false;
+
 class _BottomNavigationState extends State<BottomNavigation> {
   @override
+  void initState() {
+    register();
+    // TODO: implement initState
+    super.initState();
+  }
+  @override
   Widget build(BuildContext context) {
+    final screens=[const Home(),const MyOrders(), value==true? const SellerHome():const SellIntro(),const Profile()];
+    print(value);
     return Scaffold(
       bottomNavigationBar: BottomNavigationBar(
         type: BottomNavigationBarType.fixed,
@@ -38,5 +50,10 @@ class _BottomNavigationState extends State<BottomNavigation> {
         ],
       ),body: screens[currentIndex],
     );
+  }
+  register()async{
+    final SharedPreferences prefs = await SharedPreferences.getInstance();
+    value=prefs.getBool("Registered")!;
+    print("aa"+value.toString());
   }
 }

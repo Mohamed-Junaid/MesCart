@@ -22,7 +22,7 @@ class _AddressTypeState extends State<AddressType> {
         GestureDetector(
           onTap: () {
             setState(() {
-              addressType = 'Home';
+              addressType = 'HOME';
             });
           },
           child: Container( width: mwidth * 0.23,
@@ -48,7 +48,7 @@ class _AddressTypeState extends State<AddressType> {
                   'Home',
                   style:GoogleFonts.lato(
                     textStyle: TextStyle(
-                      color: addressType == 'Home' ? Colors.blue : Colors.black,
+                      color: addressType == 'HOME' ? Colors.blue : Colors.black,
                       fontWeight: FontWeight.w400,
                       fontSize: 12.sp),
                 ))
@@ -62,7 +62,7 @@ class _AddressTypeState extends State<AddressType> {
         GestureDetector(
           onTap: () {
             setState(() {
-              addressType = 'Office';
+              addressType = 'OFFICE';
             });
           },
           child: Container(
@@ -90,7 +90,7 @@ class _AddressTypeState extends State<AddressType> {
                   style: GoogleFonts.lato(
                     textStyle:TextStyle(
                       color:
-                      addressType == 'Office' ? Colors.blue : Colors.black,
+                      addressType == 'OFFICE' ? Colors.blue : Colors.black,
                       fontWeight: FontWeight.w400,
                       fontSize: 12.sp),
                 ))
@@ -101,7 +101,7 @@ class _AddressTypeState extends State<AddressType> {
           width: mwidth * 0.014,
         ),GestureDetector(onTap: () {
           setState(() {
-            addressType = 'Other';
+            addressType = 'OTHER';
           });
         },
           child: Container(
@@ -116,7 +116,7 @@ class _AddressTypeState extends State<AddressType> {
                 'Other',
                 style: TextStyle(
                     color:
-                    addressType == 'Other' ? Colors.blue : Colors.black,
+                    addressType == 'OTHER' ? Colors.blue : Colors.black,
                     fontWeight: FontWeight.w400,
                     fontSize: 12.sp),
               ))),

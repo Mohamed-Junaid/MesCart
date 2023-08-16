@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:mes_kart/Ui/splash_screen.dart';
 
 import 'changepin.dart';
 
@@ -23,14 +24,6 @@ class _SellerHomeState extends State<SellerHome> {
         automaticallyImplyLeading: false,
         backgroundColor: Colors.white,
         elevation: 1,
-        leading: IconButton(
-            onPressed: () {
-              Navigator.of(context).pop();
-            },
-            icon: Icon(
-              Icons.arrow_back,
-              color: Colors.black,
-            )),
         title: Text(
           'Profile',
           style: GoogleFonts.lato(

@@ -3,9 +3,10 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'address.dart';
+import 'bottom_navigation.dart';
 import 'login_screen.dart';
 import 'manage_account.dart';
-String name ='';
+String name = '';
 String email ='';
 String phone ='';
 class Profile extends StatefulWidget {
@@ -42,15 +43,17 @@ class _ProfileState extends State<Profile> {
               margin: EdgeInsets.only(left: 125.w, right: 115.w),
               width: 145.w,
               height: 20.h,
-              child: Text(
-                name,
-                style: GoogleFonts.lato(
-                    textStyle: TextStyle(
-                      color: Colors.white,
-                      fontSize: 20.sp,
-                      fontWeight: FontWeight.w600,
-                      height: 1.h,
-                    )),
+              child: Center(
+                child: Text(
+                  name!,
+                  style: GoogleFonts.lato(
+                      textStyle: TextStyle(
+                        color: Colors.white,
+                        fontSize: 20.sp,
+                        fontWeight: FontWeight.w600,
+                        height: 1.h,
+                      )),
+                ),
               ),
             ),
             SizedBox(
@@ -88,7 +91,7 @@ class _ProfileState extends State<Profile> {
                       Padding(
                         padding: EdgeInsets.only(left: 28.w, top: 10.h),
                         child: Text(
-                          name,
+                          name!,
                           style: GoogleFonts.lato(
                               textStyle: TextStyle(
                                 color: const Color(0xFF000D07),
@@ -339,6 +342,7 @@ class _ProfileState extends State<Profile> {
                             onTap: () async{
                               final SharedPreferences prefs = await SharedPreferences.getInstance();
                               prefs.clear();
+                              value=false;
                               Navigator.of(context).push(
                                   MaterialPageRoute(builder: (_) => LoginScreen()));
                             },
@@ -375,9 +379,12 @@ class _ProfileState extends State<Profile> {
 
   getProfileDetails() async{
     final SharedPreferences prefs = await SharedPreferences.getInstance();
-    name = prefs.getString("UserName").toString();
-    email = prefs.getString("Email").toString();
-    phone = prefs.getString("Phone").toString();
+    setState(() {
+      name = prefs.getString("UserName").toString();
+      email = prefs.getString("Email").toString();
+      phone = prefs.getString("Phone").toString();
+    });
+
 
   }
 }

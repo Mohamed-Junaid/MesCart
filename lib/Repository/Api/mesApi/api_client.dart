@@ -21,6 +21,8 @@ class ApiClient {
       case "POST":
         response = await post(Uri.parse(url),
             headers: {
+              'content-Type': 'application/json',
+              'Authorization' : 'Bearer $token'
 
             },
             body: body);
@@ -47,7 +49,8 @@ class ApiClient {
       case "GET_":
         response = await post(
           Uri.parse(url),
-          headers: {},
+          headers: {
+          },
           body: body,
         );
         break;
@@ -56,7 +59,8 @@ class ApiClient {
           Uri.parse(url),
           headers: {
             'X-RapidAPI-Key': '9f4bf0efe4msh407f363a67629c6p1ec976jsn1c442384745a',
-            'X-RapidAPI-Host': 'spotify23.p.rapidapi.com'
+            'X-RapidAPI-Host': 'spotify23.p.rapidapi.com',
+            'Authorization' : 'Bearer $token'
           },
         );
 
