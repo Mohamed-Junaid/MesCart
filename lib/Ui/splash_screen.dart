@@ -18,12 +18,14 @@ class _SplashScreenState extends State<SplashScreen> {
     Future.delayed(const Duration(seconds: 4), ()async {
       final SharedPreferences prefs = await SharedPreferences.getInstance();
       if(prefs.containsKey("Token")){
-        Navigator.of(context)
-            .push(MaterialPageRoute(builder: (_) => const BottomNavigation()));
+        Navigator.of(context).pushAndRemoveUntil(
+            MaterialPageRoute(builder: (context) => const BottomNavigation()),
+                (route) => false);
       }
       else{
-      Navigator.of(context)
-          .push(MaterialPageRoute(builder: (_) => const LoginScreen()));}
+        Navigator.of(context).pushAndRemoveUntil(
+            MaterialPageRoute(builder: (context) => const LoginScreen()),
+                (route) => false);}
     });
     super.initState();
   }

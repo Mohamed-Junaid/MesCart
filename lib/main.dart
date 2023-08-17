@@ -8,6 +8,7 @@ import 'package:mes_kart/Bloc/Signin/mes_signin_bloc.dart';
 import 'package:mes_kart/Bloc/Signup/meskartSignup_bloc.dart';
 import 'package:mes_kart/Bloc/addAddress/add_address_bloc.dart';
 import 'package:mes_kart/Bloc/createSellerAc/create_seller_ac_bloc.dart';
+import 'package:mes_kart/Bloc/deleteAddress/delete_address_bloc.dart';
 import 'package:mes_kart/Bloc/profileAddressBloc/profile_address_bloc.dart';
 import 'Ui/splash_screen.dart';
 
@@ -41,7 +42,8 @@ class MyApp extends StatelessWidget {
               BlocProvider(create: (context) => ResetprflBloc()),
               BlocProvider(create: (context) => CreateSellerAcBloc()),
               BlocProvider(create: (context) => AddAddressBloc()),
-              BlocProvider(create: (context) => ProfileAddressBloc())
+              BlocProvider(create: (context) => ProfileAddressBloc()),
+              BlocProvider(create: (context) => DeleteAddressBloc())
             ],
             child: MaterialApp(
               debugShowCheckedModeBanner: false,

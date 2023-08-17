@@ -48,7 +48,7 @@ class User {
         deliveryAddresses?.add(DeliveryAddresses.fromJson(v));
       });
     }
-    image = json['image'] != null ? Image.fromJson(json['image']) : null;
+    image = json['image'] != null ? Image1.fromJson(json['image']) : null;
     refreshToken = json['refreshToken'];
     createdAt = json['createdAt'] != null ? CreatedAt.fromJson(json['createdAt']) : null;
     updatedAt = json['UpdatedAt'] != null ? UpdatedAt.fromJson(json['UpdatedAt']) : null;
@@ -62,7 +62,7 @@ class User {
   bool? blocked;
   Seller? seller;
   List<DeliveryAddresses>? deliveryAddresses;
-  Image? image;
+  Image1? image;
   String? refreshToken;
   CreatedAt? createdAt;
   UpdatedAt? updatedAt;
@@ -139,12 +139,12 @@ class CreatedAt {
 
 }
 
-class Image {
-  Image({
+class Image1 {
+  Image1({
       this.name, 
       this.url,});
 
-  Image.fromJson(dynamic json) {
+  Image1.fromJson(dynamic json) {
     name = json['name'];
     url = json['url'];
   }

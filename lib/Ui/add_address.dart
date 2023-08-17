@@ -4,6 +4,7 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:mes_kart/Bloc/addAddress/add_address_bloc.dart';
 
+import '../Bloc/profileAddressBloc/profile_address_bloc.dart';
 import 'Widget/address_type.dart';
 import 'Widget/toast_message.dart';
 
@@ -425,6 +426,7 @@ class _AddDeliveryAdressState extends State<AddDeliveryAdress> {
 
                       }
                       if (state is AddAddressBlocLoaded) {
+                        BlocProvider.of<ProfileAddressBloc>(context).add(FetchProfileAddress());
                         Navigator.of(context).pop();
                        print("loaded");
                       }

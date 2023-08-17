@@ -105,6 +105,13 @@ class meskartApi{
 
     return ProfileAddressModelclass.fromJson(jsonDecode(response.body));
   }
+  getDeleteAddress(String addressId) async {
+    String trendingpath = '/user/remove-delivery-address/$addressId';
+    var body = {
+    };
+    Response response = await apiClient.invokeAPI(
+        trendingpath, 'DELETE', jsonEncode(body));
+  }
 
 
 }

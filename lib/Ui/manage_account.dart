@@ -6,9 +6,18 @@ import 'package:mes_kart/Bloc/Resetprfl/resetprfl_bloc.dart';
 import 'package:mes_kart/Bloc/Resetpswd/resetpswd_bloc.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
+import '../Bloc/profileAddressBloc/profile_address_bloc.dart';
+
 
 class ManageAccount extends StatefulWidget {
-  const ManageAccount({super.key});
+  final String UserName;
+  final String number;
+  final String emailAddress;
+
+  const ManageAccount({super.key,
+  required this.UserName,
+  required this.number,
+  required this.emailAddress});
 
   @override
   State<ManageAccount> createState() => _ManageAccountState();
@@ -42,7 +51,9 @@ class _ManageAccountState extends State<ManageAccount> {
 
   @override
   void initState() {
-    getProfile();
+   username.text =widget.UserName;
+   phone.text = widget.number;
+   email.text = widget.emailAddress;
     super.initState();
   }
 
@@ -64,7 +75,10 @@ class _ManageAccountState extends State<ManageAccount> {
         toolbarHeight: mheight * 0.085,
         titleSpacing: 0,
         leading: IconButton(
-            onPressed: () => Navigator.of(context).pop(),
+            onPressed: () {
+              BlocProvider.of<ProfileAddressBloc>(context).add(FetchProfileAddress());
+              Navigator.of(context).pop();
+            },
             icon: Icon(
               Icons.arrow_back,
               color: Colors.black,
@@ -139,6 +153,7 @@ class _ManageAccountState extends State<ManageAccount> {
                                                     print("error");
                                                   }
                                                   if (state is ResetprflBlocLoaded) {
+                                                    BlocProvider.of<ProfileAddressBloc>(context).add(FetchProfileAddress());
                                                     updatePhone(phone.text);
                                                     Navigator.of(context).pop();
                                                     print("updated");
@@ -211,6 +226,7 @@ class _ManageAccountState extends State<ManageAccount> {
                                           print("error");
                                         }
                                         if (state is ResetprflBlocLoaded) {
+                                          BlocProvider.of<ProfileAddressBloc>(context).add(FetchProfileAddress());
                                           updateUsername(username.text,);
                                           Navigator.of(context).pop();
                                           print("updated");
@@ -276,6 +292,7 @@ class _ManageAccountState extends State<ManageAccount> {
                                           print("error");
                                         }
                                         if (state is ResetprflBlocLoaded) {
+                                          BlocProvider.of<ProfileAddressBloc>(context).add(FetchProfileAddress());
                                           updateEmail(email.text);
                                           Navigator.of(context).pop();
                                           print("updated");
@@ -531,15 +548,15 @@ class _ManageAccountState extends State<ManageAccount> {
     );
   }
 
-  getProfile() async {
-    final SharedPreferences prefs = await SharedPreferences.getInstance();
-    setState(() {
-      name = prefs.getString("UserName").toString();
-      phoneno = prefs.getString("Phone").toString();
-      emailadd = prefs.getString("Email").toString();
-    });
-
-  }
+  // getProfile() async {
+  //   final SharedPreferences prefs = await SharedPreferences.getInstance();
+  //   setState(() {
+  //     name = prefs.getString("UserName").toString();
+  //     phoneno = prefs.getString("Phone").toString();
+  //     emailadd = prefs.getString("Email").toString();
+  //   });
+  //
+  // }
 
   updateUsername(String newName) async {
     final SharedPreferences prefs = await SharedPreferences.getInstance();

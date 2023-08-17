@@ -10,9 +10,9 @@ class ApiClient {
     Map<String, String> headerParams = {};
     Response response;
     final SharedPreferences prefs = await SharedPreferences.getInstance();
-    final String token=prefs.getString('Token').toString();
+    final String token = prefs.getString('Token').toString();
 
-    String url =basePath+path;
+    String url = basePath + path;
     print(url);
 
     final nullableHeaderParams = (headerParams.isEmpty) ? null : headerParams;
@@ -22,8 +22,7 @@ class ApiClient {
         response = await post(Uri.parse(url),
             headers: {
               'content-Type': 'application/json',
-              'Authorization' : 'Bearer $token'
-
+              'Authorization': 'Bearer $token'
             },
             body: body);
 
@@ -32,12 +31,15 @@ class ApiClient {
         response = await put(Uri.parse(url),
             headers: {
               'content-Type': 'application/json',
-              'Authorization' : 'Bearer $token'
+              'Authorization': 'Bearer $token'
             },
             body: body);
         break;
       case "DELETE":
-        response = await delete(Uri.parse(url), headers: {}, body: body);
+        response = await delete(Uri.parse(url), headers: {
+          'content-Type': 'application/json',
+          'Authorization': 'Bearer $token'
+        }, body: body);
         break;
       case "POST_":
         response = await post(
@@ -49,8 +51,7 @@ class ApiClient {
       case "GET_":
         response = await post(
           Uri.parse(url),
-          headers: {
-          },
+          headers: {},
           body: body,
         );
         break;
@@ -58,9 +59,8 @@ class ApiClient {
         response = await get(
           Uri.parse(url),
           headers: {
-            'X-RapidAPI-Key': '9f4bf0efe4msh407f363a67629c6p1ec976jsn1c442384745a',
-            'X-RapidAPI-Host': 'spotify23.p.rapidapi.com',
-            'Authorization' : 'Bearer $token'
+            'content-Type': 'application/json',
+            'Authorization': 'Bearer $token'
           },
         );
 
@@ -69,8 +69,8 @@ class ApiClient {
         response = await patch(
           Uri.parse(url),
           headers: {
-        'content-Type': 'application/json',
-            'Authorization' : 'Bearer $token'
+            'content-Type': 'application/json',
+            'Authorization': 'Bearer $token'
           },
           body: body,
         );
