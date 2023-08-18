@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:mes_kart/Ui/Sell/sell.dart';
 import 'package:mes_kart/Ui/splash_screen.dart';
 
 import 'changepin.dart';
@@ -137,56 +138,60 @@ class _SellerHomeState extends State<SellerHome> {
               ],
             ),
           ),
-          Container(
-            margin: EdgeInsets.only(left: 20.w, right: 20.w,bottom: 15.h),
-            width: 335.w,
-            height: 80.h,
-            decoration: BoxDecoration(
-              color: Colors.white,
-              boxShadow: [
-                BoxShadow(
-                  color: Color(0x338A959E),
-                  blurRadius: 40.r,
-                  offset: Offset(0, 7),
-                  spreadRadius: 0,
-                )
-              ],
-            ),
-            child: Row(
-              children: [
-                Column(crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
-                    Padding(
-                      padding: EdgeInsets.only(left: 20.w, right: 250.w, top: 19.h,bottom: 5.h),
-                      child: Text(
-                        'Sell',
-                        style: GoogleFonts.lato(
-                            textStyle: TextStyle(
-                              color: Color(0xFF232323),
-                              fontSize: 18.sp,
-                              fontWeight: FontWeight.w700,
-                            )),
-                      ),
-                    ),Padding(
-                      padding:EdgeInsets.only(left: 20.w,bottom: 17.h),
-                      child: Text(
-                        'Sell your products',
-                        textAlign: TextAlign.justify,
-                        style: TextStyle(
-                          color: Color(0xFF808080),
-                          fontSize: 12.sp,
-                          fontWeight: FontWeight.w400,
-                          height: 1.25.h,
+          GestureDetector(onTap: (){
+            Navigator.of(context).push(MaterialPageRoute(builder: (_)=>Sell()));
+          },
+            child: Container(
+              margin: EdgeInsets.only(left: 20.w, right: 20.w,bottom: 15.h),
+              width: 335.w,
+              height: 80.h,
+              decoration: BoxDecoration(
+                color: Colors.white,
+                boxShadow: [
+                  BoxShadow(
+                    color: Color(0x338A959E),
+                    blurRadius: 40.r,
+                    offset: Offset(0, 7),
+                    spreadRadius: 0,
+                  )
+                ],
+              ),
+              child: Row(
+                children: [
+                  Column(crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      Padding(
+                        padding: EdgeInsets.only(left: 20.w, right: 250.w, top: 19.h,bottom: 5.h),
+                        child: Text(
+                          'Sell',
+                          style: GoogleFonts.lato(
+                              textStyle: TextStyle(
+                                color: Color(0xFF232323),
+                                fontSize: 18.sp,
+                                fontWeight: FontWeight.w700,
+                              )),
                         ),
-                      ),
-                    )
-                  ],
-                ),
-                Icon(
-                  Icons.arrow_forward_ios_sharp,
-                  color: Colors.black,size: 20.sp,
-                )
-              ],
+                      ),Padding(
+                        padding:EdgeInsets.only(left: 20.w,bottom: 17.h),
+                        child: Text(
+                          'Sell your products',
+                          textAlign: TextAlign.justify,
+                          style: TextStyle(
+                            color: Color(0xFF808080),
+                            fontSize: 12.sp,
+                            fontWeight: FontWeight.w400,
+                            height: 1.25.h,
+                          ),
+                        ),
+                      )
+                    ],
+                  ),
+                  Icon(
+                    Icons.arrow_forward_ios_sharp,
+                    color: Colors.black,size: 20.sp,
+                  )
+                ],
+              ),
             ),
           ),
           Container(

@@ -5,6 +5,7 @@ import 'package:google_fonts/google_fonts.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import '../Bloc/profileAddressBloc/profile_address_bloc.dart';
 import '../Repository/modelclass/profileAddressModelclass.dart';
+import 'add_address.dart';
 import 'address.dart';
 import 'bottom_navigation.dart';
 import 'login_screen.dart';
@@ -142,7 +143,7 @@ class _ProfileState extends State<Profile> {
                                 ? IconButton(
                                     onPressed: () => Navigator.of(context).push(
                                         MaterialPageRoute(
-                                            builder: (_) =>  Address(user: address,))),
+                                            builder: (_) =>  AddDeliveryAdress())),
                                     icon: Icon(
                                       Icons.add_location_alt,
                                       color: Colors.black,
@@ -179,7 +180,7 @@ class _ProfileState extends State<Profile> {
                                         onPressed: () => Navigator.of(context)
                                             .push(MaterialPageRoute(
                                                 builder: (_) =>
-                                                     Address(user: address,))),
+                                                     Address())),
                                         child: Container(
                                           margin: EdgeInsets.only(top: 10.h),
                                           width: 20.w,

@@ -1,8 +1,11 @@
 import 'package:animated_text_kit/animated_text_kit.dart';
 import 'package:flutter/material.dart';
 import 'package:carousel_slider/carousel_slider.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:mes_kart/Bloc/homeProducts/home_products_bloc.dart';
+import 'package:mes_kart/Repository/modelclass/homeProductsModelclass.dart';
 import 'package:mes_kart/Ui/selected_product.dart';
 
 
@@ -12,7 +15,7 @@ class Home extends StatefulWidget {
   @override
   State<Home> createState() => _HomeState();
 }
-
+late HomeProductsModelclass products;
 class _HomeState extends State<Home> with SingleTickerProviderStateMixin {
   int _activeindex = 0;
   final _controller = CarouselController();
@@ -21,11 +24,13 @@ class _HomeState extends State<Home> with SingleTickerProviderStateMixin {
 
   @override
   void initState() {
+    BlocProvider.of<HomeProductsBloc>(context).add(FetchHomeProducts());
     super.initState();
     _tabcontroller = TabController(length: 4, vsync: this, initialIndex: 0);
   }
 
   @override
+
   Widget build(BuildContext context) {
     var mwidth = MediaQuery
         .of(context)
@@ -51,29 +56,28 @@ class _HomeState extends State<Home> with SingleTickerProviderStateMixin {
               Row(
                 children: [
                   Padding(
-                    padding:EdgeInsets.only(left: 20.w,right: 210.w),
+                    padding: EdgeInsets.only(left: 20.w, right: 210.w),
                     child: AnimatedTextKit(
                       animatedTexts: [
                         WavyAnimatedText('MES Cart',
                             textStyle: GoogleFonts.lato(
-                                textStyle:TextStyle(
+                                textStyle: TextStyle(
                                     color: Color(0xFFFF4400),
-                                    fontSize: 20.sp,fontWeight: FontWeight.w600
+                                    fontSize: 20.sp, fontWeight: FontWeight.w600
                                 ))),
                       ],
                       repeatForever: true,
                     ),
                   ),
                   IconButton(
-                      onPressed: (){},
+                      onPressed: () {},
                       icon: Icon(Icons.shopping_cart))
                 ],
               ),
 
               Center(
                 child: GestureDetector(
-                  onTap: ()
-                  {},
+                  onTap: () {},
                   child: Container(
                     width: mwidth * 0.95,
                     height: mheight * 0.065,
@@ -217,91 +221,113 @@ class _HomeState extends State<Home> with SingleTickerProviderStateMixin {
     final double itemWidth = 45.w;
     return Padding(
       padding: EdgeInsets.symmetric(horizontal: 15.w),
-      child: GridView.builder(
-        physics: ScrollPhysics(),
-        itemCount: 7,
-        // to disable GridView's scrolling
-        shrinkWrap: true,
-        gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
-          crossAxisCount: 2,
-          childAspectRatio: (itemWidth / itemHeight),
-          crossAxisSpacing: 10.w,
-          mainAxisSpacing: 13.w,
-        ),
-        itemBuilder: (context, index) {
-          return GestureDetector(
-            onTap: () =>
-                Navigator.of(context).push(
-                  MaterialPageRoute(builder: (_) => SelectedProduct()),
-                ),
-            child: Container(
-              width: double.infinity,
-              height: double.infinity,
-              child: Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  Container(
-                    height: 185.h,
-                    width: double.infinity,
-                    decoration: BoxDecoration(
-                      borderRadius: BorderRadius.circular(16.r),
-                    ),
-                    child: ClipRRect(
-                      borderRadius: BorderRadius.circular(16.r),
-                      child: Image.asset(
-                        "assets/grid.png",
-                        fit: BoxFit.cover,
-                      ),
-                    ),
-                  ),
-                  SizedBox(height: 11.h),
-                  Padding(
-                    padding: EdgeInsets.only(left: 5.w),
-                    child: Column(
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      children: [
-                        Text(
-                          'Printed T-Shirt',
-                          style: GoogleFonts.lato(
-                            textStyle: TextStyle(
-                              color: Colors.black,
-                              fontSize: 14.sp,
-                              fontWeight: FontWeight.w400,
-                              height: 1.h,
-                            ),
-                          ),
-                        ),
-                        SizedBox(height: 8.h),
-                        Text(
-                          'Item Description',
-                          style: GoogleFonts.lato(
-                            textStyle: TextStyle(
-                              color: Color(0xFF79747E),
-                              fontSize: 14.sp,
-                              fontWeight: FontWeight.w400,
-                              height: 1.h,
-                            ),
-                          ),
-                        ),
-                        SizedBox(height: 12.h),
-                        Text(
-                          '₹124',
-                          style: GoogleFonts.lato(
-                            textStyle: TextStyle(
-                              color: Colors.black,
-                              fontSize: 16.sp,
-                              fontWeight: FontWeight.w700,
-                              height: 1.h,
-                            ),
-                          ),
-                        ),
-                      ],
-                    ),
-                  ),
-                ],
-              ),
+      child: BlocBuilder<HomeProductsBloc, HomeProductsState>(
+        builder: (context, state) {
+
+        if (state is HomeProductsBlocLoading) {
+          return CircularProgressIndicator();
+
+        }
+        if (state is HomeProductsBlocError) {
+          return Center(child: Text("Error"));
+        }
+
+        if (state is HomeProductsBlocLoaded) {
+
+          products = BlocProvider.of<HomeProductsBloc>(context)
+              .homeProductsModelclass;
+
+          return GridView.builder(
+            physics: ScrollPhysics(),
+            itemCount: products.data!.length,
+            // to disable GridView's scrolling
+            shrinkWrap: true,
+            gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
+              crossAxisCount: 2,
+              childAspectRatio: (itemWidth / itemHeight),
+              crossAxisSpacing: 10.w,
+              mainAxisSpacing: 13.w,
             ),
+            itemBuilder: (context, index) {
+              return GestureDetector(
+                onTap: () =>
+                    Navigator.of(context).push(
+                      MaterialPageRoute(builder: (_) => SelectedProduct()),
+                    ),
+                child: Container(
+                  width: double.infinity,
+                  height: double.infinity,
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      Container(
+                        height: 185.h,
+                        width: double.infinity,
+                        decoration: BoxDecoration(
+                          borderRadius: BorderRadius.circular(16.r),
+                        ),
+                        child: ClipRRect(
+                          borderRadius: BorderRadius.circular(16.r),
+                          child:products.data![index].image==null ?Image.asset("assets/empty.png",
+                            fit: BoxFit.cover,) :
+                          Image.network(products.data![index].image![index].url.toString(),
+                              fit: BoxFit.cover
+                          ),
+                        ),
+                      ),
+                      SizedBox(height: 11.h),
+                      Padding(
+                        padding: EdgeInsets.only(left: 5.w),
+                        child: Column(
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          children: [
+                            Text(
+                              "${products.data![index].name}",
+                              style: GoogleFonts.lato(
+                                textStyle: TextStyle(
+                                  color: Colors.black,
+                                  fontSize: 14.sp,
+                                  fontWeight: FontWeight.w400,
+                                  height: 1.h,
+                                ),
+                              ),
+                            ),
+                            SizedBox(height: 8.h),
+                            Text(
+                              "${products.data![index].description}",
+                              style: GoogleFonts.lato(
+                                textStyle: TextStyle(
+                                  color: Color(0xFF79747E),
+                                  fontSize: 14.sp,
+                                  fontWeight: FontWeight.w400,
+                                  height: 1.h,
+                                ),
+                              ),
+                            ),
+                            SizedBox(height: 12.h),
+                            Text(
+                              "${products.data![index].price}",
+                              style: GoogleFonts.lato(
+                                textStyle: TextStyle(
+                                  color: Colors.black,
+                                  fontSize: 16.sp,
+                                  fontWeight: FontWeight.w700,
+                                  height: 1.h,
+                                ),
+                              ),
+                            ),
+                          ],
+                        ),
+                      ),
+                    ],
+                  ),
+                ),
+              );
+            },
           );
+        } else {
+          return SizedBox();
+        }
         },
       ),
     );

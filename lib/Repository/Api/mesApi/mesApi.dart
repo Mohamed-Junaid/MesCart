@@ -2,6 +2,8 @@ import 'dart:convert';
 
 
 import 'package:http/http.dart';
+import 'package:mes_kart/Repository/modelclass/productCategoryModelclass.dart';
+import 'package:mes_kart/Repository/modelclass/homeProductsModelclass.dart';
 
 
 
@@ -112,6 +114,22 @@ class meskartApi{
     Response response = await apiClient.invokeAPI(
         trendingpath, 'DELETE', jsonEncode(body));
   }
+  Future<ProductCategoryModelclass> getProductCategory() async {
+    String trendingpath = '/categories/all';
+    var body = {
+    };
+    Response response = await apiClient.invokeAPI(trendingpath, 'GET', jsonEncode(body));
 
+    return ProductCategoryModelclass.fromJson(jsonDecode(response.body));
+  }
+  Future<HomeProductsModelclass> getHomeProducts() async {
+    String trendingpath = '/product/all?page=1&limit=10';
+    var body = {
+    };
+    Response response = await apiClient.invokeAPI(
+        trendingpath, 'GET', jsonEncode(body));
+
+    return HomeProductsModelclass.fromJson(jsonDecode(response.body));
+  }
 
 }

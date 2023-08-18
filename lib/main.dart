@@ -9,7 +9,9 @@ import 'package:mes_kart/Bloc/Signup/meskartSignup_bloc.dart';
 import 'package:mes_kart/Bloc/addAddress/add_address_bloc.dart';
 import 'package:mes_kart/Bloc/createSellerAc/create_seller_ac_bloc.dart';
 import 'package:mes_kart/Bloc/deleteAddress/delete_address_bloc.dart';
+import 'package:mes_kart/Bloc/homeProducts/home_products_bloc.dart';
 import 'package:mes_kart/Bloc/profileAddressBloc/profile_address_bloc.dart';
+import 'Bloc/productCategory/product_category_bloc.dart';
 import 'Ui/splash_screen.dart';
 
 const String basePath = 'http://62.72.12.251:9999/api';
@@ -43,7 +45,9 @@ class MyApp extends StatelessWidget {
               BlocProvider(create: (context) => CreateSellerAcBloc()),
               BlocProvider(create: (context) => AddAddressBloc()),
               BlocProvider(create: (context) => ProfileAddressBloc()),
-              BlocProvider(create: (context) => DeleteAddressBloc())
+              BlocProvider(create: (context) => DeleteAddressBloc()),
+              BlocProvider(create: (context) => ProductCategoryBloc()),
+              BlocProvider(create: (context) => HomeProductsBloc()),
             ],
             child: MaterialApp(
               debugShowCheckedModeBanner: false,
