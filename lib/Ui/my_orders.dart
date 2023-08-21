@@ -3,6 +3,8 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:mes_kart/Ui/selected_product.dart';
 
+import 'home.dart';
+
 class MyOrders extends StatefulWidget {
   const MyOrders({super.key});
 
@@ -51,7 +53,10 @@ class _MyOrdersState extends State<MyOrders> {
                     itemCount: 2,
                     itemBuilder: (BuildContext context, int index) {
                       return GestureDetector(onTap: ()=> Navigator.of(context)
-                          .push(MaterialPageRoute(builder: (_) => SelectedProduct())),
+                          .push(MaterialPageRoute(builder: (_) => SelectedProduct(productName: products.data![index].name??" ",
+                        productId: products.data![index].id, price: products.data![index].price.toString(),
+                        description: products.data![index].description.toString(), image: products.data![index].image==null ?Image.asset("assets/empty.png",) :
+                        Image.network(products.data![index].image![0].url.toString(),),))),
                         child: SizedBox(
                           height: 150.h,
                           child: Column(

@@ -6,8 +6,9 @@ import 'package:smooth_page_indicator/smooth_page_indicator.dart';
 
 
 class Selected_Product_Slider extends StatefulWidget {
+  final images;
 
-  const Selected_Product_Slider({Key? key,})
+  const Selected_Product_Slider({Key? key, required this.images,})
       : super(key: key);
 
   @override
@@ -32,10 +33,9 @@ class _Selected_Product_SliderState extends State<Selected_Product_Slider> {
               return Container(
                 width: width,
                 height: height,
-                child: Image.asset(
-                  'assets/grid.png',
-                  fit: BoxFit.contain,
-                )
+                child: widget.images,
+
+
               );
             },
             carouselController: _controller,

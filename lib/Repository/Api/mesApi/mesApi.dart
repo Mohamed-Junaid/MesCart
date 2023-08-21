@@ -2,6 +2,7 @@ import 'dart:convert';
 
 
 import 'package:http/http.dart';
+import 'package:mes_kart/Repository/modelclass/CartPageModelclass.dart';
 import 'package:mes_kart/Repository/modelclass/productCategoryModelclass.dart';
 import 'package:mes_kart/Repository/modelclass/homeProductsModelclass.dart';
 
@@ -132,4 +133,33 @@ class meskartApi{
     return HomeProductsModelclass.fromJson(jsonDecode(response.body));
   }
 
-}
+  getAddtoCart (String productId,int quanity)async{
+    String trendingpath = '/cart/add-to-cart';
+    var body = {
+      "product_id":productId,
+      "quantity": quanity
+    };
+    Response response = await apiClient.invokeAPI(
+        trendingpath, 'POST', jsonEncode(body));
+  }
+  getCartPage ()async{
+    String trendingpath = '/cart/get';
+    var body = {};
+    Response response = await apiClient.invokeAPI(
+        trendingpath, 'GET', jsonEncode(body));
+    return CartPageModelclass.fromJson(jsonDecode(response.body));
+  }
+  getDeleteCartProduct(String productId) async {
+    String trendingpath = '/cart/delete/$productId';
+    var body = {
+    };
+    Response response = await apiClient.invokeAPI(
+        trendingpath, 'DELETE', jsonEncode(body));
+  }
+
+
+
+
+  }
+
+

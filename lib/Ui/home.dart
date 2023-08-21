@@ -8,6 +8,8 @@ import 'package:mes_kart/Bloc/homeProducts/home_products_bloc.dart';
 import 'package:mes_kart/Repository/modelclass/homeProductsModelclass.dart';
 import 'package:mes_kart/Ui/selected_product.dart';
 
+import 'cart.dart';
+
 
 class Home extends StatefulWidget {
   const Home({super.key});
@@ -70,7 +72,9 @@ class _HomeState extends State<Home> with SingleTickerProviderStateMixin {
                     ),
                   ),
                   IconButton(
-                      onPressed: () {},
+                      onPressed: () {
+                        Navigator.of(context).push(MaterialPageRoute(builder: (_)=>CartPage()));
+                      },
                       icon: Icon(Icons.shopping_cart))
                 ],
               ),
@@ -153,13 +157,16 @@ class _HomeState extends State<Home> with SingleTickerProviderStateMixin {
                             .width;
                         return GestureDetector(onTap: () =>
                             Navigator.of(context).push(MaterialPageRoute(
-                                builder: (_) => SelectedProduct())),
+                                builder: (_) => SelectedProduct(productName: products.data![index].name??" ",
+                                  productId: products.data![index].id, price: products.data![index].price.toString(),
+                                  description: products.data![index].description.toString(), image: products.data![index].image==null ?Image.asset("assets/empty.png",) :
+                                  Image.network(products.data![index].image![0].url.toString(),),))),
                           child: Container(
                             height: height,
                             width: width,
                             decoration: BoxDecoration(
                               borderRadius: BorderRadius.circular(9.r),
-                              image: DecorationImage(
+                              image: const DecorationImage(
                                 image: AssetImage('assets/add.jpg'),
                                 fit: BoxFit.cover,
                               ),
@@ -252,7 +259,10 @@ class _HomeState extends State<Home> with SingleTickerProviderStateMixin {
               return GestureDetector(
                 onTap: () =>
                     Navigator.of(context).push(
-                      MaterialPageRoute(builder: (_) => SelectedProduct()),
+                      MaterialPageRoute(builder: (_) => SelectedProduct(productName: products.data![index].name??" ",
+                        productId: products.data![index].id, price: products.data![index].price.toString(),
+                        description: products.data![index].description.toString(),image: products.data![index].image==null ?Image.asset("assets/empty.png",) :
+                          Image.network(products.data![index].image![0].url.toString(),) )),
                     ),
                 child: Container(
                   width: double.infinity,
@@ -270,7 +280,7 @@ class _HomeState extends State<Home> with SingleTickerProviderStateMixin {
                           borderRadius: BorderRadius.circular(16.r),
                           child:products.data![index].image==null ?Image.asset("assets/empty.png",
                             fit: BoxFit.cover,) :
-                          Image.network(products.data![index].image![index].url.toString(),
+                          Image.network(products.data![index].image![0].url.toString(),
                               fit: BoxFit.cover
                           ),
                         ),
@@ -282,7 +292,7 @@ class _HomeState extends State<Home> with SingleTickerProviderStateMixin {
                           crossAxisAlignment: CrossAxisAlignment.start,
                           children: [
                             Text(
-                              "${products.data![index].name}",
+                            products.data![index].name??" ",
                               style: GoogleFonts.lato(
                                 textStyle: TextStyle(
                                   color: Colors.black,
@@ -293,8 +303,7 @@ class _HomeState extends State<Home> with SingleTickerProviderStateMixin {
                               ),
                             ),
                             SizedBox(height: 8.h),
-                            Text(
-                              "${products.data![index].description}",
+                            Text(products.data![index].description.toString()??" ",
                               style: GoogleFonts.lato(
                                 textStyle: TextStyle(
                                   color: Color(0xFF79747E),
@@ -306,7 +315,7 @@ class _HomeState extends State<Home> with SingleTickerProviderStateMixin {
                             ),
                             SizedBox(height: 12.h),
                             Text(
-                              "${products.data![index].price}",
+                              products.data![index].price.toString()??" ",
                               style: GoogleFonts.lato(
                                 textStyle: TextStyle(
                                   color: Colors.black,
