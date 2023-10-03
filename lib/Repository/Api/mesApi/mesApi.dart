@@ -3,12 +3,15 @@ import 'dart:convert';
 
 import 'package:http/http.dart';
 import 'package:mes_kart/Repository/modelclass/CartPageModelclass.dart';
+import 'package:mes_kart/Repository/modelclass/getAproductModelclass.dart';
 import 'package:mes_kart/Repository/modelclass/productCategoryModelclass.dart';
 import 'package:mes_kart/Repository/modelclass/homeProductsModelclass.dart';
+import 'package:mes_kart/Ui/Sell/sell.dart';
 
 
 
 
+import '../../modelclass/BannerModelclass.dart';
 import '../../modelclass/mesSigninModelclass.dart';
 import '../../modelclass/mesSignupModelclass.dart';
 import '../../modelclass/profileAddressModelclass.dart';
@@ -156,7 +159,23 @@ class meskartApi{
     Response response = await apiClient.invokeAPI(
         trendingpath, 'DELETE', jsonEncode(body));
   }
+  Future<BannerModelclass>  getBanners ()async{
+    String trendingpath = '/banner/all';
+    var body = {};
+    Response response = await apiClient.invokeAPI(
+        trendingpath, 'GET', jsonEncode(body));
+    return  BannerModelclass.fromJson(jsonDecode(response.body));
+  }
+  Future<GetAproductModelclass> getAproduct (String ProductId)async{
 
+    String trendingpath = '/product/$ProductId';
+    var body = {
+
+    };
+    Response response = await apiClient.invokeAPI(
+        trendingpath, 'GET', jsonEncode(body));
+    return  GetAproductModelclass.fromJson(jsonDecode(response.body));
+  }
 
 
 

@@ -4,12 +4,15 @@ import 'package:carousel_slider/carousel_slider.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:mes_kart/Bloc/banners/banner_bloc.dart';
 import 'package:mes_kart/Bloc/homeProducts/home_products_bloc.dart';
+
 import 'package:mes_kart/Repository/modelclass/homeProductsModelclass.dart';
 import 'package:mes_kart/Ui/selected_product.dart';
 
-import 'cart.dart';
 
+import '../Repository/modelclass/BannerModelclass.dart';
+import 'cart.dart';
 
 class Home extends StatefulWidget {
   const Home({super.key});
@@ -17,7 +20,10 @@ class Home extends StatefulWidget {
   @override
   State<Home> createState() => _HomeState();
 }
+
 late HomeProductsModelclass products;
+late BannerModelclass banner;
+
 class _HomeState extends State<Home> with SingleTickerProviderStateMixin {
   int _activeindex = 0;
   final _controller = CarouselController();
@@ -27,21 +33,15 @@ class _HomeState extends State<Home> with SingleTickerProviderStateMixin {
   @override
   void initState() {
     BlocProvider.of<HomeProductsBloc>(context).add(FetchHomeProducts());
+    BlocProvider.of<BannerBloc>(context).add(FetchBanner());
     super.initState();
     _tabcontroller = TabController(length: 4, vsync: this, initialIndex: 0);
   }
 
   @override
-
   Widget build(BuildContext context) {
-    var mwidth = MediaQuery
-        .of(context)
-        .size
-        .width;
-    var mheight = MediaQuery
-        .of(context)
-        .size
-        .height;
+    var mwidth = MediaQuery.of(context).size.width;
+    var mheight = MediaQuery.of(context).size.height;
     return Scaffold(
       appBar: AppBar(
         toolbarHeight: 0,
@@ -65,20 +65,20 @@ class _HomeState extends State<Home> with SingleTickerProviderStateMixin {
                             textStyle: GoogleFonts.lato(
                                 textStyle: TextStyle(
                                     color: Color(0xFFFF4400),
-                                    fontSize: 20.sp, fontWeight: FontWeight.w600
-                                ))),
+                                    fontSize: 20.sp,
+                                    fontWeight: FontWeight.w600))),
                       ],
                       repeatForever: true,
                     ),
                   ),
                   IconButton(
                       onPressed: () {
-                        Navigator.of(context).push(MaterialPageRoute(builder: (_)=>CartPage()));
+                        Navigator.of(context).push(
+                            MaterialPageRoute(builder: (_) => CartPage()));
                       },
                       icon: Icon(Icons.shopping_cart))
                 ],
               ),
-
               Center(
                 child: GestureDetector(
                   onTap: () {},
@@ -108,12 +108,12 @@ class _HomeState extends State<Home> with SingleTickerProviderStateMixin {
                             width: mwidth * 0.57,
                             child: Center(
                                 child: Text(
-                                  'Search by keyword or Brand',
-                                  style: TextStyle(
-                                      color: Color(0xffA5A5A5),
-                                      fontSize: 16,
-                                      fontWeight: FontWeight.w400),
-                                ))),
+                              'Search by keyword or Brand',
+                              style: TextStyle(
+                                  color: Color(0xffA5A5A5),
+                                  fontSize: 16,
+                                  fontWeight: FontWeight.w400),
+                            ))),
                         SizedBox(
                           width: mwidth * 0.093,
                         ),
@@ -145,47 +145,63 @@ class _HomeState extends State<Home> with SingleTickerProviderStateMixin {
                   SizedBox(
                     height: 3.h,
                   ),
-                  SizedBox(
-                    height: 192.h,
-                    child: CarouselSlider.builder(
-                      itemCount: 3,
-                      itemBuilder: (context, index, realindex) {
-                        var height = 170.h;
-                        var width = MediaQuery
-                            .of(context)
-                            .size
-                            .width;
-                        return GestureDetector(onTap: () =>
-                            Navigator.of(context).push(MaterialPageRoute(
-                                builder: (_) => SelectedProduct(productName: products.data![index].name??" ",
-                                  productId: products.data![index].id, price: products.data![index].price.toString(),
-                                  description: products.data![index].description.toString(), image: products.data![index].image==null ?Image.asset("assets/empty.png",) :
-                                  Image.network(products.data![index].image![0].url.toString(),),))),
-                          child: Container(
-                            height: height,
-                            width: width,
-                            decoration: BoxDecoration(
-                              borderRadius: BorderRadius.circular(9.r),
-                              image: const DecorationImage(
-                                image: AssetImage('assets/add.jpg'),
-                                fit: BoxFit.cover,
+                  BlocBuilder<BannerBloc, BannerState>(
+                      builder: (context, state) {
+                    if (state is BannerBlocLoading) {
+                      return CircularProgressIndicator();
+                    }
+                    if (state is BannerBlocError) {
+                      return Center(child: Text("Error"));
+                    }
+
+                    if (state is BannerBlocLoaded) {
+
+                      banner = BlocProvider.of<BannerBloc>(context).bannerModelclass;
+
+                      return SizedBox(
+                        height: 192.h,
+                        child: CarouselSlider.builder(
+                          itemCount: banner.banners!.length,
+                          itemBuilder: (context, index, realindex) {
+                            var height = 170.h;
+                            var width = MediaQuery.of(context).size.width;
+                            return GestureDetector(
+                              onTap: () =>
+                                  Navigator.of(context).push(
+                                  MaterialPageRoute(
+                                      builder: (_) => SelectedProduct(productId: banner.banners![index].productId.toString(),))),
+                              child: Container(
+                                height: height,
+                                width: width,
+                                decoration: BoxDecoration(
+                                  borderRadius: BorderRadius.circular(9.r),
+                                ),
+                                child: ClipRRect(
+                                  borderRadius: BorderRadius.circular(9.r),
+                                  child: Image.network(
+                                    banner.banners![index].image!.url.toString(),
+                                    fit: BoxFit.fill,
+                                  ),
+                                ),
                               ),
-                            ),
+                            );
+                          },
+                          carouselController: _controller,
+                          options: CarouselOptions(
+                            height: 170.h,
+                            enlargeCenterPage: true,
+                            autoPlay: true,
+                            aspectRatio: 16 / 9,
+                            enableInfiniteScroll: true,
+                            autoPlayAnimationDuration: Duration(milliseconds: 800),
+                            viewportFraction: 0.95,
                           ),
-                        );
-                      },
-                      carouselController: _controller,
-                      options: CarouselOptions(
-                        height: 170.h,
-                        enlargeCenterPage: true,
-                        autoPlay: true,
-                        aspectRatio: 16 / 9,
-                        enableInfiniteScroll: true,
-                        autoPlayAnimationDuration: Duration(milliseconds: 800),
-                        viewportFraction: 0.95,
-                      ),
-                    ),
-                  ),
+                        ) );
+                      
+                    } else {
+                      return SizedBox();
+                    }
+                  }),
                   SizedBox(
                     height: 7.h,
                   ),
@@ -197,7 +213,7 @@ class _HomeState extends State<Home> with SingleTickerProviderStateMixin {
                     unselectedLabelColor: Colors.black,
                     isScrollable: true,
                     labelPadding:
-                    EdgeInsets.symmetric(horizontal: mwidth * .060),
+                        EdgeInsets.symmetric(horizontal: mwidth * .060),
                     labelColor: Color(0xFFFF4400),
                     controller: _tabcontroller,
                     tabs: const [
@@ -230,113 +246,120 @@ class _HomeState extends State<Home> with SingleTickerProviderStateMixin {
       padding: EdgeInsets.symmetric(horizontal: 15.w),
       child: BlocBuilder<HomeProductsBloc, HomeProductsState>(
         builder: (context, state) {
+          if (state is HomeProductsBlocLoading) {
+            return CircularProgressIndicator();
+          }
+          if (state is HomeProductsBlocError) {
+            return Center(child: Text("Error"));
+          }
 
-        if (state is HomeProductsBlocLoading) {
-          return CircularProgressIndicator();
+          if (state is HomeProductsBlocLoaded) {
+            products = BlocProvider.of<HomeProductsBloc>(context)
+                .homeProductsModelclass;
 
-        }
-        if (state is HomeProductsBlocError) {
-          return Center(child: Text("Error"));
-        }
+            return GridView.builder(
+              physics: ScrollPhysics(),
+              itemCount: products.data!.length,
+              // to disable GridView's scrolling
+              shrinkWrap: true,
+              gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
+                crossAxisCount: 2,
+                childAspectRatio: (itemWidth / itemHeight),
+                crossAxisSpacing: 10.w,
+                mainAxisSpacing: 13.w,
+              ),
+              itemBuilder: (context, index) {
+                return GestureDetector(
+                  onTap: () => Navigator.of(context).push(
+                    MaterialPageRoute(
+                        builder: (_) => SelectedProduct(
 
-        if (state is HomeProductsBlocLoaded) {
+                            productId: products.data![index].id.toString(),
 
-          products = BlocProvider.of<HomeProductsBloc>(context)
-              .homeProductsModelclass;
-
-          return GridView.builder(
-            physics: ScrollPhysics(),
-            itemCount: products.data!.length,
-            // to disable GridView's scrolling
-            shrinkWrap: true,
-            gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
-              crossAxisCount: 2,
-              childAspectRatio: (itemWidth / itemHeight),
-              crossAxisSpacing: 10.w,
-              mainAxisSpacing: 13.w,
-            ),
-            itemBuilder: (context, index) {
-              return GestureDetector(
-                onTap: () =>
-                    Navigator.of(context).push(
-                      MaterialPageRoute(builder: (_) => SelectedProduct(productName: products.data![index].name??" ",
-                        productId: products.data![index].id, price: products.data![index].price.toString(),
-                        description: products.data![index].description.toString(),image: products.data![index].image==null ?Image.asset("assets/empty.png",) :
-                          Image.network(products.data![index].image![0].url.toString(),) )),
-                    ),
-                child: Container(
-                  width: double.infinity,
-                  height: double.infinity,
-                  child: Column(
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: [
-                      Container(
-                        height: 185.h,
-                        width: double.infinity,
-                        decoration: BoxDecoration(
-                          borderRadius: BorderRadius.circular(16.r),
-                        ),
-                        child: ClipRRect(
-                          borderRadius: BorderRadius.circular(16.r),
-                          child:products.data![index].image==null ?Image.asset("assets/empty.png",
-                            fit: BoxFit.cover,) :
-                          Image.network(products.data![index].image![0].url.toString(),
-                              fit: BoxFit.cover
+                                  )),
+                  ),
+                  child: Container(
+                    width: double.infinity,
+                    height: double.infinity,
+                    child: Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        Container(
+                          height: 185.h,
+                          width: double.infinity,
+                          decoration: BoxDecoration(
+                            borderRadius: BorderRadius.circular(16.r),
+                          ),
+                          child: ClipRRect(
+                            borderRadius: BorderRadius.circular(16.r),
+                            child: products.data![index].image == null
+                                ? Image.asset(
+                                    "assets/empty.png",
+                                    fit: BoxFit.cover,
+                                  )
+                                : Image.network(
+                                    products.data![index].image![0].url
+                                        .toString(),
+                                    fit: BoxFit.cover),
                           ),
                         ),
-                      ),
-                      SizedBox(height: 11.h),
-                      Padding(
-                        padding: EdgeInsets.only(left: 5.w),
-                        child: Column(
-                          crossAxisAlignment: CrossAxisAlignment.start,
-                          children: [
-                            Text(
-                            products.data![index].name??" ",
-                              style: GoogleFonts.lato(
-                                textStyle: TextStyle(
-                                  color: Colors.black,
-                                  fontSize: 14.sp,
-                                  fontWeight: FontWeight.w400,
-                                  height: 1.h,
+                        SizedBox(height: 11.h),
+                        Padding(
+                          padding: EdgeInsets.only(left: 5.w),
+                          child: Column(
+                            crossAxisAlignment: CrossAxisAlignment.start,
+                            children: [
+                              Text(
+                                products.data![index].name ?? " ",
+                                style: GoogleFonts.lato(
+                                  textStyle: TextStyle(
+                                    color: Colors.black,
+                                    fontSize: 14.sp,
+                                    fontWeight: FontWeight.w400,
+                                    height: 1.h,
+                                  ),
                                 ),
                               ),
-                            ),
-                            SizedBox(height: 8.h),
-                            Text(products.data![index].description.toString()??" ",
-                              style: GoogleFonts.lato(
-                                textStyle: TextStyle(
-                                  color: Color(0xFF79747E),
-                                  fontSize: 14.sp,
-                                  fontWeight: FontWeight.w400,
-                                  height: 1.h,
+                              SizedBox(height: 8.h),
+                              Text(
+                                products.data![index].description.toString() ??
+                                    " ",
+                                style: GoogleFonts.lato(
+                                  textStyle: TextStyle(
+                                    color: Color(0xFF79747E),
+                                    fontSize: 14.sp,
+                                    fontWeight: FontWeight.w400,
+                                    height: 1.h,
+                                  ),
+                                ),
+                                maxLines: 1,
+                                softWrap: true,
+                                overflow: TextOverflow.ellipsis,
+                              ),
+                              SizedBox(height: 12.h),
+                              Text(
+                                products.data![index].price.toString() ?? " ",
+                                style: GoogleFonts.lato(
+                                  textStyle: TextStyle(
+                                    color: Colors.black,
+                                    fontSize: 16.sp,
+                                    fontWeight: FontWeight.w700,
+                                    height: 1.h,
+                                  ),
                                 ),
                               ),
-                            ),
-                            SizedBox(height: 12.h),
-                            Text(
-                              products.data![index].price.toString()??" ",
-                              style: GoogleFonts.lato(
-                                textStyle: TextStyle(
-                                  color: Colors.black,
-                                  fontSize: 16.sp,
-                                  fontWeight: FontWeight.w700,
-                                  height: 1.h,
-                                ),
-                              ),
-                            ),
-                          ],
+                            ],
+                          ),
                         ),
-                      ),
-                    ],
+                      ],
+                    ),
                   ),
-                ),
-              );
-            },
-          );
-        } else {
-          return SizedBox();
-        }
+                );
+              },
+            );
+          } else {
+            return SizedBox();
+          }
         },
       ),
     );

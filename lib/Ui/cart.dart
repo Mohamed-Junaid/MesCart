@@ -87,29 +87,12 @@ class _CartPageState extends State<CartPage> {
                           crossAxisAlignment: CrossAxisAlignment.start,
                           children: [
                             GestureDetector(
-                              onTap: () =>
-                                  Navigator.of(context).push(MaterialPageRoute(
-                                      builder: (_) => SelectedProduct(
-                                            productName:
-                                                products.data![0].name ?? " ",
-                                            productId: products.data![index].id,
-                                            price: products.data![index].price
-                                                .toString(),
-                                            description: products
-                                                .data![index].description
-                                                .toString(),
-                                            image:
-                                                products.data![index].image ==
-                                                        null
-                                                    ? Image.asset(
-                                                        "assets/empty.png",
-                                                      )
-                                                    : Image.network(
-                                                        products.data![index]
-                                                            .image![0].url
-                                                            .toString(),
-                                                      ),
-                                          ))),
+                              onTap: () {}
+                                  // Navigator.of(context).push(MaterialPageRoute(
+                                  //     builder: (_) => SelectedProduct(
+                                  //       productId: products.data![index].id.toString(),
+                                  //         ))
+                                  ,
                               child: Container(
                                 margin: EdgeInsets.only(
                                     left: 10.w,

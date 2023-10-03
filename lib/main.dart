@@ -8,10 +8,12 @@ import 'package:mes_kart/Bloc/Signin/mes_signin_bloc.dart';
 import 'package:mes_kart/Bloc/Signup/meskartSignup_bloc.dart';
 import 'package:mes_kart/Bloc/addAddress/add_address_bloc.dart';
 import 'package:mes_kart/Bloc/addtoCart/addto_cart_bloc.dart';
+import 'package:mes_kart/Bloc/banners/banner_bloc.dart';
 import 'package:mes_kart/Bloc/cartPage/cart_page_bloc.dart';
 import 'package:mes_kart/Bloc/createSellerAc/create_seller_ac_bloc.dart';
 import 'package:mes_kart/Bloc/deleteAddress/delete_address_bloc.dart';
 import 'package:mes_kart/Bloc/deleteCartProduct/delete_cart_product_bloc.dart';
+import 'package:mes_kart/Bloc/getAproduct/get_aproduct_bloc.dart';
 import 'package:mes_kart/Bloc/homeProducts/home_products_bloc.dart';
 import 'package:mes_kart/Bloc/profileAddressBloc/profile_address_bloc.dart';
 import 'Bloc/productCategory/product_category_bloc.dart';
@@ -54,6 +56,8 @@ class MyApp extends StatelessWidget {
               BlocProvider(create: (context) => AddtoCartBloc()),
               BlocProvider(create: (context) => CartPageBloc()),
               BlocProvider(create: (context) => DeleteCartProductBloc()),
+              BlocProvider(create: (context) => BannerBloc()),
+              BlocProvider(create: (context) => GetAproductBloc()),
             ],
             child: MaterialApp(
               debugShowCheckedModeBanner: false,

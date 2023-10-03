@@ -1,14 +1,15 @@
 import 'package:carousel_slider/carousel_slider.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:mes_kart/Repository/modelclass/getAproductModelclass.dart';
 import 'package:smooth_page_indicator/smooth_page_indicator.dart';
 
 
 
 class Selected_Product_Slider extends StatefulWidget {
-  final images;
+  final GetAproductModelclass getAproduct;
 
-  const Selected_Product_Slider({Key? key, required this.images,})
+  const Selected_Product_Slider({Key? key, required this.getAproduct,})
       : super(key: key);
 
   @override
@@ -24,17 +25,17 @@ class _Selected_Product_SliderState extends State<Selected_Product_Slider> {
   Widget build(BuildContext context) {
     var mwidth = MediaQuery.of(context).size.width;
     var mheight = MediaQuery.of(context).size.height;
+
     return Stack(
       children: [CarouselSlider.builder(
-            itemCount: 5,
+            itemCount: widget.getAproduct.data!.image!.length,
             itemBuilder: (context, index, realindex) {
               var height = mheight * 0.335;
               var width = mwidth;
               return Container(
                 width: width,
                 height: height,
-                child: widget.images,
-
+                child: Image.network(widget.getAproduct.data!.image![index].url.toString(),),
 
               );
             },
