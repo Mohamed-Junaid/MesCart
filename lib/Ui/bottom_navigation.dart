@@ -25,7 +25,7 @@ class _BottomNavigationState extends State<BottomNavigation> {
   }
   @override
   Widget build(BuildContext context) {
-    final screens=[const Home(),const MyOrders(), value==true? const SellerHome():const SellIntro(),const Profile()];
+    final screens=[const Home(),const MyOrders(), value==true? const SellerHome():const SellerLogin(),const Profile()];
     print(value);
     return Scaffold(
       bottomNavigationBar: BottomNavigationBar(

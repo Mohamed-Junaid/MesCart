@@ -1,7 +1,9 @@
 import 'dart:convert';
+import 'dart:io';
 
 
 import 'package:http/http.dart';
+import 'package:mes_kart/Repository/Api/mesApi/single_file_api_client.dart';
 import 'package:mes_kart/Repository/modelclass/CartPageModelclass.dart';
 import 'package:mes_kart/Repository/modelclass/getAproductModelclass.dart';
 import 'package:mes_kart/Repository/modelclass/productCategoryModelclass.dart';
@@ -20,6 +22,7 @@ import 'api_client.dart';
 
 class meskartApi{
   ApiClient apiClient = ApiClient();
+  SingleFileApiClient singleFileApiClient=SingleFileApiClient();
 
 
   Future<MesSignupModelclass> getmeskart(String userName,String email,String phone,String password,) async {
@@ -175,6 +178,13 @@ class meskartApi{
     Response response = await apiClient.invokeAPI(
         trendingpath, 'GET', jsonEncode(body));
     return  GetAproductModelclass.fromJson(jsonDecode(response.body));
+  }
+
+  getVerifyId(File file) async {
+    String trendingpath = '/seller/account/verify';
+    var body = {};
+    Response response = await singleFileApiClient.uploadFile(filepath: file,
+        uploadPath: '/seller/account/verify', method: 'PATCH', bodyData: {});
   }
 
 

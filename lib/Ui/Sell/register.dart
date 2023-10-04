@@ -4,6 +4,7 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:mes_kart/Bloc/createSellerAc/create_seller_ac_bloc.dart';
 import 'package:mes_kart/Ui/Sell/seller_home.dart';
+import 'package:mes_kart/Ui/Sell/verification_screen.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 import '../../main.dart';
@@ -33,14 +34,8 @@ final form_key = GlobalKey<FormState>();
 class _RegisterScreenState extends State<RegisterScreen> {
   @override
   Widget build(BuildContext context) {
-    var mwidth = MediaQuery
-        .of(context)
-        .size
-        .width;
-    var mheight = MediaQuery
-        .of(context)
-        .size
-        .height;
+    var mwidth = MediaQuery.of(context).size.width;
+    var mheight = MediaQuery.of(context).size.height;
     return Scaffold(
       resizeToAvoidBottomInset: true,
       backgroundColor: Colors.white,
@@ -64,11 +59,11 @@ class _RegisterScreenState extends State<RegisterScreen> {
           'Personal Details ',
           style: GoogleFonts.lato(
               textStyle: TextStyle(
-                color: Color(0xFFFF4400),
-                fontSize: 18.sp,
-                fontWeight: FontWeight.w700,
-                height: 1.h,
-              )),
+            color: Color(0xFFFF4400),
+            fontSize: 18.sp,
+            fontWeight: FontWeight.w700,
+            height: 1.h,
+          )),
         ),
       ),
       body: SingleChildScrollView(
@@ -85,11 +80,11 @@ class _RegisterScreenState extends State<RegisterScreen> {
                 'Name',
                 style: GoogleFonts.lato(
                     textStyle: TextStyle(
-                      color: Color(0xFF333333),
-                      fontSize: 15.sp,
-                      fontWeight: FontWeight.w700,
-                      height: 1.17.h,
-                    )),
+                  color: Color(0xFF333333),
+                  fontSize: 15.sp,
+                  fontWeight: FontWeight.w700,
+                  height: 1.17.h,
+                )),
               ),
             ),
             Center(
@@ -136,11 +131,11 @@ class _RegisterScreenState extends State<RegisterScreen> {
                 'Contact Number',
                 style: GoogleFonts.lato(
                     textStyle: TextStyle(
-                      color: Color(0xFF333333),
-                      fontSize: 15.sp,
-                      fontWeight: FontWeight.w700,
-                      height: 1.17.h,
-                    )),
+                  color: Color(0xFF333333),
+                  fontSize: 15.sp,
+                  fontWeight: FontWeight.w700,
+                  height: 1.17.h,
+                )),
               ),
             ),
             Center(
@@ -188,11 +183,11 @@ class _RegisterScreenState extends State<RegisterScreen> {
                 'Aadhar Number',
                 style: GoogleFonts.lato(
                     textStyle: TextStyle(
-                      color: Color(0xFF333333),
-                      fontSize: 15.sp,
-                      fontWeight: FontWeight.w700,
-                      height: 1.17.h,
-                    )),
+                  color: Color(0xFF333333),
+                  fontSize: 15.sp,
+                  fontWeight: FontWeight.w700,
+                  height: 1.17.h,
+                )),
               ),
             ),
             Center(
@@ -240,11 +235,11 @@ class _RegisterScreenState extends State<RegisterScreen> {
                 'Email',
                 style: GoogleFonts.lato(
                     textStyle: TextStyle(
-                      color: Color(0xFF333333),
-                      fontSize: 15.sp,
-                      fontWeight: FontWeight.w700,
-                      height: 1.17.h,
-                    )),
+                  color: Color(0xFF333333),
+                  fontSize: 15.sp,
+                  fontWeight: FontWeight.w700,
+                  height: 1.17.h,
+                )),
               ),
             ),
             Center(
@@ -291,11 +286,11 @@ class _RegisterScreenState extends State<RegisterScreen> {
                 'College Name',
                 style: GoogleFonts.lato(
                     textStyle: TextStyle(
-                      color: Color(0xFF333333),
-                      fontSize: 15.sp,
-                      fontWeight: FontWeight.w700,
-                      height: 1.17.h,
-                    )),
+                  color: Color(0xFF333333),
+                  fontSize: 15.sp,
+                  fontWeight: FontWeight.w700,
+                  height: 1.17.h,
+                )),
               ),
             ),
             Center(
@@ -342,11 +337,11 @@ class _RegisterScreenState extends State<RegisterScreen> {
                 'College Place',
                 style: GoogleFonts.lato(
                     textStyle: TextStyle(
-                      color: Color(0xFF333333),
-                      fontSize: 15.sp,
-                      fontWeight: FontWeight.w700,
-                      height: 1.17.h,
-                    )),
+                  color: Color(0xFF333333),
+                  fontSize: 15.sp,
+                  fontWeight: FontWeight.w700,
+                  height: 1.17.h,
+                )),
               ),
             ),
             Center(
@@ -393,11 +388,11 @@ class _RegisterScreenState extends State<RegisterScreen> {
                 'Course',
                 style: GoogleFonts.lato(
                     textStyle: TextStyle(
-                      color: Color(0xFF333333),
-                      fontSize: 15.sp,
-                      fontWeight: FontWeight.w700,
-                      height: 1.17.h,
-                    )),
+                  color: Color(0xFF333333),
+                  fontSize: 15.sp,
+                  fontWeight: FontWeight.w700,
+                  height: 1.17.h,
+                )),
               ),
             ),
             Center(
@@ -444,11 +439,11 @@ class _RegisterScreenState extends State<RegisterScreen> {
                 'Academic Year',
                 style: GoogleFonts.lato(
                     textStyle: TextStyle(
-                      color: Color(0xFF333333),
-                      fontSize: 15.sp,
-                      fontWeight: FontWeight.w700,
-                      height: 1.17.h,
-                    )),
+                  color: Color(0xFF333333),
+                  fontSize: 15.sp,
+                  fontWeight: FontWeight.w700,
+                  height: 1.17.h,
+                )),
               ),
             ),
             Center(
@@ -496,11 +491,11 @@ class _RegisterScreenState extends State<RegisterScreen> {
                 'Admission Number',
                 style: GoogleFonts.lato(
                     textStyle: TextStyle(
-                      color: Color(0xFF333333),
-                      fontSize: 15.sp,
-                      fontWeight: FontWeight.w700,
-                      height: 1.17.h,
-                    )),
+                  color: Color(0xFF333333),
+                  fontSize: 15.sp,
+                  fontWeight: FontWeight.w700,
+                  height: 1.17.h,
+                )),
               ),
             ),
             Center(
@@ -548,11 +543,11 @@ class _RegisterScreenState extends State<RegisterScreen> {
                 'Store PIN',
                 style: GoogleFonts.lato(
                     textStyle: TextStyle(
-                      color: Color(0xFF333333),
-                      fontSize: 15.sp,
-                      fontWeight: FontWeight.w700,
-                      height: 1.17.h,
-                    )),
+                  color: Color(0xFF333333),
+                  fontSize: 15.sp,
+                  fontWeight: FontWeight.w700,
+                  height: 1.17.h,
+                )),
               ),
             ),
             Center(
@@ -600,11 +595,11 @@ class _RegisterScreenState extends State<RegisterScreen> {
                 'Confirm PIN',
                 style: GoogleFonts.lato(
                     textStyle: TextStyle(
-                      color: Color(0xFF333333),
-                      fontSize: 15.sp,
-                      fontWeight: FontWeight.w700,
-                      height: 1.17.h,
-                    )),
+                  color: Color(0xFF333333),
+                  fontSize: 15.sp,
+                  fontWeight: FontWeight.w700,
+                  height: 1.17.h,
+                )),
               ),
             ),
             Center(
@@ -649,18 +644,13 @@ class _RegisterScreenState extends State<RegisterScreen> {
                   showDialog(
                       context: context,
                       builder: (BuildContext a) =>
-                      const Center(child: CircularProgressIndicator()));
+                          const Center(child: CircularProgressIndicator()));
                 }
                 if (state is CreateSellerAcBlocLoaded) {
                   Navigator.of(context).pop();
-                  Navigator.of(context).pushAndRemoveUntil(
-                      MaterialPageRoute(
-                          builder: (context) => const BottomNavigation()),
-                          (route) => false);
-                  token();
+                  Navigator.of(context).push(
+                      MaterialPageRoute(builder: (_) =>VerificationScreen()));
 
-
-                  print("loaded");
                 }
                 if (state is CreateSellerAcBlocError) {
                   print("error");
@@ -669,7 +659,8 @@ class _RegisterScreenState extends State<RegisterScreen> {
               child: TextButton(
                 onPressed: () {
                   BlocProvider.of<CreateSellerAcBloc>(context).add(
-                      FetchCreateSellerAc(name: name.text,
+                      FetchCreateSellerAc(
+                          name: name.text,
                           contactNumber: contactNumber.text,
                           aadhar: aadhar.text,
                           email: email.text,
@@ -680,7 +671,6 @@ class _RegisterScreenState extends State<RegisterScreen> {
                           admissionNumber: admissionNumber.text,
                           storePin: storePin.text));
                 },
-
                 child: Container(
                   width: 350.w,
                   height: 60.h,
@@ -705,18 +695,16 @@ class _RegisterScreenState extends State<RegisterScreen> {
                       textAlign: TextAlign.center,
                       style: GoogleFonts.lato(
                           textStyle: TextStyle(
-                            color: Colors.white,
-                            fontSize: 18.sp,
-                            fontWeight: FontWeight.w700,
-                            height: 1.44.h,
-                          )),
+                        color: Colors.white,
+                        fontSize: 18.sp,
+                        fontWeight: FontWeight.w700,
+                        height: 1.44.h,
+                      )),
                     ),
                   ),
                 ),
               ),
             ),
-
-
           ],
         ),
       ),

@@ -160,7 +160,7 @@ class _HomeState extends State<Home> with SingleTickerProviderStateMixin {
 
                       return SizedBox(
                         height: 192.h,
-                        child: CarouselSlider.builder(
+                        child:banner.banners==null?SizedBox(): CarouselSlider.builder(
                           itemCount: banner.banners!.length,
                           itemBuilder: (context, index, realindex) {
                             var height = 170.h;

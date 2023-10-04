@@ -16,6 +16,7 @@ import 'package:mes_kart/Bloc/deleteCartProduct/delete_cart_product_bloc.dart';
 import 'package:mes_kart/Bloc/getAproduct/get_aproduct_bloc.dart';
 import 'package:mes_kart/Bloc/homeProducts/home_products_bloc.dart';
 import 'package:mes_kart/Bloc/profileAddressBloc/profile_address_bloc.dart';
+import 'package:mes_kart/Bloc/verifyID/verify_id_bloc.dart';
 import 'Bloc/productCategory/product_category_bloc.dart';
 import 'Ui/splash_screen.dart';
 
@@ -58,6 +59,7 @@ class MyApp extends StatelessWidget {
               BlocProvider(create: (context) => DeleteCartProductBloc()),
               BlocProvider(create: (context) => BannerBloc()),
               BlocProvider(create: (context) => GetAproductBloc()),
+              BlocProvider(create: (context) => VerifyIdBloc()),
             ],
             child: MaterialApp(
               debugShowCheckedModeBanner: false,
