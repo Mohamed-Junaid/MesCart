@@ -5,7 +5,9 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:image_picker/image_picker.dart';
+import 'package:mes_kart/Bloc/addSellerProduct/add_seller_product_bloc.dart';
 import 'package:mes_kart/Repository/modelclass/productCategoryModelclass.dart';
+import 'package:mes_kart/Ui/Sell/seller_home.dart';
 
 import '../../Bloc/productCategory/product_category_bloc.dart';
 
@@ -20,9 +22,13 @@ late ProductCategoryModelclass product;
 
 List<File> images = [];
 File? _image;
-
+String selectedCatId = '';
 final picker = ImagePicker();
 List<String> categories = [];
+TextEditingController name = TextEditingController();
+TextEditingController price = TextEditingController();
+TextEditingController stock = TextEditingController();
+TextEditingController description = TextEditingController();
 
 class _SellState extends State<Sell> {
   @override
@@ -30,10 +36,10 @@ class _SellState extends State<Sell> {
     BlocProvider.of<ProductCategoryBloc>(context).add(FetchaddProduct());
     super.initState();
   }
+
   Widget build(BuildContext context) {
-
-
     String? selectedCategory;
+
     var mwidth = MediaQuery.of(context).size.width;
     var mheight = MediaQuery.of(context).size.height;
     return Scaffold(
@@ -150,6 +156,7 @@ class _SellState extends State<Sell> {
                       padding: EdgeInsets.only(
                           left: mwidth * 0.04, top: mheight * 0.006),
                       child: TextFormField(
+                        controller: name,
                         textInputAction: TextInputAction.next,
                         validator: (value) {
                           if (value!.isEmpty) {
@@ -200,18 +207,18 @@ class _SellState extends State<Sell> {
                   child: Padding(
                     padding: EdgeInsets.only(
                         left: mwidth * 0.04, top: mheight * 0.006),
-                    child: BlocBuilder<ProductCategoryBloc, ProductCategoryState>(
+                    child:
+                        BlocBuilder<ProductCategoryBloc, ProductCategoryState>(
                       builder: (context, state) {
-                        if (state is ProductCategoryBlocLoading) {
-                        }
+                        if (state is ProductCategoryBlocLoading) {}
                         if (state is ProductCategoryBlocError) {
                           return Center(child: Text("Error"));
                         }
 
                         if (state is ProductCategoryBlocLoaded) {
-
-                          product = BlocProvider.of<ProductCategoryBloc>(context)
-                              .addProductModelclass;
+                          product =
+                              BlocProvider.of<ProductCategoryBloc>(context)
+                                  .addProductModelclass;
 
                           return DropdownButtonFormField<String>(
                             decoration: InputDecoration(
@@ -242,7 +249,13 @@ class _SellState extends State<Sell> {
                               return null;
                             },
                             items: product.data!.map((category) {
+
                               return DropdownMenuItem<String>(
+                                onTap:  () {
+                                setState(() {
+                                  selectedCatId = category.id.toString();
+                                });
+                              },
                                 value: category.name,
                                 child: Text(category.name.toString()),
                               );
@@ -291,6 +304,7 @@ class _SellState extends State<Sell> {
                       padding: EdgeInsets.only(
                           left: mwidth * 0.04, top: mheight * 0.006),
                       child: TextFormField(
+                        controller: price,
                         textInputAction: TextInputAction.next,
                         keyboardType: TextInputType.number,
                         validator: (value) {
@@ -301,6 +315,58 @@ class _SellState extends State<Sell> {
                         onSaved: (value) {},
                         decoration: InputDecoration(
                             hintText: 'Price  (Required) *',
+                            hintStyle: GoogleFonts.lato(
+                                textStyle: TextStyle(color: Color(0xffB8B8B8)),
+                                fontSize: 16.sp,
+                                fontWeight: FontWeight.w400),
+                            focusedBorder: InputBorder.none,
+                            errorBorder: InputBorder.none,
+                            focusedErrorBorder: InputBorder.none,
+                            enabledBorder: InputBorder.none,
+                            disabledBorder: InputBorder.none),
+                      ),
+                    )),
+              ),
+              Padding(
+                padding: EdgeInsets.only(
+                  left: 26.w,
+                  top: 20.h,
+                  bottom: 7.h,
+                ),
+                child: Text(
+                  'Stock',
+                  style: GoogleFonts.lato(
+                      textStyle: TextStyle(
+                    color: Color(0xFF333333),
+                    fontSize: 15.sp,
+                    fontWeight: FontWeight.w700,
+                    height: 1.17.h,
+                  )),
+                ),
+              ),
+              Center(
+                child: Container(
+                    margin: EdgeInsets.only(top: 8.h, left: 24.w, right: 24.w),
+                    width: mwidth * 0.9,
+                    height: mheight * 0.07,
+                    decoration: BoxDecoration(
+                        color: Color(0xFFF4F4F4),
+                        borderRadius: BorderRadius.circular(10.r)),
+                    child: Padding(
+                      padding: EdgeInsets.only(
+                          left: mwidth * 0.04, top: mheight * 0.006),
+                      child: TextFormField(
+                        controller: stock,
+                        textInputAction: TextInputAction.next,
+                        keyboardType: TextInputType.number,
+                        validator: (value) {
+                          if (value!.isEmpty) {
+                            return 'Field should not be empty';
+                          }
+                        },
+                        onSaved: (value) {},
+                        decoration: InputDecoration(
+                            hintText: 'Stock  (Required) *',
                             hintStyle: GoogleFonts.lato(
                                 textStyle: TextStyle(color: Color(0xffB8B8B8)),
                                 fontSize: 16.sp,
@@ -342,6 +408,7 @@ class _SellState extends State<Sell> {
                       padding: EdgeInsets.only(
                           left: mwidth * 0.04, top: mheight * 0.006),
                       child: TextFormField(
+                        controller: description,
                         textInputAction: TextInputAction.done,
                         keyboardType: TextInputType.multiline,
                         validator: (value) {
@@ -364,37 +431,65 @@ class _SellState extends State<Sell> {
                       ),
                     )),
               ),
-              TextButton(
-                onPressed: () {},
-                child: Container(
-                  width: 350.w,
-                  height: 60.h,
-                  margin: EdgeInsets.only(
-                      top: 20.h, left: 15.w, right: 15.w, bottom: 10.h),
-                  decoration: ShapeDecoration(
-                    shadows: [
-                      BoxShadow(
-                        color: Color(0x3F303030),
-                        blurRadius: 20.r,
-                        offset: Offset(0, 10),
-                        spreadRadius: 0,
-                      )
-                    ],
-                    color: Color(0xFFFF4400),
-                    shape: RoundedRectangleBorder(
-                        borderRadius: BorderRadius.circular(16.r)),
-                  ),
-                  child: Center(
-                    child: Text(
-                      'Submit',
-                      textAlign: TextAlign.center,
-                      style: GoogleFonts.lato(
-                          textStyle: TextStyle(
-                        color: Colors.white,
-                        fontSize: 18.sp,
-                        fontWeight: FontWeight.w700,
-                        height: 1.44.h,
-                      )),
+              BlocListener<AddSellerProductBloc, AddSellerProductState>(
+                listener: (context, state) {
+                  if (state is AddSellerProductBlocLoading) {
+                    print("loading");
+                    showDialog(
+                        context: context,
+                        builder: (BuildContext a) =>
+                            const Center(child: CircularProgressIndicator()));
+                  }
+                  if (state is AddSellerProductBlocLoaded) {
+                    Navigator.of(context).pop();
+                    Navigator.of(context).push(
+                        MaterialPageRoute(builder: (_) =>SellerHome()));
+                  }
+                  if (state is AddSellerProductBlocError) {
+                    print("error");
+                  }
+                },
+                child: TextButton(
+                  onPressed: () {
+                    BlocProvider.of<AddSellerProductBloc>(context).add(
+                        FetchAddSellerProduct(
+                            name: name.text,
+                            cateId: selectedCatId,
+                            price: price.text,
+                            description: description.text,
+                            stock: stock.text,
+                            selectedImages: images));
+                  },
+                  child: Container(
+                    width: 350.w,
+                    height: 60.h,
+                    margin: EdgeInsets.only(
+                        top: 20.h, left: 15.w, right: 15.w, bottom: 10.h),
+                    decoration: ShapeDecoration(
+                      shadows: [
+                        BoxShadow(
+                          color: Color(0x3F303030),
+                          blurRadius: 20.r,
+                          offset: Offset(0, 10),
+                          spreadRadius: 0,
+                        )
+                      ],
+                      color: Color(0xFFFF4400),
+                      shape: RoundedRectangleBorder(
+                          borderRadius: BorderRadius.circular(16.r)),
+                    ),
+                    child: Center(
+                      child: Text(
+                        'Submit',
+                        textAlign: TextAlign.center,
+                        style: GoogleFonts.lato(
+                            textStyle: TextStyle(
+                          color: Colors.white,
+                          fontSize: 18.sp,
+                          fontWeight: FontWeight.w700,
+                          height: 1.44.h,
+                        )),
+                      ),
                     ),
                   ),
                 ),

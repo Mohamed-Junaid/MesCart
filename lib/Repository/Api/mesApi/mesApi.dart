@@ -18,11 +18,13 @@ import '../../modelclass/mesSigninModelclass.dart';
 import '../../modelclass/mesSignupModelclass.dart';
 import '../../modelclass/profileAddressModelclass.dart';
 import 'api_client.dart';
+import 'multi_file_api_client.dart';
 
 
 class meskartApi{
   ApiClient apiClient = ApiClient();
   SingleFileApiClient singleFileApiClient=SingleFileApiClient();
+  MultiFileApiClient multiFileApiClient=MultiFileApiClient();
 
 
   Future<MesSignupModelclass> getmeskart(String userName,String email,String phone,String password,) async {
@@ -187,7 +189,25 @@ class meskartApi{
         uploadPath: '/seller/account/verify', method: 'PATCH', bodyData: {});
   }
 
-
+  getAddSellerProduct (
+  { required List<File> selectedImages,
+    required String name,
+    required String cateId,
+    required String price,
+    required String description,
+    required String stock,}
+      )async{
+    String trendingpath = '/seller/product/create';
+    var body = {
+      "Name": name,
+      "CateID": cateId,
+      "Stock": stock,
+      "Description": description,
+      "Price": price};
+    Response response = await multiFileApiClient.uploadFiles(files: selectedImages, uploadPath: '/seller/product/create',
+        bodyData: body
+    );
+  }
 
   }
 
