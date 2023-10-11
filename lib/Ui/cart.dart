@@ -151,13 +151,11 @@ class _CartPageState extends State<CartPage> {
                                     Checkbox(
                                         checkColor: Color(0xFFFF4400),
                                         value: checkboxValues[index],
-                                        visualDensity: VisualDensity
-                                            .adaptivePlatformDensity,
+                                        visualDensity: VisualDensity.adaptivePlatformDensity,
                                         activeColor: Colors.grey.shade300,
                                         onChanged: (newValue) {
                                           setState(() {
                                             checkboxValues[index] = newValue!;
-
                                           });
                                         }),
                                   ],

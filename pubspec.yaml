@@ -49,6 +49,8 @@ dependencies:
   flutter_otp_text_field: ^1.1.1
   local_auth: ^2.1.7
   get_it: ^7.6.4
+  neopop: ^1.0.2
+  readmore: ^2.2.0
 
 dev_dependencies:
   flutter_test:

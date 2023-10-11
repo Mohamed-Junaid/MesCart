@@ -8,12 +8,9 @@ import 'package:mes_kart/Repository/modelclass/CartPageModelclass.dart';
 import 'package:mes_kart/Repository/modelclass/getAproductModelclass.dart';
 import 'package:mes_kart/Repository/modelclass/productCategoryModelclass.dart';
 import 'package:mes_kart/Repository/modelclass/homeProductsModelclass.dart';
-import 'package:mes_kart/Ui/Sell/sell.dart';
-
-
-
-
+import '../../../Ui/Sell/sell.dart';
 import '../../modelclass/BannerModelclass.dart';
+import '../../modelclass/GetSellerProductsModel1.dart';
 import '../../modelclass/mesSigninModelclass.dart';
 import '../../modelclass/mesSignupModelclass.dart';
 import '../../modelclass/profileAddressModelclass.dart';
@@ -204,11 +201,49 @@ class meskartApi{
       "Stock": stock,
       "Description": description,
       "Price": price};
-    Response response = await multiFileApiClient.uploadFiles(files: selectedImages, uploadPath: '/seller/product/create',
-        bodyData: body
+    Response response = await multiFileApiClient.uploadFiles(files: selectedImages,
+        uploadPath: '/seller/product/create',
+        bodyData: body, method: 'POST'
     );
   }
+  Future<GetSellerProductsModel1> getSellerProductList ()async{
 
+    String trendingpath = '/seller/product/all?page=1&limit=10';
+    var body = {
+
+    };
+    Response response = await apiClient.invokeAPI(
+        trendingpath, 'GET', body);
+    return  GetSellerProductsModel1.fromJson(jsonDecode(response.body));
   }
+  getDeleteSellerProduct(String productId ) async {
+    String trendingpath = '/seller/product/delete/$productId';
+    var body = {
+    };
+    Response response = await apiClient.invokeAPI(
+        trendingpath, 'DELETE', jsonEncode(body));
+  }
+  getUpdateSellerProduct(
+  {required String productId,
+    required List<File> image,
+    required String name,
+    required int price,
+    required String description,
+    required int stock}
+  )async{
+  String trendingpath = '/seller/product/update/$productId';
+  var body = {
+    "Name": name,
+    "Price": price,
+    "Description": description,
+    "Stock": stock,};
+  Response response = await multiFileApiClient.uploadFiles(
+  uploadPath: trendingpath,
+  bodyData: body, files: [], method: 'PATCH',
+  );
+  }
+
+
+}
 
 

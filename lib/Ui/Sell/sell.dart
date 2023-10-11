@@ -39,7 +39,6 @@ class _SellState extends State<Sell> {
 
   Widget build(BuildContext context) {
     String? selectedCategory;
-
     var mwidth = MediaQuery.of(context).size.width;
     var mheight = MediaQuery.of(context).size.height;
     return Scaffold(

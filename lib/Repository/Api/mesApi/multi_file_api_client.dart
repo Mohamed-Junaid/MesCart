@@ -11,6 +11,7 @@ class MultiFileApiClient {
     required List<File> files,
     required String uploadPath,
     required Map<String, dynamic>? bodyData,
+    required String method
   }) async {
     final SharedPreferences prefs = await SharedPreferences.getInstance();
     final String token = prefs.getString('Token').toString();
@@ -23,7 +24,7 @@ class MultiFileApiClient {
     print('Token: $token');
     print('Upload Path: $uploadPath');
 
-    var request = http.MultipartRequest('POST', Uri.parse(basePath + uploadPath));
+    var request = http.MultipartRequest(method, Uri.parse(basePath + uploadPath));
     request.headers.addAll(headerParams);
 
     print("Request URL: ${request.url}");
