@@ -5,7 +5,7 @@ import 'package:google_fonts/google_fonts.dart';
 import 'package:mes_kart/Bloc/addtoCart/addto_cart_bloc.dart';
 import 'package:mes_kart/Bloc/getAproduct/get_aproduct_bloc.dart';
 import 'package:mes_kart/Ui/cart.dart';
-import 'package:mes_kart/Ui/home.dart';
+
 
 import '../Repository/modelclass/getAproductModelclass.dart';
 import 'Widget/selected_product_slider.dart';
@@ -29,6 +29,8 @@ late GetAproductModelclass GetProduct;
 TextEditingController count = TextEditingController(text: '1');
 
 class _SelectedProductState extends State<SelectedProduct> {
+  static int index = 0;
+
   @override
   void initState() {
     BlocProvider.of<GetAproductBloc>(context).add(FetchGetaProdcuct(ProductId: widget.productId.toString()));
@@ -313,7 +315,7 @@ class _SelectedProductState extends State<SelectedProduct> {
                   Center(
                     child: GestureDetector(
                       onTap: () => Navigator.of(context).push(
-                          MaterialPageRoute(builder: (_) => OrderSummary())),
+                          MaterialPageRoute(builder: (_) =>OrderSummary(Product: GetProduct,index: index, quantity: int.parse(count.text),))),
                       child: Container(
                           margin: EdgeInsets.only(
                               left: 20.w, right: 20.w, bottom: 35.h),

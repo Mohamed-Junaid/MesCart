@@ -35,7 +35,11 @@ class _Selected_Product_SliderState extends State<Selected_Product_Slider> {
               return Container(
                 width: width,
                 height: height,
-                child: Image.network(widget.getAproduct.data!.image![index].url.toString(),),
+                child: widget.getAproduct.data!.image == null
+                    ? Image.asset(
+                  "assets/empty.png",
+                )
+                    : Image.network(widget.getAproduct.data!.image![index].url.toString(),),
 
               );
             },

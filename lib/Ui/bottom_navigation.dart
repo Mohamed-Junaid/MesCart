@@ -1,12 +1,12 @@
 import 'package:flutter/material.dart';
 import 'package:mes_kart/Ui/Sell/seller_home.dart';
 import 'package:mes_kart/Ui/home.dart';
-import 'package:mes_kart/Ui/my_orders.dart';
 import 'package:mes_kart/Ui/profile.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 import '../main.dart';
 import 'Sell/sell_intro.dart';
+import 'my_orders/my_orders.dart';
 class BottomNavigation extends StatefulWidget {
   const BottomNavigation({Key? key}) : super(key: key);
 

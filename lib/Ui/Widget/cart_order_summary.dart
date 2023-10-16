@@ -2,36 +2,50 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:google_fonts/google_fonts.dart';
-import '../Bloc/placeOrder/place_orders_bloc.dart';
-import '../Bloc/profileAddressBloc/profile_address_bloc.dart';
-import '../Repository/modelclass/getAproductModelclass.dart';
-import '../Repository/modelclass/profileAddressModelclass.dart';
+import 'package:mes_kart/Ui/Widget/toast_message.dart';
 
-import 'Widget/order_success_animation.dart';
-import 'Widget/toast_message.dart';
-import 'add_address.dart';
-import 'address.dart';
+import '../../Bloc/cartPlaceOrder/cart_place_order_bloc.dart';
+import '../../Bloc/profileAddressBloc/profile_address_bloc.dart';
+import '../../Repository/modelclass/CartPageModelclass.dart';
+import '../../Repository/modelclass/profileAddressModelclass.dart';
+import '../add_address.dart';
+import '../address.dart';
+import 'order_success_animation.dart';
 
-class OrderSummary extends StatefulWidget {
-  final GetAproductModelclass? Product;
-  final int? index;
-  final int? quantity;
 
-  const OrderSummary({
+class CartOrderSummery extends StatefulWidget {
+  final CartPageModelclass cartProduct;
+  final List<String> productName;
+  final List<int> quantity;
+  final List<int> price;
+  final List<int> subTotal;
+  final List<String> image;
+  final String totalPrice;
+  final int index;
+  final List<Map<String, dynamic>> cartId;
+
+  const CartOrderSummery({
     Key? key,
-    this.Product,
-     this.index,
-     this.quantity,
+    required this.cartProduct,
+    required this.productName,
+    required this.index,
+    required this.quantity,
+    required this.subTotal,
+    required this.price,
+    required this.image,
+    required this.totalPrice,
+    required this.cartId,
   }) : super(key: key);
 
   @override
-  State<OrderSummary> createState() => _OrderSummaryState();
+  State<CartOrderSummery> createState() => _CartOrderSummeryState();
 }
 
 String _selectedOption = '';
+
 late ProfileAddressModelclass profileModel;
 
-class _OrderSummaryState extends State<OrderSummary> {
+class _CartOrderSummeryState extends State<CartOrderSummery> {
   void initState() {
     BlocProvider.of<ProfileAddressBloc>(context)
         .add(FetchProfileAddress());
@@ -74,73 +88,105 @@ class _OrderSummaryState extends State<OrderSummary> {
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
-              Row(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  Container(
-                    margin: EdgeInsets.only(
-                        left: 24.w, right: 24.w, top: 36.h, bottom: 25.h),
-                    width: 100.w,
-                    height: 100.h,
-                    decoration: ShapeDecoration(
-                      image: DecorationImage(
-                        image: NetworkImage(
-                            widget.Product!.data!.image![0].url.toString()),
-                        fit: BoxFit.fill,
+              SizedBox(
+                height: 140.h * widget.productName.length,
+                child: ListView.separated(
+                  padding: EdgeInsets.only(top: 10.h),
+                  itemBuilder: (BuildContext context, int index) {
+                    return Center(
+                      child: Row(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: [
+                          Container(
+                            margin: EdgeInsets.only(
+                                left: 24.w,
+                                right: 24.w,
+                                top: 15.h,
+                                bottom: 10.h),
+                            width: 100.w,
+                            height: 100.h,
+                            decoration: ShapeDecoration(
+                              image: DecorationImage(
+                                image: NetworkImage(
+                                    widget.image[index].toString()),
+                                fit: BoxFit.fill,
+                              ),
+                              shape: RoundedRectangleBorder(
+                                borderRadius: BorderRadius.circular(16.r),
+                              ),
+                            ),
+                          ),
+                          SizedBox(
+                            width: 20.w,
+                          ),
+                          Column(
+                            crossAxisAlignment: CrossAxisAlignment.start,
+                            children: [
+                              SizedBox(
+                                height: 25.h,
+                              ),
+                              Text(
+                                widget.productName[index].toString(),
+                                style: GoogleFonts.lato(
+                                    textStyle: TextStyle(
+                                      color: Colors.black,
+                                      fontSize: 16.sp,
+                                      fontWeight: FontWeight.w500,
+                                      height: 1.h,
+                                    )),
+                              ),
+                              SizedBox(
+                                height: 8.h,
+                              ),
+                              Text(
+                                  'Quantity: ${widget.quantity[index].toString()}',
+                                  style: GoogleFonts.lato(
+                                      textStyle: TextStyle(
+                                        color: Color(0xFF79747E),
+                                        fontSize: 14.sp,
+                                        fontWeight: FontWeight.w400,
+                                        height: 1.h,
+                                      ))),
+                              SizedBox(
+                                height: 8.h,
+                              ),
+                              Text(
+                                'Price: ₹${widget.price[index].toString()}',
+                                style: GoogleFonts.lato(
+                                    textStyle: TextStyle(
+                                      color: Color(0xFF79747E),
+                                      fontSize: 14.sp,
+                                      fontWeight: FontWeight.w400,
+                                      height: 1.h,
+                                    )),
+                              ),
+                              SizedBox(
+                                height: 12.h,
+                              ),
+                              Text(
+                                '₹ ${widget.subTotal[index].toString()}',
+                                style: GoogleFonts.lato(
+                                    textStyle: TextStyle(
+                                      color: Colors.black,
+                                      fontSize: 16.sp,
+                                      fontWeight: FontWeight.w700,
+                                      height: 1.h,
+                                    )),
+                              )
+                            ],
+                          )
+                        ],
                       ),
-                      shape: RoundedRectangleBorder(
-                        borderRadius: BorderRadius.circular(16.r),
-                      ),
-                    ),
-                  ),
-                  SizedBox(
-                    width: 20.w,
-                  ),
-                  Column(
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: [
-                      SizedBox(
-                        height: 54.h,
-                      ),
-                      Text(
-                        widget.Product!.data!.name.toString(),
-                        style: GoogleFonts.lato(
-                            textStyle: TextStyle(
-                              color: Colors.black,
-                              fontSize: 16.sp,
-                              fontWeight: FontWeight.w500,
-                              height: 1.h,
-                            )),
-                      ),
-                      SizedBox(
-                        height: 8.h,
-                      ),
-                      Text(
-                        'Quantity: ${widget.quantity.toString()}',
-                        style: GoogleFonts.lato(
-                            textStyle: TextStyle(
-                              color: Color(0xFF79747E),
-                              fontSize: 14.sp,
-                              fontWeight: FontWeight.w400,
-                              height: 1.h,
-                            )),
-                      ),
-                      SizedBox(
-                        height: 12.h,
-                      ),
-                      Text(
-                        '₹${widget.Product!.data!.price.toString()}',
-                        style: GoogleFonts.lato(
-                            textStyle: TextStyle(
-                              color: Colors.black,
-                              fontSize: 16.sp,
-                              fontWeight: FontWeight.w700,
-                              height: 1.h,
-                            )),
-                      )
-                    ],
-                  )
-                ],
+                    );
+                  },
+                  separatorBuilder: (BuildContext context, int index) {
+                    return Divider(
+                      thickness: 1.w,
+                      color: Color(0xFFECECEC),
+                    );
+                  },
+                  itemCount: widget.productName.length,
+                ),
               ),
               Divider(
                 thickness: 1.w,
@@ -165,9 +211,9 @@ class _OrderSummaryState extends State<OrderSummary> {
                   ),
                   GestureDetector(
                     onTap: () {
-                      Navigator.of(context).push(MaterialPageRoute(
-                        builder: (context) => Address(),
-                      ));
+                      // Navigator.of(context).push(MaterialPageRoute(
+                      //   builder: (context) => Address(),
+                      // ));
                     },
                     child: Container(
                       margin: EdgeInsets.only(top: 19.h),
@@ -209,16 +255,16 @@ class _OrderSummaryState extends State<OrderSummary> {
                     if (state is ProfileAddressBlocError) {}
                     if (state is ProfileAddressBlocLoaded) {
                       profileModel =
-                          BlocProvider.of<ProfileAddressBloc>(context).addressModel;
-                      return Column(
+                          BlocProvider.of<ProfileAddressBloc>(context)
+                              .addressModel;
+                      return
+                        Column(
                         crossAxisAlignment: CrossAxisAlignment.start,
                         children: [
                           Padding(
                             padding: EdgeInsets.only(left: 20.w, top: 15.h),
-                            child:
-                            profileModel.user!.deliveryAddresses == null ||
-                                profileModel
-                                    .user!.deliveryAddresses!.isEmpty
+                            child: profileModel.user!.deliveryAddresses == null||
+                                profileModel.user!.deliveryAddresses!.isEmpty
                                 ? SizedBox()
                                 : Text(
                               profileModel
@@ -275,7 +321,7 @@ class _OrderSummaryState extends State<OrderSummary> {
                               ),
                             )
                                 : Text(
-                                '${profileModel.user!.deliveryAddresses![selectedIndex].houseOrBuildingNumber.toString()}, '
+                                    '${profileModel.user!.deliveryAddresses![selectedIndex].houseOrBuildingNumber.toString()}, '
                                     '${profileModel.user!.deliveryAddresses![selectedIndex].roadNameOrArea.toString()}, '
                                     '${profileModel.user!.deliveryAddresses![selectedIndex].landmark.toString()}, '
                                     '${profileModel.user!.deliveryAddresses![selectedIndex].city.toString()}, '
@@ -296,6 +342,7 @@ class _OrderSummaryState extends State<OrderSummary> {
                           ),
                         ],
                       );
+
                     } else {
                       return SizedBox();
                     }
@@ -364,7 +411,7 @@ class _OrderSummaryState extends State<OrderSummary> {
               //     groupValue: _selectedOption,
               //     onChanged: (value) {
               //       setState(
-              //         () {
+              //             () {
               //           _selectedOption = value.toString();
               //         },
               //       );
@@ -374,7 +421,7 @@ class _OrderSummaryState extends State<OrderSummary> {
               Container(
                 margin: EdgeInsets.only(left: 20.w, top: 38.h, right: 20.w),
                 width: 335.w,
-                height: 135.h,
+                height: 80.h,
                 decoration: ShapeDecoration(
                   color: Colors.white,
                   shape: RoundedRectangleBorder(
@@ -390,72 +437,8 @@ class _OrderSummaryState extends State<OrderSummary> {
                 ),
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
+                  mainAxisAlignment: MainAxisAlignment.center,
                   children: [
-                    Row(
-                      children: [
-                        Padding(
-                          padding: EdgeInsets.only(
-                              left: 20.w, top: 15.h, right: 186.w),
-                          child: Text(
-                            'Price: ',
-                            style: TextStyle(
-                              color: Color(0xFF808080),
-                              fontSize: 18.sp,
-                              fontWeight: FontWeight.w400,
-                            ),
-                          ),
-                        ),
-                        Padding(
-                          padding: EdgeInsets.only(
-                            right: 20.w,
-                            top: 15.h,
-                          ),
-                          child: Text(
-                            '₹ ${widget.Product!.data!.price.toString()}',
-                            textAlign: TextAlign.right,
-                            style: GoogleFonts.lato(
-                                textStyle: TextStyle(
-                                  color: Color(0xFF232323),
-                                  fontSize: 18.sp,
-                                  fontWeight: FontWeight.w600,
-                                )),
-                          ),
-                        )
-                      ],
-                    ),
-                    Row(
-                      children: [
-                        Padding(
-                          padding: EdgeInsets.only(
-                              left: 20.w, top: 15.h, right: 165.w),
-                          child: Text(
-                            'Quantity:',
-                            style: GoogleFonts.lato(
-                                textStyle: TextStyle(
-                                  color: Color(0xFF808080),
-                                  fontSize: 18.sp,
-                                  fontWeight: FontWeight.w400,
-                                )),
-                          ),
-                        ),
-                        Padding(
-                          padding: EdgeInsets.only(
-                            right: 20.w,
-                            top: 15.h,
-                          ),
-                          child: Text(
-                            '${widget.quantity.toString()}',
-                            textAlign: TextAlign.right,
-                            style: GoogleFonts.lato(
-                                textStyle: TextStyle(
-                                  color: Color(0xFF232323),
-                                  fontSize: 18.sp,
-                                  fontWeight: FontWeight.w600,
-                                )),
-                          ),
-                        )
-                      ],
-                    ),
                     Row(
                       children: [
                         Padding(
@@ -477,7 +460,7 @@ class _OrderSummaryState extends State<OrderSummary> {
                             top: 15.h,
                           ),
                           child: Text(
-                            '₹ ${widget.Product!.data!.price!.toDouble() * widget.quantity!.toDouble()}',
+                            '₹${widget.totalPrice.toString()}',
                             textAlign: TextAlign.right,
                             style: TextStyle(
                               color: Color(0xFF232323),
@@ -491,9 +474,9 @@ class _OrderSummaryState extends State<OrderSummary> {
                   ],
                 ),
               ),
-              BlocListener<PlaceOrdersBloc,PlaceOrdersState>(
+              BlocListener<CartPlaceOrderBloc, CartPlaceOrderState>(
                 listener: (context, state) {
-                  if (state is PlaceOrdersBlocLoading) {
+                  if (state is CartPlaceOrderBlocLoading) {
                     showDialog(
                         context: context,
                         builder: (BuildContext a) =>
@@ -501,33 +484,30 @@ class _OrderSummaryState extends State<OrderSummary> {
                     Navigator.of(context).pop();
                     print("Loading...");
                   }
-                  if (state is PlaceOrdersBlocError) {
+                  if (state is CartPlaceOrderBlocError) {
                     print("Error");
                   }
-                  if (state is PlaceOrdersBlocLoaded) {
-                    Navigator.of(context).pushAndRemoveUntil(
-                        MaterialPageRoute(
-                            builder: (context) =>
-                            const OrderSuccessAnimation()),
-                            (route) => false);
+                  if (state is CartPlaceOrderBlocLoaded) {
+                    Navigator.of(context).push(MaterialPageRoute(
+                        builder: (_) => const OrderSuccessAnimation()));
+                    print("Updated");
                   }
                 },
-                child: GestureDetector(
+                child:
+                GestureDetector(
                   onTap: () {
                     if (profileModel.user!.deliveryAddresses == null ||
                         profileModel.user!.deliveryAddresses!.isEmpty) {
                       ToastMessage().toastmessage(
                           message: 'Please Select Your Delivery Address');
-
                     } else {
-                      BlocProvider.of<PlaceOrdersBloc>(context).add(
-                          FetchPlaceOrder(
-                              productid: widget.Product!.data!.id.toString(),
-                              quantity: widget.quantity!.toInt(),
+                      BlocProvider.of<CartPlaceOrderBloc>(context).add(
+                          FetchCartPlaceOrder(
+                              cartId: widget.cartId,
                               deliveryId: profileModel
                                   .user!.deliveryAddresses![selectedIndex].id
                                   .toString(),
-                              context: context,));
+                              context: context));
                     }
                   },
                   child: Container(
@@ -562,7 +542,7 @@ class _OrderSummaryState extends State<OrderSummary> {
                         ),
                       )),
                 ),
-              ),
+              )
             ],
           ),
         ),

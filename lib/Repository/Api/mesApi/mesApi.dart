@@ -11,6 +11,7 @@ import 'package:mes_kart/Repository/modelclass/homeProductsModelclass.dart';
 import '../../../Ui/Sell/sell.dart';
 import '../../modelclass/BannerModelclass.dart';
 import '../../modelclass/GetSellerProductsModel1.dart';
+import '../../modelclass/allOrders.dart';
 import '../../modelclass/mesSigninModelclass.dart';
 import '../../modelclass/mesSignupModelclass.dart';
 import '../../modelclass/profileAddressModelclass.dart';
@@ -241,6 +242,39 @@ class meskartApi{
   uploadPath: trendingpath,
   bodyData: body, files: [], method: 'PATCH',
   );
+  }
+  getPlaceOrder(
+      {required String productid,
+        required int quantity,
+        required String deliveryId}) async {
+    String trendingpath = '/order/create';
+    var body = {
+      "fromCart": false,
+      "items": [
+        {"product_id": productid, "quantity": quantity}
+      ],
+      "delivery_id": deliveryId
+    };
+    await apiClient.invokeAPI(trendingpath, 'POST', jsonEncode(body));
+  }
+  getCartPlaceOrder(
+      {required List<Map<String,dynamic>>cartId,
+        required String deliveryId}) async {
+    String trendingpath = '/order/create';
+    var body = {
+      "fromCart": true,
+      "cart_items":cartId,
+      "items": [],
+      "delivery_id": deliveryId
+    };
+    await apiClient.invokeAPI(trendingpath, 'POST', jsonEncode(body));
+  }
+  Future<AllOrdersModel> getAllOrders ()async{
+    String trendingpath = '/order/all';
+    var body = {};
+    Response response = await apiClient.invokeAPI(
+        trendingpath, 'GET', jsonEncode(body));
+    return  AllOrdersModel.fromJson(jsonDecode(response.body));
   }
 
 
