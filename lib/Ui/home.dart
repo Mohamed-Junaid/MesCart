@@ -8,6 +8,7 @@ import 'package:mes_kart/Bloc/banners/banner_bloc.dart';
 import 'package:mes_kart/Bloc/homeProducts/home_products_bloc.dart';
 
 import 'package:mes_kart/Repository/modelclass/homeProductsModelclass.dart';
+import 'package:mes_kart/Ui/search.dart';
 import 'package:mes_kart/Ui/selected_product.dart';
 
 
@@ -81,7 +82,9 @@ class _HomeState extends State<Home> with SingleTickerProviderStateMixin {
               ),
               Center(
                 child: GestureDetector(
-                  onTap: () {},
+                  onTap: () {  Navigator.of(context).push(MaterialPageRoute(
+                    builder: (context) => SearchPage(),
+                  ));},
                   child: Container(
                     width: mwidth * 0.95,
                     height: mheight * 0.065,

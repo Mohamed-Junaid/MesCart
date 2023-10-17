@@ -15,6 +15,7 @@ import '../../modelclass/allOrders.dart';
 import '../../modelclass/mesSigninModelclass.dart';
 import '../../modelclass/mesSignupModelclass.dart';
 import '../../modelclass/profileAddressModelclass.dart';
+import '../../modelclass/searchModel.dart';
 import 'api_client.dart';
 import 'multi_file_api_client.dart';
 
@@ -276,8 +277,19 @@ class meskartApi{
         trendingpath, 'GET', jsonEncode(body));
     return  AllOrdersModel.fromJson(jsonDecode(response.body));
   }
-
-
+  getProfileImage(File filepath) async {
+    String trendingpath = '/user/update/profile-image';
+    var body = {};
+    Response response = await singleFileApiClient.uploadFile(filepath: filepath,
+        uploadPath: trendingpath, method: 'PATCH', bodyData: {});
+  }
+  Future<SearchModel> getSearch({required String value}) async {
+    String trendingpath = '/product/search';
+    var body = {"search": value.toString()};
+    Response response =
+    await apiClient.invokeAPI(trendingpath, 'GET', jsonEncode(body));
+    return SearchModel.fromJson(jsonDecode(response.body));
+  }
 }
 
 

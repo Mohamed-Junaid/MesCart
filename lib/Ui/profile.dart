@@ -1,10 +1,15 @@
+import 'dart:io';
+
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:image_picker/image_picker.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import '../Bloc/profileAddressBloc/profile_address_bloc.dart';
+import '../Bloc/profileImage/profile_image_bloc.dart';
 import '../Repository/modelclass/profileAddressModelclass.dart';
+import 'Widget/image_view.dart';
 import 'add_address.dart';
 import 'address.dart';
 import 'bottom_navigation.dart';
@@ -25,6 +30,10 @@ class Profile extends StatefulWidget {
 late ProfileAddressModelclass address;
 
 class _ProfileState extends State<Profile> {
+  File? _image;
+
+  final picker = ImagePicker();
+
   @override
   void initState() {
     BlocProvider.of<ProfileAddressBloc>(context).add(FetchProfileAddress());
@@ -52,13 +61,85 @@ class _ProfileState extends State<Profile> {
             return Column(
               children: [
                 Padding(
-                  padding:
-                      EdgeInsets.only(left: 147.w, right: 146.w, top: 70.h),
-                  child: CircleAvatar(
-                    radius: 41.r,
-                    backgroundImage: const AssetImage("assets/profile.png"),
-                  ),
-                ),
+                    padding:
+                        EdgeInsets.only(left: 147.w, right: 146.w, top: 70.h),
+                    child: Stack(
+                      children: [
+                        SizedBox(
+                            width: 100.w,
+                            height: 100.h,
+                            child: address.user!.image == null ||
+                                    address.user!.image!.url == null ||
+                                    address.user!.image!.url == ''
+                                ? CircleAvatar(
+                                    backgroundColor: Colors.transparent,
+                                    radius: 55.r,
+                                    backgroundImage:
+                                        const AssetImage("assets/profile.png"),
+                                  )
+                                : GestureDetector(
+                                    onTap: () {
+                                      Navigator.of(context).push(
+                                        MaterialPageRoute(
+                                          builder: (context) => ZoomableImageView(
+                                              imageUrl: address.user!.image!.url
+                                                  .toString()), // Pass the image URL
+                                        ),
+                                      );
+                                    },
+                                    child: CircleAvatar(
+                                      radius: 55.r,
+                                      backgroundImage: NetworkImage(
+                                          address.user!.image!.url!.toString()),
+                                    ),
+                                  )),
+                        Positioned(
+                            right: 8.w,
+                            bottom: 0,
+                            child: BlocListener<ProfileImageBloc,
+                                ProfileImageState>(
+                              listener: (context, state) {
+                                if (state is ProfileImageBlocLoading) {
+                                  print("loading");
+                                  showDialog(
+                                      context: context,
+                                      builder: (BuildContext a) => const Center(
+                                          child: CircularProgressIndicator()));
+                                }
+                                if (state is ProfileImageBlocLoaded) {
+                                  Navigator.of(context).pop();
+                                  BlocProvider.of<ProfileAddressBloc>(context)
+                                      .add(FetchProfileAddress());
+
+                                  print("loaded");
+                                }
+                                if (state is ProfileImageBlocError) {
+                                  print("error");
+                                }
+                              },
+                              child: GestureDetector(
+                                onTap: () => getGalleryImage().then((value) =>
+                                    BlocProvider.of<ProfileImageBloc>(context)
+                                        .add(FetchProfileImage(
+                                      filePath: _image!,
+                                    ))),
+                                child: CircleAvatar(
+                                  radius: 15.r,
+                                  backgroundColor: Colors.grey,
+                                  child: Center(
+                                    child: ImageIcon(
+                                      const AssetImage(
+                                        "assets/edit.png",
+                                      ),
+                                      size: 20.sp,
+                                      color: Colors.white,
+                                    ),
+                                  ),
+                                ),
+                              ),
+                            ))
+                      ],
+                    )),
                 SizedBox(
                   height: 12.h,
                 ),
@@ -139,11 +220,13 @@ class _ProfileState extends State<Profile> {
                           ),
                           Padding(
                             padding: EdgeInsets.only(left: 24.w, top: 10.h),
-                            child: address.user!.deliveryAddresses!.isEmpty
+                            child: address.user!.deliveryAddresses == null ||
+                                    address.user!.deliveryAddresses!.isEmpty
                                 ? IconButton(
                                     onPressed: () => Navigator.of(context).push(
                                         MaterialPageRoute(
-                                            builder: (_) =>  AddDeliveryAdress())),
+                                            builder: (_) =>
+                                                AddDeliveryAdress())),
                                     icon: Icon(
                                       Icons.add_location_alt,
                                       color: Colors.black,
@@ -179,8 +262,7 @@ class _ProfileState extends State<Profile> {
                                       TextButton(
                                         onPressed: () => Navigator.of(context)
                                             .push(MaterialPageRoute(
-                                                builder: (_) =>
-                                                     Address())),
+                                                builder: (_) => Address())),
                                         child: Container(
                                           margin: EdgeInsets.only(top: 10.h),
                                           width: 20.w,
@@ -225,10 +307,16 @@ class _ProfileState extends State<Profile> {
                           ),
                           Center(
                             child: GestureDetector(
-                              onTap: () => Navigator.of(context).push(
-                                  MaterialPageRoute(
-                                      builder: (_) => ManageAccount(UserName: address.user!.username.toString(),
-                                        number: address.user!.phone.toString(), emailAddress: address.user!.email.toString(),))),
+                              onTap: () =>
+                                  Navigator.of(context).push(MaterialPageRoute(
+                                      builder: (_) => ManageAccount(
+                                            UserName: address.user!.username
+                                                .toString(),
+                                            number:
+                                                address.user!.phone.toString(),
+                                            emailAddress:
+                                                address.user!.email.toString(),
+                                          ))),
                               child: Container(
                                 width: mwidth * 0.92,
                                 height: mheight * 0.083,
@@ -400,6 +488,19 @@ class _ProfileState extends State<Profile> {
       ),
     );
   }
+  Future<void> getGalleryImage() async {
+    final pickedFile = await picker.pickImage(
+      source: ImageSource.gallery,
+    );
+    setState(() {
+      if (pickedFile != null) {
+        _image = File(pickedFile.path);
+      } else {
+        print('no image found');
+      }
+    });
+  }
+}
 
 // getProfileDetails() async{
 //   final SharedPreferences prefs = await SharedPreferences.getInstance();
@@ -411,4 +512,4 @@ class _ProfileState extends State<Profile> {
 //
 //
 // }
-}
+

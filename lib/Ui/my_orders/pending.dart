@@ -125,7 +125,7 @@ class _PendingState extends State<Pending> {
                               child:
                               allOrders.orders![index].orderedProducts!.isEmpty
                                   ? Image.asset(
-                                "assets/img.png",
+                                "assets/empty.png",
                                 fit: BoxFit.cover,
                               )
                                   :Image.network(

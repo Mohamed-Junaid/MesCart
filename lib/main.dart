@@ -18,6 +18,8 @@ import 'package:mes_kart/Bloc/getAproduct/get_aproduct_bloc.dart';
 import 'package:mes_kart/Bloc/homeProducts/home_products_bloc.dart';
 import 'package:mes_kart/Bloc/placeOrder/place_orders_bloc.dart';
 import 'package:mes_kart/Bloc/profileAddressBloc/profile_address_bloc.dart';
+import 'package:mes_kart/Bloc/profileImage/profile_image_bloc.dart';
+import 'package:mes_kart/Bloc/search/search_bloc.dart';
 import 'package:mes_kart/Bloc/verifyID/verify_id_bloc.dart';
 import 'Bloc/allOrders/all_orders_bloc.dart';
 import 'Bloc/cartPlaceOrder/cart_place_order_bloc.dart';
@@ -74,6 +76,8 @@ class MyApp extends StatelessWidget {
               BlocProvider(create: (context) => PlaceOrdersBloc()),
               BlocProvider(create: (context) => CartPlaceOrderBloc()),
               BlocProvider(create: (context) => AllOrdersBloc()),
+              BlocProvider(create: (context) => ProfileImageBloc()),
+              BlocProvider(create: (context) => SearchBloc()),
             ],
             child: MaterialApp(
               debugShowCheckedModeBanner: false,
