@@ -6,6 +6,7 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:google_fonts/google_fonts.dart';
 
 
+import '../../Bloc/addRating/add_rating_bloc.dart';
 import '../Widget/toast_message.dart';
 
 
@@ -165,12 +166,31 @@ class _RatingState extends State<Rating> {
               ),
             ),
             SizedBox(height: 80.h,),
+      BlocListener<AddRatingBloc, AddRatingState>(
+        listener: (context, state) {
+          if (state is AddRatingBlocLoading) {
+            showDialog(
+                context: context,
+                builder: (BuildContext a) => const Center(
+                    child: CircularProgressIndicator()));
+            Navigator.of(context).pop();
+            print("Loading...");
+          }
+          if (state is AddRatingBlocError) {
+            print("Error");
+          }
+          if (state is AddRatingBlocLoaded) {
+            ToastMessage().toastmessage(
+                message: 'Review Added SuccessFully');
+            Navigator.of(context).pop();
+          }
+        },
+        child:
             GestureDetector(
               onTap: () {
-                //   BlocProvider.of<McAddRatingBloc>(context)
-                //       .add(FetchMcAddRating(review: review.text, rate:rate , productId: widget.productId, context: context));
-                //
-              },
+                  BlocProvider.of<AddRatingBloc>(context)
+                      .add(FetchAddRating(review: review.text, rate:rate , productId: widget.productId,));
+                  },
               child: Container(
                 width: 315,
                 height: 48,
@@ -194,7 +214,7 @@ class _RatingState extends State<Rating> {
                   ),
                 ),
               ),
-            )
+            ))
           ],
         ),
       ),

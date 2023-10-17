@@ -1,10 +1,11 @@
 import 'dart:async';
 
 import 'package:bloc/bloc.dart';
-import 'package:mes_kart/Repository/modelclass/getAproductModelclass.dart';
+
 import 'package:meta/meta.dart';
 
 import '../../Repository/Api/mesApi/mesApi.dart';
+import '../../Repository/modelclass/GetAproductModelclass.dart';
 import '../../Ui/Widget/toast_message.dart';
 
 part 'get_aproduct_event.dart';

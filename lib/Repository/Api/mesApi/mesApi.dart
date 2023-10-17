@@ -5,13 +5,13 @@ import 'dart:io';
 import 'package:http/http.dart';
 import 'package:mes_kart/Repository/Api/mesApi/single_file_api_client.dart';
 import 'package:mes_kart/Repository/modelclass/CartPageModelclass.dart';
-import 'package:mes_kart/Repository/modelclass/getAproductModelclass.dart';
 import 'package:mes_kart/Repository/modelclass/productCategoryModelclass.dart';
 import 'package:mes_kart/Repository/modelclass/homeProductsModelclass.dart';
-import '../../../Ui/Sell/sell.dart';
+import '../../modelclass/AllOrdersModel.dart';
 import '../../modelclass/BannerModelclass.dart';
+import '../../modelclass/GetAproductModelclass.dart';
 import '../../modelclass/GetSellerProductsModel1.dart';
-import '../../modelclass/allOrders.dart';
+
 import '../../modelclass/mesSigninModelclass.dart';
 import '../../modelclass/mesSignupModelclass.dart';
 import '../../modelclass/profileAddressModelclass.dart';
@@ -289,6 +289,17 @@ class meskartApi{
     Response response =
     await apiClient.invokeAPI(trendingpath, 'GET', jsonEncode(body));
     return SearchModel.fromJson(jsonDecode(response.body));
+  }
+  getAddRating(
+      {required int rate,
+        required String review,
+        required String productId}) async {
+    String trendingpath = '/product/review/create/$productId';
+    var body = {
+      "rating": rate,
+      "comment": review,
+    };
+    await apiClient.invokeAPI(trendingpath, 'POST', jsonEncode(body));
   }
 }
 

@@ -1,10 +1,11 @@
 import 'dart:async';
 
 import 'package:bloc/bloc.dart';
-import 'package:mes_kart/Repository/modelclass/allOrders.dart';
+
 import 'package:meta/meta.dart';
 
 import '../../Repository/Api/mesApi/mesApi.dart';
+import '../../Repository/modelclass/AllOrdersModel.dart';
 import '../../Ui/Widget/toast_message.dart';
 
 part 'all_orders_event.dart';

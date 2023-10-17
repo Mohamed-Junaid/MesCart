@@ -6,7 +6,8 @@ import 'package:intl/intl.dart';
 import 'package:mes_kart/Ui/my_orders/pending_details.dart';
 
 import '../../Bloc/allOrders/all_orders_bloc.dart';
-import '../../Repository/modelclass/allOrders.dart';
+
+import '../../Repository/modelclass/AllOrdersModel.dart';
 import '../Widget/shimmer.dart';
 
 
@@ -71,7 +72,7 @@ class _PendingState extends State<Pending> {
             padding: EdgeInsets.only(top: 30.h, left: 20.w, right: 19.w),
             itemCount:allOrders.orders!.length,
             itemBuilder: (BuildContext context, int index) {
-              print(allOrders.orders!.length);
+              print(allOrders.orders![0].orderedProducts);
               int timestampSeconds = int.parse( allOrders.orders![index]
                   .createdAt!
                   .t
@@ -123,8 +124,8 @@ class _PendingState extends State<Pending> {
                             child: ClipRRect(
                               borderRadius: BorderRadius.circular(16.r),
                               child:
-                              allOrders.orders![index].orderedProducts!.isEmpty
-                                  ? Image.asset(
+                              allOrders.orders![index].orderedProducts==null
+                                  ?Image.asset(
                                 "assets/empty.png",
                                 fit: BoxFit.cover,
                               )
@@ -143,10 +144,7 @@ class _PendingState extends State<Pending> {
                               SizedBox(
                                 width: 180.w,
                                 child: Text(
-                                  allOrders.orders![index].orderedProducts![0]
-                                      .product!
-                                      .name
-                                      .toString(),
+              allOrders.orders![index].orderedProducts==null?''  : allOrders.orders![index].orderedProducts![0].product!.name.toString(),
                                   style: GoogleFonts.lato(
                                       textStyle: TextStyle(
                                         color: Color(0xFF131416),
@@ -295,7 +293,7 @@ class _PendingState extends State<Pending> {
                               )),
                           SizedBox(
                             width: 70.w,
-                            child: Text(
+                            child: Text(allOrders.orders![index].orderedProducts==null?''  :
                               "#${   allOrders.orders![index].orderedProducts![0].id.toString()}",
                               style: GoogleFonts.lato(
                                 textStyle: TextStyle(
@@ -330,7 +328,7 @@ class _PendingState extends State<Pending> {
                           SizedBox(
                             width: 30.w,
                             child:
-                            Text(allOrders.orders![index].orderedProducts![0].quantity.toString(),
+                            Text(allOrders.orders![index].orderedProducts==null?''  :allOrders.orders![index].orderedProducts![0].quantity.toString(),
                                 style: GoogleFonts.lato(
                                   textStyle: TextStyle(
                                     color: Colors.black,
@@ -350,7 +348,7 @@ class _PendingState extends State<Pending> {
                                   height: 1.43,
                                 ),
                               )),
-                          Text(
+                          Text(allOrders.orders![index].orderedProducts==null?''  :
                               '₹${allOrders.orders![index].orderedProducts![0].totalPrice.toString()}',
                               style: GoogleFonts.lato(
                                 textStyle: TextStyle(

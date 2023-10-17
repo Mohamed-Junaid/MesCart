@@ -1,13 +1,15 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:mes_kart/Ui/my_orders/rating.dart';
+
+import '../../Repository/modelclass/AllOrdersModel.dart';
 
 class DeliveredDetails extends StatefulWidget {
-  // final McGetAllOrders allOrders;
+ final AllOrdersModel allOrders;
   final int index;
   const DeliveredDetails({ Key? key,
-    // required this.allOrders,
-    required this.index,
+    required this.allOrders, required this.index,
   }) : super(key: key);
 
   @override
@@ -127,8 +129,8 @@ class _DeliveredDetailsState extends State<DeliveredDetails> {
                       SizedBox(width: 130.w,),
                       SizedBox(
                         width: 70.w,
-                        child: Text('',
-                          // "#${widget.allOrders.orders![widget.index].id.toString()}",
+                        child: Text(
+                          "#${widget.allOrders.orders![widget.index].id.toString()}",
                           textAlign: TextAlign.end,
                           style: GoogleFonts.lato(
                             textStyle:TextStyle(
@@ -164,11 +166,11 @@ class _DeliveredDetailsState extends State<DeliveredDetails> {
                       SizedBox(
                         width: 154.w,
                         child: Text(
-                          '',
-                          // " ${widget.allOrders.orders![widget.index].orderedProducts![0].deliveryAddress!.fullName.toString()},"
-                          //     "${widget.allOrders.orders![widget.index].orderedProducts![0].deliveryAddress!.landmark.toString()}"
-                          //     "${widget.allOrders.orders![widget.index].orderedProducts![0].deliveryAddress!.houseOrBuildingNumber.toString()}"
-                          //     "${widget.allOrders.orders![widget.index].orderedProducts![0].deliveryAddress!.roadNameOrArea.toString()}",
+
+                          " ${widget.allOrders.orders![widget.index].orderedProducts![0].deliveryAddress!.fullName.toString()},"
+                              "${widget.allOrders.orders![widget.index].orderedProducts![0].deliveryAddress!.landmark.toString()}"
+                              "${widget.allOrders.orders![widget.index].orderedProducts![0].deliveryAddress!.houseOrBuildingNumber.toString()}"
+                              "${widget.allOrders.orders![widget.index].orderedProducts![0].deliveryAddress!.roadNameOrArea.toString()}",
                           textAlign: TextAlign.end,
                           style: GoogleFonts.lato(
                             textStyle:TextStyle(
@@ -215,8 +217,7 @@ class _DeliveredDetailsState extends State<DeliveredDetails> {
                       SizedBox(width: 20.w,),
                       SizedBox(
                         width: 190.w,
-                        child: Text('',
-                        // widget.allOrders.orders![widget.index].orderedProducts![0].product!.name.toString(),
+                        child: Text(widget.allOrders.orders![widget.index].orderedProducts![0].product!.name.toString(),
                           style: GoogleFonts.lato(
                             textStyle:TextStyle(
                               color: Colors.black,
@@ -234,8 +235,8 @@ class _DeliveredDetailsState extends State<DeliveredDetails> {
                       ),
                       SizedBox(
                         width: 70.w,
-                        child: Text('',
-                            // '₹${widget.allOrders.orders![widget.index].orderedProducts![0].product!.price.toString()}',
+                        child: Text(
+                             '₹${widget.allOrders.orders![widget.index].orderedProducts![0].product!.price.toString()}',
                             textAlign: TextAlign.end,
                             style: GoogleFonts.lato(
                               textStyle:TextStyle(
@@ -274,8 +275,7 @@ class _DeliveredDetailsState extends State<DeliveredDetails> {
                       SizedBox(
                         width: 70.w,
                         child: Text(
-                          '',
-                            // widget.allOrders.orders![widget.index].orderedProducts![0].quantity.toString(),
+                           widget.allOrders.orders![widget.index].orderedProducts![0].quantity.toString(),
                             textAlign: TextAlign.end,
                             style: GoogleFonts.lato(
                               textStyle:TextStyle(
@@ -308,8 +308,8 @@ class _DeliveredDetailsState extends State<DeliveredDetails> {
 
                       SizedBox(
                         width: 100.w,
-                        child: Text('',
-                            // '₹${widget.allOrders.orders![widget.index].orderedProducts![0].totalPrice.toString()}',
+                        child: Text(
+                             '₹${widget.allOrders.orders![widget.index].orderedProducts![0].totalPrice.toString()}',
                             textAlign: TextAlign.end,
                             style: GoogleFonts.lato(
                               textStyle:TextStyle(
@@ -379,8 +379,7 @@ class _DeliveredDetailsState extends State<DeliveredDetails> {
                       SizedBox(
                         width: 200.w,
                         child: Text(
-                          '',
-                            // '₹${widget.allOrders.orders![widget.index].orderedProducts![0].totalPrice.toString()}',
+                          '₹${widget.allOrders.orders![widget.index].orderedProducts![0].totalPrice.toString()}',
                             textAlign: TextAlign.end,
                             style: GoogleFonts.lato(
                               textStyle:TextStyle(
@@ -431,10 +430,10 @@ class _DeliveredDetailsState extends State<DeliveredDetails> {
                 SizedBox(width: 24.w,),
                 GestureDetector(
                   onTap: () {
-    //                 print( widget.allOrders.orders![widget.index].orderedProducts![0].product!.id.toString());
-    //                 print( widget.allOrders.orders![widget.index].orderedProducts![0].product!.name.toString());
-    //                 Navigator.of(context).push(MaterialPageRoute(builder: (context) => Rating(productId: widget.allOrders.orders!
-    // [widget.index].orderedProducts![0].product!.id.toString(),),));
+                    print( widget.allOrders.orders![widget.index].orderedProducts![0].product!.id.toString());
+                    print( widget.allOrders.orders![widget.index].orderedProducts![0].product!.name.toString());
+                    Navigator.of(context).push(MaterialPageRoute(builder: (context) => Rating(productId: widget.allOrders.orders!
+    [widget.index].orderedProducts![0].product!.id.toString(),),));
                   },
                   child: Container(
                     width: 119.w,

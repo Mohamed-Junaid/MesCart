@@ -3,7 +3,10 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:intl/intl.dart';
-
+import 'package:mes_kart/Repository/modelclass/AllOrdersModel.dart';
+import '../../Bloc/allOrders/all_orders_bloc.dart';
+import '../Widget/shimmer.dart';
+import 'delivered_details.dart';
 
 class Delivered extends StatefulWidget {
   const Delivered({super.key});
@@ -12,51 +15,49 @@ class Delivered extends StatefulWidget {
   State<Delivered> createState() => _DeliveredState();
 }
 
-// late McGetAllOrders allOrders;
+late AllOrdersModel allOrders;
 
 class _DeliveredState extends State<Delivered> {
   TextEditingController _reasonController = TextEditingController();
   @override
   Widget build(BuildContext context) {
-     return
-    // BlocBuilder<McGetAllOrdersBloc, McGetAllOrdersState>(
-    //   builder: (context, state) {
-    //     if (state is McGetAllOrdersblocLoading) {
-    //       return ListView.separated(
-    //         padding: EdgeInsets.only(top: 30.h,left: 20.w,right: 19.w),
-    //         itemCount: 10,
-    //         itemBuilder: (BuildContext context, int index) {
-    //           return SizedBox(
-    //             width: 336.w,
-    //             height: 250.h,
-    //             child: ShimmerWidget.rectangular(height: 250.h, width: 336.w,shapeBorder: RoundedRectangleBorder(borderRadius: BorderRadius.circular(10.r),)),
-    //           );
-    //         },
-    //         separatorBuilder: (BuildContext context, int index) {
-    //           return SizedBox(
-    //             height: 20.w,
-    //           );
-    //         },
-    //       );
-    //     }
-    //     if (state is McGetAllOrdersblocError) {
-    //       return const Center(child: Text("Error"));
-    //     }
-    //
-    //     if (state is McGetAllOrdersblocLoaded) {
-    //       allOrders =
-    //           BlocProvider.of<McGetAllOrdersBloc>(context).mcGetAllOrders;
-    //       return allOrders.orders==null?const Center(child: Text("No Data!"),): ListView.separated(
-    //         padding: EdgeInsets.only(top: 30.h,left: 20.w,right: 19.w),
-    //         itemCount: allOrders.orders!.length,
-    //         itemBuilder: (BuildContext context, int index) {
-    //           int timestampSeconds = int.parse(allOrders.orders![index].orderedProducts![0].createdAt!.t.toString()); // Replace with your timestamp
-    //
-    //           DateTime dateTime = DateTime.fromMillisecondsSinceEpoch(timestampSeconds * 1000);
-    //           String formattedDate = DateFormat('dd/MM/yyyy').format(dateTime);
-    //           if(allOrders.orders![index].orderedProducts![0].orderStatuses![0].status=="Pending"){
-    //             return
-       Container(
+    return  BlocBuilder<AllOrdersBloc, AllOrdersState>(
+      builder: (context, state) {
+        if (state is AllOrdersBlocLoading) {
+          return ListView.separated(
+            padding: EdgeInsets.only(top: 30.h,left: 20.w,right: 19.w),
+            itemCount: 10,
+            itemBuilder: (BuildContext context, int index) {
+              return SizedBox(
+                width: 336.w,
+                height: 250.h,
+                child: ShimmerWidget.rectangular(height: 250.h, width: 336.w,shapeBorder: RoundedRectangleBorder(borderRadius: BorderRadius.circular(10.r),)),
+              );
+            },
+            separatorBuilder: (BuildContext context, int index) {
+              return SizedBox(
+                height: 20.w,
+              );
+            },
+          );
+        }
+        if (state is AllOrdersBlocError) {
+          return const Center(child: Text("Error"));
+        }
+
+        if (state is AllOrdersBlocLoaded) {
+          allOrders =
+              BlocProvider.of<AllOrdersBloc>(context).getAllOrder;
+          return allOrders.orders==null?const Center(child: Text("No Data!"),): ListView.separated(
+            padding: EdgeInsets.only(top: 30.h,left: 20.w,right: 19.w),
+            itemCount: allOrders.orders!.length,
+            itemBuilder: (BuildContext context, int index) {
+              int timestampSeconds = int.parse(allOrders.orders![index].orderedProducts![0].createdAt!.t.toString()); // Replace with your timestamp
+
+              DateTime dateTime = DateTime.fromMillisecondsSinceEpoch(timestampSeconds * 1000);
+              String formattedDate = DateFormat('dd/MM/yyyy').format(dateTime);
+              if(allOrders.orders![index].orderedProducts![0].orderStatuses![0].status=="Pending"){
+                return Container(
                   width: 336.w,
                   height: 250.h,
                   decoration: ShapeDecoration(
@@ -91,15 +92,13 @@ class _DeliveredState extends State<Delivered> {
                           ),
                           child:  ClipRRect(
                             borderRadius: BorderRadius.circular(16.r),
-                            child:
-                            // allOrders.orders![index].orderedProducts![0].product!.image==null ? Image.asset(
-                            //   "assets/img.png",
-                            //   fit: BoxFit.cover,
-                            // ) :
-                            Image.network('',
+                            child: allOrders.orders![index].orderedProducts![0].product!.image==null ? Image.asset(
+                              "assets/img.png",
                               fit: BoxFit.cover,
-                            )
-
+                            ) : Image.network(
+                              allOrders.orders![index].orderedProducts![0].product!.image![0].url.toString(),
+                              fit: BoxFit.cover,
+                            ),
                           ),
                         ),
                         SizedBox(width: 10.w,),
@@ -107,7 +106,7 @@ class _DeliveredState extends State<Delivered> {
                           crossAxisAlignment: CrossAxisAlignment.start,
                           children: [
                             Text(
-                              '',
+                              allOrders.orders![index].orderedProducts![0].product!.name.toString(),
                               style: GoogleFonts.lato(
                                   textStyle:TextStyle(
                                     color: Color(0xFF131416),
@@ -144,7 +143,7 @@ class _DeliveredState extends State<Delivered> {
                         SizedBox(
                           width: 70.w,
                           child: Text(
-                            "#${''}",
+                            "#${allOrders.orders![index].id.toString()}",
                             style: GoogleFonts.lato(
                               textStyle:TextStyle(
                                 color: Colors.black,
@@ -174,7 +173,7 @@ class _DeliveredState extends State<Delivered> {
                         SizedBox(
                           width: 30.w,
                           child: Text(
-                              '',
+                              allOrders.orders![index].orderedProducts![0].quantity.toString(),
                               style: GoogleFonts.lato(
                                 textStyle:TextStyle(
                                   color: Colors.black,
@@ -196,7 +195,7 @@ class _DeliveredState extends State<Delivered> {
                               ),)
                         ),
                         Text(
-                            '₹${''}',
+                            '₹${allOrders.orders![index].orderedProducts![0].totalPrice.toString()}',
                             style: GoogleFonts.lato(
                               textStyle:TextStyle(
                                 color: Colors.black,
@@ -225,7 +224,7 @@ class _DeliveredState extends State<Delivered> {
                         SizedBox(width: 138.w,),
                         GestureDetector(
                           onTap: () {
-                            // Navigator.of(context).push(MaterialPageRoute(builder: (context) => DeliveredDetails(allOrders: allOrders, index: index,),));
+                            Navigator.of(context).push(MaterialPageRoute(builder: (context) => DeliveredDetails(allOrders: allOrders, index: index,),));
                           },
                           child: Container(
                             width: 80.w,
@@ -254,10 +253,16 @@ class _DeliveredState extends State<Delivered> {
                       ],),
                     ],
                   ),
-                );
-            }
-
-
-
+                );}else{return SizedBox();}
+            },
+            separatorBuilder: (BuildContext context, int index) {
+              return SizedBox(
+                height: 20.w,
+              );
+            },
+          );}else{return SizedBox();}
+      },
+    );
 
   }
+}

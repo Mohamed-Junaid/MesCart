@@ -7,6 +7,7 @@ import 'package:mes_kart/Bloc/Resetpswd/resetpswd_bloc.dart';
 import 'package:mes_kart/Bloc/Signin/mes_signin_bloc.dart';
 import 'package:mes_kart/Bloc/Signup/meskartSignup_bloc.dart';
 import 'package:mes_kart/Bloc/addAddress/add_address_bloc.dart';
+import 'package:mes_kart/Bloc/addRating/add_rating_bloc.dart';
 import 'package:mes_kart/Bloc/addSellerProduct/add_seller_product_bloc.dart';
 import 'package:mes_kart/Bloc/addtoCart/addto_cart_bloc.dart';
 import 'package:mes_kart/Bloc/banners/banner_bloc.dart';
@@ -78,6 +79,7 @@ class MyApp extends StatelessWidget {
               BlocProvider(create: (context) => AllOrdersBloc()),
               BlocProvider(create: (context) => ProfileImageBloc()),
               BlocProvider(create: (context) => SearchBloc()),
+              BlocProvider(create: (context) => AddRatingBloc()),
             ],
             child: MaterialApp(
               debugShowCheckedModeBanner: false,

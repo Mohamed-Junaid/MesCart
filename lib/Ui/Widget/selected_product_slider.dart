@@ -1,9 +1,9 @@
 import 'package:carousel_slider/carousel_slider.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
-import 'package:mes_kart/Repository/modelclass/getAproductModelclass.dart';
 import 'package:smooth_page_indicator/smooth_page_indicator.dart';
 
+import '../../Repository/modelclass/GetAproductModelclass.dart';
 import 'image_view.dart';
 
 
