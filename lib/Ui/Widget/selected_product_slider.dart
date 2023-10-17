@@ -4,6 +4,8 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:mes_kart/Repository/modelclass/getAproductModelclass.dart';
 import 'package:smooth_page_indicator/smooth_page_indicator.dart';
 
+import 'image_view.dart';
+
 
 
 class Selected_Product_Slider extends StatefulWidget {
@@ -35,12 +37,23 @@ class _Selected_Product_SliderState extends State<Selected_Product_Slider> {
               return Container(
                 width: width,
                 height: height,
-                child: widget.getAproduct.data!.image == null
-                    ? Image.asset(
+                child:  widget.getAproduct.data!.image== null? Image.asset(
                   "assets/empty.png",
+                  fit: BoxFit.cover,
+                ) :
+                GestureDetector(onTap: (){
+                  Navigator.of(context).push(
+                    MaterialPageRoute(
+                      builder: (context) => ZoomableImageView(
+                          imageUrl: widget.getAproduct.data!.image![index].url.toString()), // Pass the image URL
+                    ),
+                  );
+                },
+                  child: Image.network(
+                    widget.getAproduct.data!.image![index].url.toString(),
+                    fit: BoxFit.contain,
+                  ),
                 )
-                    : Image.network(widget.getAproduct.data!.image![index].url.toString(),),
-
               );
             },
             carouselController: _controller,

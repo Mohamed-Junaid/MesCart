@@ -6,6 +6,7 @@ import 'package:mes_kart/Bloc/getSellerProducts/get_seller_products_bloc.dart';
 import 'package:mes_kart/Ui/home.dart';
 
 import '../../Repository/modelclass/GetSellerProductsModel1.dart';
+import '../Widget/shimmer.dart';
 import 'myStoreDetails.dart';
 
 
@@ -79,7 +80,27 @@ class _MyStoreState extends State<MyStore> {
                   child: BlocBuilder<GetSellerProductsBloc,
                       GetSellerProductsState>(builder: (context, state) {
                     if (state is GetSellerProductsBlocLoading) {
-                      return CircularProgressIndicator();
+                      return  ListView.separated(
+                        itemCount: 10,
+                        itemBuilder: (BuildContext context, int index) {
+                          return Container(
+                            width: 400.w,
+                            height: 140.h,
+                            child: ShimmerWidget.rectangular(
+                              width: 400.w,
+                                height: 100.h,
+                                shapeBorder: RoundedRectangleBorder(
+                                  borderRadius: BorderRadius.circular(10.r),
+                                ),),
+                          );
+                        },
+                        separatorBuilder: (BuildContext context, int index) {
+                          return SizedBox(
+                            height: 20.w,
+                          );
+                        },
+                      );
+
                     }
                     if (state is GetSellerProductsBlocError) {
                       return Center(child: Text("Error"));

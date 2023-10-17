@@ -10,6 +10,7 @@ import '../Bloc/profileAddressBloc/profile_address_bloc.dart';
 import '../Bloc/profileImage/profile_image_bloc.dart';
 import '../Repository/modelclass/profileAddressModelclass.dart';
 import 'Widget/image_view.dart';
+import 'Widget/shimmer.dart';
 import 'add_address.dart';
 import 'address.dart';
 import 'bottom_navigation.dart';
@@ -49,9 +50,60 @@ class _ProfileState extends State<Profile> {
       body: SafeArea(
         child: BlocBuilder<ProfileAddressBloc, ProfileAddressState>(
             builder: (context, state) {
-          if (state is ProfileAddressBlocLoading) {
-            return Center(child: CircularProgressIndicator());
-          }
+              if (state is ProfileAddressBlocLoading) {
+                return Column(
+                  children: [
+                    Padding(
+                        padding:
+                        EdgeInsets.only(left: 147.w, right: 146.w, top: 70.h),
+                        child: Center(
+                          child: SizedBox(
+                              width: 100.w,
+                              height: 100.h,
+                              child: CircleAvatar(
+                                backgroundColor: Colors.transparent,
+                                radius: 55.r,
+                                child: ShimmerWidget.circular(),
+                              )),
+                        )),
+                    SizedBox(
+                      height: 12.h,
+                    ),
+                    Container(
+                      margin: EdgeInsets.only(left: 115.w, right: 115.w),
+                      width: 145.w,
+                      height: 20.h,
+                      child:
+                      ShimmerWidget.rectangular(height: 145.w, width: 20.h),
+                    ),
+                    SizedBox(
+                      height: 30.h,
+                    ),
+                    Expanded(
+                      child: Container(
+                        width: MediaQuery.of(context).size.width,
+                        decoration: ShapeDecoration(
+                          color: Colors.white,
+                          shape: RoundedRectangleBorder(
+                            borderRadius: BorderRadius.only(
+                              topLeft: Radius.circular(40.r),
+                              topRight: Radius.circular(40.r),
+                            ),
+                          ),
+                        ),
+                        child: ShimmerWidget.rectangular(
+                            height: 200.h,
+                            width: 100.w,
+                            shapeBorder: RoundedRectangleBorder(
+                                borderRadius: BorderRadius.only(
+                                  topLeft: Radius.circular(40.r),
+                                  topRight: Radius.circular(40.r),
+                                ))),
+                      ),
+                    )
+                  ],
+                );
+              }
           if (state is ProfileAddressBlocError) {
             return Center(child: Text("Error"));
           }

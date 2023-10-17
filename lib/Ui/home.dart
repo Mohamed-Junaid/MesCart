@@ -13,6 +13,7 @@ import 'package:mes_kart/Ui/selected_product.dart';
 
 
 import '../Repository/modelclass/BannerModelclass.dart';
+import 'Widget/shimmer.dart';
 import 'cart.dart';
 
 class Home extends StatefulWidget {
@@ -150,9 +151,17 @@ class _HomeState extends State<Home> with SingleTickerProviderStateMixin {
                   ),
                   BlocBuilder<BannerBloc, BannerState>(
                       builder: (context, state) {
-                    if (state is BannerBlocLoading) {
-                      return CircularProgressIndicator();
-                    }
+                        if (state is BannerBlocLoading) {
+                          return Padding(
+                            padding: EdgeInsets.only(top: 6.h),
+                            child: ShimmerWidget.rectangular(
+                              width: 360.w,
+                              height: 170.h,
+                              shapeBorder: RoundedRectangleBorder(
+                                  borderRadius: BorderRadius.circular(9.r)),
+                            ),
+                          );
+                        }
                     if (state is BannerBlocError) {
                       return Center(child: Text("Error"));
                     }
@@ -250,7 +259,26 @@ class _HomeState extends State<Home> with SingleTickerProviderStateMixin {
       child: BlocBuilder<HomeProductsBloc, HomeProductsState>(
         builder: (context, state) {
           if (state is HomeProductsBlocLoading) {
-            return CircularProgressIndicator();
+            return GridView.builder(
+              physics: ScrollPhysics(),
+              itemCount: 10,
+              // to disable GridView's scrolling
+              shrinkWrap: true,
+              gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
+                crossAxisCount: 2,
+                childAspectRatio: (itemWidth / itemHeight),
+                crossAxisSpacing: 10.w,
+                mainAxisSpacing: 13.w,
+              ),
+              itemBuilder: (context, index) {
+                return ShimmerWidget.rectangular(
+                  width: 370.w,
+                  height: 185.h,
+                  shapeBorder: RoundedRectangleBorder(
+                      borderRadius: BorderRadius.circular(16.r)),
+                );
+              },
+            );
           }
           if (state is HomeProductsBlocError) {
             return Center(child: Text("Error"));
