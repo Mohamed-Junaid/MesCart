@@ -61,16 +61,11 @@ class _HomeState extends State<Home> with SingleTickerProviderStateMixin {
                 children: [
                   Padding(
                     padding: EdgeInsets.only(left: 20.w, right: 210.w),
-                    child: AnimatedTextKit(
-                      animatedTexts: [
-                        WavyAnimatedText('MES Cart',
-                            textStyle: GoogleFonts.lato(
+                    child:Text('MES Cart',style: GoogleFonts.lato(
                                 textStyle: TextStyle(
                                     color: Color(0xFFFF4400),
                                     fontSize: 20.sp,
-                                    fontWeight: FontWeight.w600))),
-                      ],
-                      repeatForever: true,
+                                    fontWeight: FontWeight.w600)),
                     ),
                   ),
                   IconButton(

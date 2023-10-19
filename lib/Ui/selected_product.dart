@@ -432,28 +432,9 @@ class _SelectedProductState extends State<SelectedProduct> {
                                               ),
                                               Row(
                                                 children: [
-                                                  GetProduct
-                                                                  .data!
-                                                                  .reviews![
-                                                                      index]
-                                                                  .user!
-                                                                  .image ==
-                                                              null ||
-                                                          GetProduct
-                                                                  .data!
-                                                                  .reviews![
-                                                                      index]
-                                                                  .user!
-                                                                  .image!
-                                                                  .url ==
-                                                              null ||
-                                                          GetProduct
-                                                                  .data!
-                                                                  .reviews![
-                                                                      index]
-                                                                  .user!
-                                                                  .image!
-                                                                  .url ==
+                                                  GetProduct.data!.reviews![index].user!.image == null ||
+                                                          GetProduct.data!.reviews![index].user!.image!.url == null ||
+                                                          GetProduct.data!.reviews![index].user!.image!.url ==
                                                               ''
                                                       ? CircleAvatar(
                                                           backgroundColor:
